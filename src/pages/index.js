@@ -1,3 +1,7 @@
 export default function Home() {
-  return <h1 className="text-2xl text-red-600">Hello World</h1>;
+  return (
+    <div className="text-center">
+      <h1 className="font-Poppins">Test Custom Font</h1>
+    </div>
+  );
 }
