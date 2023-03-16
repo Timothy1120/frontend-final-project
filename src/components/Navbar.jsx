@@ -10,7 +10,7 @@ export default function Navbar() {
   const showDropdown = () => setDropdown(!dropdown);
 
   return (
-    <nav className=" bg-neutral-01 font-poppins">
+    <nav className=" bg-neutral-01 font-poppins border-b border-neutral-02">
       <div className="flex flex-wrap items-center justify-between">
         <div className="h-16 bg-darkblue-02 w-[260px]">
           <div className="px-5 py-4 flex justify-between">
@@ -35,7 +35,7 @@ export default function Navbar() {
             </button>
             <div
               id="dropdownNavbar"
-              className="absolute top-10 right-4 z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-24 text-sm"
+              className="absolute top-10 right-4 z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-28 text-sm"
               hidden={!dropdown}
             >
               <ul className="py-2 text-gray-700">
