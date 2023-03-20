@@ -3,13 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export default function SidebarMenu({ href, text, icon, to }) {
+export default function SidebarMenu({ href, text, icon }) {
   const router = useRouter();
+  const isActive = router.asPath === href;
+
   return (
     <Link
       href={href}
       className={`flex items-center mb-4 space-x-2 p-2 rounded-lg text-neutral-05 hover:bg-hover-sidebar-menu text-base ${
-        router.pathname == { to } ? "bg-neutral-01" : "bg-darkblue-02"
+        isActive ? "bg-darkblue-02" : "bg-neutral-01"
       }`}
     >
       <div>

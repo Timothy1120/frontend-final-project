@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import Image from "next/image";
 import * as AiIcons from "react-icons/ai";
+import Link from "next/link";
 
 export default function SidebarDropdownMenu({ text, icon }) {
   const [dropdownMenu, setDropdownMenu] = useState(false);
@@ -10,7 +11,9 @@ export default function SidebarDropdownMenu({ text, icon }) {
     <>
       <button
         onClick={showDropdownMenu}
-        className="flex items-center justify-between p-2 bg-neutral-01 hover:bg-hover-sidebar-menu active:bg-darkblue-02 rounded-lg text-neutral-05 text-base"
+        className={`flex items-center justify-between p-2 hover:bg-hover-sidebar-menu active:bg-darkblue-02 rounded-lg text-neutral-05 text-base ${
+          dropdownMenu ? "bg-darkblue-02" : "bg-neutral-01"
+        }`}
       >
         <div className="flex space-x-2">
           <Image src={icon} height={20} width={20} alt="submenu-icons" />
@@ -25,36 +28,36 @@ export default function SidebarDropdownMenu({ text, icon }) {
         hidden={!dropdownMenu}
       >
         <li>
-          <a
-            href="#"
+          <Link
+            href="/admin/user/koordinator"
             className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-hover-sidebar-menu pl-11"
           >
             Koordinator
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#"
+          <Link
+            href="/admin/user/mahasiswa"
             className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-hover-sidebar-menu pl-11"
           >
             Mahasiswa
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#"
+          <Link
+            href="/admin/user/dosen"
             className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-hover-sidebar-menu pl-11"
           >
             Dosen
-          </a>
+          </Link>
         </li>
         <li>
-          <a
-            href="#"
+          <Link
+            href="/admin/user/staf"
             className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-hover-sidebar-menu pl-11"
           >
-            Staff
-          </a>
+            Staf
+          </Link>
         </li>
       </ul>
     </>

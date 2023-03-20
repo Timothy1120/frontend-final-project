@@ -18,13 +18,7 @@ export default function Sidebar() {
           </p>
         </div>
         <div className="mt-9 flex flex-col mx-5">
-          <SidebarMenu
-            icon={MenuIcon}
-            href="/admin/user/mahasiswa"
-            text="Beranda"
-            target="_self"
-            rel="noopener noreferrer"
-          />
+          <SidebarMenu href="/admin" text="Beranda" icon={MenuIcon} />
           <SidebarDropdownMenu text="Kelola User" icon={SettingsIcon} />
         </div>
       </div>

@@ -31,6 +31,9 @@ module.exports = {
         sm: "0px 5px 15px 0px rgba(0, 0, 0, 0.15)",
         lg: "0px 20px 30px 0px rgba(0, 0, 0, 0.2)",
       },
+      borderRadius: {
+        lg: "0.625rem",
+      },
     },
   },
   plugins: [],
