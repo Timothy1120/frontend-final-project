@@ -11,9 +11,8 @@ export default function SidebarDropdownMenu({ text, icon }) {
     <>
       <button
         onClick={showDropdownMenu}
-        className={`flex items-center justify-between p-2 hover:bg-hover-sidebar-menu active:bg-darkblue-02 rounded-lg text-neutral-05 text-base ${
-          dropdownMenu ? "bg-darkblue-02" : "bg-neutral-01"
-        }`}
+        className={`flex items-center justify-between p-2 hover:bg-hover-sidebar-menu active:bg-darkblue-02 rounded-lg text-neutral-05 text-base ${dropdownMenu ? "bg-darkblue-02" : "bg-neutral-01"
+          }`}
       >
         <div className="flex space-x-2">
           <Image src={icon} height={20} width={20} alt="submenu-icons" />
@@ -53,7 +52,7 @@ export default function SidebarDropdownMenu({ text, icon }) {
         </li>
         <li>
           <Link
-            href="/admin/user/staf"
+            href="/admin/user/staff"
             className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-hover-sidebar-menu pl-11"
           >
             Staf
