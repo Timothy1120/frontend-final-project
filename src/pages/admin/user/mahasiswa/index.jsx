@@ -77,7 +77,7 @@ export default function Mahasiswa() {
                       <Button
                         variant="primary"
                         text="Lihat Detail"
-                        to={"/user/detail"}
+                        to="/admin/user/mahasiswa/detail"
                       />
                     </td>
                   </tr>
@@ -112,7 +112,7 @@ export default function Mahasiswa() {
                       <Button
                         variant="primary"
                         text="Lihat Detail"
-                        to={"/user/detail"}
+                        to="/admin/user/mahasiswa/detail"
                       />
                     </td>
                   </tr>
@@ -147,7 +147,7 @@ export default function Mahasiswa() {
                       <Button
                         variant="primary"
                         text="Lihat Detail"
-                        to={"/user/detail"}
+                        to="/admin/user/mahasiswa/detail"
                       />
                     </td>
                   </tr>
@@ -182,7 +182,7 @@ export default function Mahasiswa() {
                       <Button
                         variant="primary"
                         text="Lihat Detail"
-                        to={"/user/detail"}
+                        to="/admin/user/mahasiswa/detail"
                       />
                     </td>
                   </tr>
@@ -217,7 +217,7 @@ export default function Mahasiswa() {
                       <Button
                         variant="primary"
                         text="Lihat Detail"
-                        to={"/user/detail"}
+                        to="/admin/user/mahasiswa/detail"
                       />
                     </td>
                   </tr>
