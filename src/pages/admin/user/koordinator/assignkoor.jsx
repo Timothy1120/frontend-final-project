@@ -45,8 +45,10 @@ export default function AssignKoordinator() {
                                 </div>
                                 <div>
                                     <label for="batch" className="block font-medium mb-2">Batch:</label>
-                                    <input type="text" onChange={handleBatchChange} id="batch" name="batch" className={`w-full p-2 border ${batchError ? 'border-red-500' : ''}  border-gray-400 rounded focus:border-[#2F8F9D] focus:ring focus:ring-[#2F8F9D] focus:ring-opacity-50`} />
-                                    {batchError && <p className="text-red-500">{batchError}</p>}
+                                    <input type="text" onChange={handleBatchChange} id="batch" name="batch" className={`w-full p-2 border ${batchError ? 'focus:border-red-500 focus:ring focus:ring-red-500' : 'focus:border-[#2F8F9D] focus:ring focus:ring-[#2F8F9D]'}  border-gray-400 rounded  focus:ring-opacity-50`} />
+                                    {batchError && <div className="mt-2 text-sm text-red-600">
+                                        {batchError}
+                                    </div>}
                                 </div>
                                 <div>
                                     <label for="batch" className="block font-medium mb-2">Tahun Ajaran:</label>
