@@ -9,6 +9,7 @@ export default function Button({
   to,
   icon,
   variant,
+  className,
   ...props
 }) {
   let buttonColor = "";
@@ -29,14 +30,14 @@ export default function Button({
           id={id}
           name={name}
           {...props}
-          className={`flex px-6 py-[1.125rem] bg-darkblue-04 ${buttonColor} text-neutral-01 rounded-lg`}
+          className={`flex px-6 py-[1.125rem] bg-darkblue-04 ${buttonColor} text-neutral-01 rounded-lg ${className}`}
         >
           <div>
             {icon && (
               <Image
                 src={icon}
-                height={20}
-                width={20}
+                height={22}
+                width={22}
                 alt="icon-button"
                 className="mr-2 text-white"
               ></Image>
