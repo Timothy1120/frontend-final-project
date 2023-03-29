@@ -35,7 +35,7 @@ export default function AssignKoordinator() {
                   <select
                     id="gender"
                     name="gender"
-                    className="focus:border-darkblue-04 focus:ring focus:ring-darkblborder-darkblue-04 focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
+                    class="focus:border-[#2F8F9D] focus:ring focus:ring-[#2F8F9D] focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
                     required
                   >
                     <option value="S1 Informatika">S1 Informatika</option>
@@ -52,7 +52,7 @@ export default function AssignKoordinator() {
                   <select
                     id="gender"
                     name="gender"
-                    className="focus:border-darkblue-04 focus:ring focus:ring-darkblborder-darkblue-04 focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
+                    class="focus:border-[#2F8F9D] focus:ring focus:ring-[#2F8F9D] focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
                     required
                   >
                     <option value="male">Dosen A</option>
@@ -69,10 +69,16 @@ export default function AssignKoordinator() {
                     id="batch"
                     name="batch"
                     className={`w-full p-2 border ${
-                      batchError ? "border-red-500" : ""
-                    }  border-gray-400 rounded focus:border-darkblue-04 focus:ring focus:ring-darkblborder-darkblue-04 focus:ring-opacity-50`}
+                      batchError
+                        ? "focus:border-red-500 focus:ring focus:ring-red-500"
+                        : "focus:border-[#2F8F9D] focus:ring focus:ring-[#2F8F9D]"
+                    }  border-gray-400 rounded  focus:ring-opacity-50`}
                   />
-                  {batchError && <p className="text-red-500">{batchError}</p>}
+                  {batchError && (
+                    <div className="mt-2 text-sm text-red-600">
+                      {batchError}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <label for="batch" className="block font-medium mb-2">
@@ -82,7 +88,7 @@ export default function AssignKoordinator() {
                     type="text"
                     id="batch"
                     name="batch"
-                    className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:ring focus:ring-darkblborder-darkblue-04 focus:ring-opacity-50"
+                    className="w-full p-2 border border-gray-400 rounded focus:border-[#2F8F9D] focus:ring focus:ring-[#2F8F9D] focus:ring-opacity-50"
                   />
                 </div>
                 <div>
@@ -92,18 +98,18 @@ export default function AssignKoordinator() {
                   <select
                     id="gender"
                     name="gender"
-                    className="focus:border-darkblue-04 focus:ring focus:ring-darkblborder-darkblue-04 focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
+                    className="focus:border-[#2F8F9D] focus:ring focus:ring-[#2F8F9D] focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
                     required
                   >
                     <option value="ganjil">Ganjil</option>
                     <option value="genap">Genap</option>
                   </select>
                 </div>
-                <div className="col-span-2">
+                <div class="col-span-2">
                   <div className="flex justify-end">
                     <button
                       type="submit"
-                      className="bg-darkblborder-darkblue-04 text-white py-2 px-4 rounded hover:bg-[#82DBD8]"
+                      className="bg-[#2F8F9D] text-white py-2 px-4 rounded hover:bg-[#82DBD8]"
                     >
                       Assign
                     </button>

@@ -71,7 +71,7 @@ export default function Staff() {
                                             <Button
                                                 variant="primary"
                                                 text="Lihat Detail"
-                                                to={"/user/detail"}
+                                                to={"/admin/user/staff/detail"}
                                             />
                                         </td>
                                     </tr>
@@ -105,7 +105,7 @@ export default function Staff() {
                                             <Button
                                                 variant="primary"
                                                 text="Lihat Detail"
-                                                to={"/user/detail"}
+                                                to={"/admin/user/staff/detail"}
                                             />
                                         </td>
                                     </tr>
@@ -139,7 +139,7 @@ export default function Staff() {
                                             <Button
                                                 variant="primary"
                                                 text="Lihat Detail"
-                                                to={"/user/detail"}
+                                                to={"/admin/user/staff/detail"}
                                             />
                                         </td>
                                     </tr>
@@ -173,7 +173,7 @@ export default function Staff() {
                                             <Button
                                                 variant="primary"
                                                 text="Lihat Detail"
-                                                to={"/user/detail"}
+                                                to={"/admin/user/staff/detail"}
                                             />
                                         </td>
                                     </tr>
@@ -207,7 +207,7 @@ export default function Staff() {
                                             <Button
                                                 variant="primary"
                                                 text="Lihat Detail"
-                                                to={"/user/detail"}
+                                                to={"/admin/user/staff/detail"}
                                             />
                                         </td>
                                     </tr>
