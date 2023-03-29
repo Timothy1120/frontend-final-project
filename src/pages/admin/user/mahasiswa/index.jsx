@@ -15,7 +15,7 @@ export default function Mahasiswa() {
           <main id="user-mahasiswa-contents">
             <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
               <div className="text-lg font-bold mb-14">Mahasiswa</div>
-              <table className="w-full border-collapse bg-white text-left text-xs font-normal text-gray-500">
+              <table className="w-full border-collapse bg-white text-left text-xs font-normal text-gray-500 max-w-3xl">
                 <thead className="bg-gray-50">
                   <tr>
                     <th

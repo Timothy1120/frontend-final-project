@@ -34,16 +34,24 @@ export default function Detail() {
                     <div className="w-3/5">xxxxxxx</div>
                   </div>
                   <div className="flex w-full space-x-4 py-2">
-                    <div className="w-2/5 font-semibold">Email Akademik</div>
-                    <div className="w-3/5">ifs19016@students.del.ac.id</div>
-                  </div>
-                  <div className="flex w-full space-x-4 py-2">
                     <div className="w-2/5 font-semibold">Program Studi</div>
                     <div className="w-3/5">S1 Informatika</div>
                   </div>
                   <div className="flex w-full space-x-4 py-2">
-                    <div className="w-2/5 font-semibold">Jabatan</div>
+                    <div className="w-2/5 font-semibold">Jabatan Akademik</div>
                     <div className="w-3/5">Lektor</div>
+                  </div>
+                  <div className="flex w-full space-x-4 py-2">
+                    <div className="w-2/5 font-semibold">
+                      Golongan Kepangkatan
+                    </div>
+                    <div className="w-3/5">III C</div>
+                  </div>
+                  <div className="flex w-full space-x-4 py-2">
+                    <div className="w-2/5 font-semibold">
+                      Status Ikatan Kerja
+                    </div>
+                    <div className="w-3/5">Dosen Non-PNS</div>
                   </div>
                 </div>
               </div>
