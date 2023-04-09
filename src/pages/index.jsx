@@ -1,5 +1,4 @@
 import Link from "next/link";
-import axios from "../configs/axios"
 
 export default function Home(props) {
   console.log(props);
@@ -11,11 +10,3 @@ export default function Home(props) {
   );
 }
 
-Home.getInitialProps = async () => {
-  try {
-    const data = await axios.get(`/users`)
-    return data
-  } catch (error) {
-    return error
-  }
-}
