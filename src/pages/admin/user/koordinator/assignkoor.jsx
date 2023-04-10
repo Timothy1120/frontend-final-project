@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/admin/Sidebar";
 import Footer from "@/components/Footer";
+import Footer from "../../../components/Footer";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import { useState } from "react";
@@ -70,11 +71,18 @@ export default function AssignKoordinator() {
                     onChange={handleBatchChange}
                     id="batch"
                     name="batch"
+<<<<<<< HEAD
+                    className={`w-full p-2 border ${batchError
+                        ? "focus:border-red-500 focus:ring focus:ring-red-500"
+                        : "focus:border-[#2F8F9D] focus:ring focus:ring-[#2F8F9D]"
+                      }  border-gray-400 rounded  focus:ring-opacity-50`}
+=======
                     className={`${
                       batchError
                         ? "focus:border-danger focus:ring focus:outline-none focus:ring-danger"
                         : ""
                     }`}
+>>>>>>> dec55c3d431d1ef8d0ee5212a0c21259ce38855c
                   />
                   {batchError && (
                     <div className="mt-2 text-sm text-danger">{batchError}</div>
