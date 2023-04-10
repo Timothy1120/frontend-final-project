@@ -10,6 +10,8 @@ export default function Button({
   icon,
   variant,
   className,
+  disabled,
+  textSize,
   ...props
 }) {
   let buttonColor = "";
@@ -21,16 +23,23 @@ export default function Button({
     buttonColor = "bg-warning";
   } else if (variant === "success") {
     buttonColor = "bg-success";
+  } else if (variant === "disable") {
+    buttonColor = "bg-disable";
   }
 
   return (
     <div>
-      <Link href={to}>
-        <button
+      <Link
+        className={`${
+          disabled ? "cursor-not-allowed pointer-events-none" : ""
+        }`}
+        href={to}
+      >
+        <div
           id={id}
           name={name}
           {...props}
-          className={`flex px-6 py-[1.125rem] bg-darkblue-04 ${buttonColor} text-neutral-01 rounded-lg ${className}`}
+          className={`flex px-6 py-[1.125rem] ${buttonColor} text-neutral-01 rounded-lg justify-center ${className}`}
         >
           <div>
             {icon && (
@@ -43,8 +52,8 @@ export default function Button({
               ></Image>
             )}
           </div>
-          <div>{text}</div>
-        </button>
+          <div className={`${textSize}`}>{text}</div>
+        </div>
       </Link>
     </div>
   );
