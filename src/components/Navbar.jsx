@@ -28,17 +28,17 @@ export default function Navbar() {
             <button
               id="dropdownNavbarLink"
               onClick={showDropdown}
-              className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto"
+              className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-neutral-05 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-darkblue-04 md:p-0 md:w-auto"
             >
               Hi, User
-              <AiIcons.AiOutlineCaretDown />
+              <AiIcons.AiOutlineCaretDown className="ml-2" />
             </button>
             <div
               id="dropdownNavbar"
               className="absolute top-10 right-4 z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-28 text-sm"
               hidden={!dropdown}
             >
-              <ul className="py-2 text-gray-700">
+              <ul className="py-2 text-neutral-05">
                 <li>
                   <a href="#" className="block px-4 py-2 hover:bg-gray-100">
                     Dashboard
@@ -53,7 +53,7 @@ export default function Navbar() {
               <div className="py-1">
                 <a
                   href="#"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  className="block px-4 py-2 text-sm text-neutral-05 hover:bg-gray-100"
                 >
                   Sign out
                 </a>

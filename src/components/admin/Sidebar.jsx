@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import SidebarMenu from "./SidebarMenu";
-import MenuIcon from "../../../public/icons/home-outline.svg";
+import HomeIcon from "../../../public/icons/home-outline.svg";
 import SettingsIcon from "../../../public/icons/cog-outline.svg";
 import SidebarDropdownMenu from "./SidebarDropdownMenu";
 
@@ -18,7 +18,7 @@ export default function Sidebar() {
           </p>
         </div>
         <div className="mt-9 flex flex-col mx-5">
-          <SidebarMenu href="/admin" text="Beranda" icon={MenuIcon} />
+          <SidebarMenu href="/admin" text="Beranda" icon={HomeIcon} />
           <SidebarDropdownMenu text="Kelola User" icon={SettingsIcon} />
         </div>
       </div>
