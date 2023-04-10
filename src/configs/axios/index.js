@@ -1,10 +1,17 @@
 import axios from 'axios';
-import errorHandler from './errorHandler'
+// import errorHandler from './errorHandler'
 
-const instance = axios.create({
-    baseURL: `${process.env.NEXT_PUBLIC_API_HOST}`
+const API = axios.create({
+    baseURL: `http://localhost:4000`
 });
 
-instance.interceptors.response.use((response) => response.data, errorHandler);
+// apiGateway.interceptors.response.use((response) => response.data, errorHandler);
 
-export default instance;
+// export { default as set } from "./setAuthorizationHeader"
+export default API;
+
+export const login = async (data) => {
+    const response = await API.post('/users/login', data);
+    console.log("response:", response);
+    return response.data;
+}

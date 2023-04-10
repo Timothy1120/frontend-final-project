@@ -3,10 +3,10 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "baseUrl": "src",
-    "module": "CommonJS",
-    "target": "esnext",
+    // "baseUrl": "src",
+    // "module": "CommonJS",
+    // "target": "esnext",
   },
-  "exclude": ["node_modules"],
+  // "exclude": ["node_modules"],
   
 }
