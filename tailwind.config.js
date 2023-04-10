@@ -26,6 +26,7 @@ module.exports = {
         warning: "#F9CC00",
         success: "#73CA5C",
         "hover-sidebar-menu": "#75c5c2",
+        disable: "#c1dde2",
       },
       boxShadow: {
         sm: "0px 5px 15px 0px rgba(0, 0, 0, 0.15)",
@@ -36,5 +37,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 };

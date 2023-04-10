@@ -5,42 +5,36 @@ import Image from "next/image";
 import Face from "../../../../../public/images/user-avatar.png";
 import Button from "@/components/Button";
 
-export default function Mahasiswa() {
+export default function Staff() {
   return (
     <div className="font-poppins">
       <Navbar></Navbar>
       <div className="flex flex-row">
         <Sidebar></Sidebar>
         <div className="w-full flex flex-col justify-between">
-          <main id="user-mahasiswa-contents">
+          <main id="user-koordinator-contents">
             <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
-              <div className="text-lg font-bold mb-14">Mahasiswa</div>
-              <table className="w-full border-collapse bg-white text-left max-w-4xl">
+              <div className="text-lg font-bold mb-14">Staf</div>
+              <table className="w-full border-collapse bg-white text-left max-w-3xl">
                 <thead className="bg-gray-50 text-base">
                   <tr>
                     <th
                       scope="col"
-                      className="px-4 py-2  font-semibold text-neutral-05"
+                      className="px-4 py-2 font-semibold text-neutral-05"
                     >
                       Nama
                     </th>
                     <th
                       scope="col"
-                      className="px-4 py-2  font-semibold text-neutral-05"
+                      className="px-4 py-2 font-semibold text-neutral-05"
                     >
-                      NIM
+                      NIP
                     </th>
                     <th
                       scope="col"
-                      className="px-4 py-2  font-semibold text-neutral-05"
+                      className="px-4 py-2 font-semibold text-neutral-05"
                     >
                       Program Studi
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-2  font-semibold text-neutral-05"
-                    >
-                      Angkatan
                     </th>
                     <th scope="col"></th>
                   </tr>
@@ -58,24 +52,21 @@ export default function Mahasiswa() {
                             width={40}
                           />
                         </div>
-                        <div className=" font-normal">
-                          <div className=" ">Timothy Sipahutar</div>
-                          <div className="text-gray-400">
-                            ifsxxxxx@del.ac.id
-                          </div>
+                        <div className="font-normal">
+                          <div className=" ">Nama Staf</div>
+                          <div className="text-gray-400">staf@del.ac.id</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">11S19016</div>
+                      <div className="font-medium ">xxxxxxx</div>
                     </td>
                     <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">2019</td>
                     <td className="px-4 py-2 flex justify-end">
                       <Button
                         variant="primary"
                         text="Lihat Detail"
-                        to="/admin/user/mahasiswa/detail"
+                        to={"/admin/user/staf/detail"}
                       />
                     </td>
                   </tr>
@@ -91,24 +82,21 @@ export default function Mahasiswa() {
                             width={40}
                           />
                         </div>
-                        <div className=" font-normal">
-                          <div className=" ">Timothy Sipahutar</div>
-                          <div className="text-gray-400">
-                            ifsxxxxx@del.ac.id
-                          </div>
+                        <div className="font-normal">
+                          <div className=" ">Nama Staf</div>
+                          <div className="text-gray-400">staf@del.ac.id</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">11S19016</div>
+                      <div className="font-medium ">xxxxxxx</div>
                     </td>
                     <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">2019</td>
                     <td className="px-4 py-2 flex justify-end">
                       <Button
                         variant="primary"
                         text="Lihat Detail"
-                        to="/admin/user/mahasiswa/detail"
+                        to={"/admin/user/staf/detail"}
                       />
                     </td>
                   </tr>
@@ -124,24 +112,21 @@ export default function Mahasiswa() {
                             width={40}
                           />
                         </div>
-                        <div className=" font-normal">
-                          <div className=" ">Timothy Sipahutar</div>
-                          <div className="text-gray-400">
-                            ifsxxxxx@del.ac.id
-                          </div>
+                        <div className="font-normal">
+                          <div className=" ">Nama Staf</div>
+                          <div className="text-gray-400">staf@del.ac.id</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">11S19016</div>
+                      <div className="font-medium ">xxxxxxx</div>
                     </td>
                     <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">2019</td>
                     <td className="px-4 py-2 flex justify-end">
                       <Button
                         variant="primary"
                         text="Lihat Detail"
-                        to="/admin/user/mahasiswa/detail"
+                        to={"/admin/user/staf/detail"}
                       />
                     </td>
                   </tr>
@@ -157,24 +142,21 @@ export default function Mahasiswa() {
                             width={40}
                           />
                         </div>
-                        <div className=" font-normal">
-                          <div className=" ">Timothy Sipahutar</div>
-                          <div className="text-gray-400">
-                            ifsxxxxx@del.ac.id
-                          </div>
+                        <div className="font-normal">
+                          <div className=" ">Nama Staf</div>
+                          <div className="text-gray-400">staf@del.ac.id</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">11S19016</div>
+                      <div className="font-medium ">xxxxxxx</div>
                     </td>
                     <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">2019</td>
                     <td className="px-4 py-2 flex justify-end">
                       <Button
                         variant="primary"
                         text="Lihat Detail"
-                        to="/admin/user/mahasiswa/detail"
+                        to={"/admin/user/staf/detail"}
                       />
                     </td>
                   </tr>
@@ -190,24 +172,21 @@ export default function Mahasiswa() {
                             width={40}
                           />
                         </div>
-                        <div className=" font-normal">
-                          <div className=" ">Timothy Sipahutar</div>
-                          <div className="text-gray-400">
-                            ifsxxxxx@del.ac.id
-                          </div>
+                        <div className="font-normal">
+                          <div className=" ">Nama Staf</div>
+                          <div className="text-gray-400">staf@del.ac.id</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">11S19016</div>
+                      <div className="font-medium ">xxxxxxx</div>
                     </td>
                     <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">2019</td>
                     <td className="px-4 py-2 flex justify-end">
                       <Button
                         variant="primary"
                         text="Lihat Detail"
-                        to="/admin/user/mahasiswa/detail"
+                        to={"/admin/user/staf/detail"}
                       />
                     </td>
                   </tr>

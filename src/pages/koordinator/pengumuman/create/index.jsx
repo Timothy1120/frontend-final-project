@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 
@@ -13,7 +13,7 @@ export default function CreatePengumuman() {
           <div className="w-full flex flex-col justify-between">
             <main id="form-create-pengumuman">
               <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
-                <p className="text-2xl font-bold">BUAT PENGUMUMAN</p>
+                <p className="text-2xl font-bold">Buat Pengumuman</p>
                 <form className="mt-4">
                   <div className="mb-3">
                     <label className="text-base">Judul Pengumuman</label>

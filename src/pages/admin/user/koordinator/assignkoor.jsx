@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/admin/Sidebar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import Input from "@/components/Input";
 import { useState } from "react";
 
 export default function AssignKoordinator() {
@@ -33,9 +34,9 @@ export default function AssignKoordinator() {
                     Program Studi:
                   </label>
                   <select
-                    id="gender"
-                    name="gender"
-                    class="focus:border-[#2F8F9D] focus:ring focus:ring-[#2F8F9D] focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
+                    id="program-studi"
+                    name="program-studi"
+                    class="focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
                     required
                   >
                     <option value="S1 Informatika">S1 Informatika</option>
@@ -50,9 +51,9 @@ export default function AssignKoordinator() {
                     Dosen:
                   </label>
                   <select
-                    id="gender"
-                    name="gender"
-                    class="focus:border-[#2F8F9D] focus:ring focus:ring-[#2F8F9D] focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
+                    id="dosen"
+                    name="dosen"
+                    class="focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
                     required
                   >
                     <option value="male">Dosen A</option>
@@ -60,45 +61,51 @@ export default function AssignKoordinator() {
                   </select>
                 </div>
                 <div>
-                  <label for="batch" className="block font-medium mb-2">
-                    Batch:
-                  </label>
-                  <input
-                    type="text"
+                  <Input
+                    label={"Batch"}
+                    inputType={"text"}
+                    inputFor={"batch"}
+                    inputId={"batch"}
+                    inputName={"batch"}
                     onChange={handleBatchChange}
                     id="batch"
                     name="batch"
-                    className={`w-full p-2 border ${
+                    className={`${
                       batchError
-                        ? "focus:border-red-500 focus:ring focus:ring-red-500"
-                        : "focus:border-[#2F8F9D] focus:ring focus:ring-[#2F8F9D]"
-                    }  border-gray-400 rounded  focus:ring-opacity-50`}
+                        ? "focus:border-danger focus:ring focus:outline-none focus:ring-danger"
+                        : ""
+                    }`}
                   />
                   {batchError && (
-                    <div className="mt-2 text-sm text-red-600">
-                      {batchError}
-                    </div>
+                    <div className="mt-2 text-sm text-danger">{batchError}</div>
                   )}
                 </div>
+                <Input
+                  label={"Tahun Ajaran"}
+                  inputFor={"tahun-batch"}
+                  inputId={"tahun-batch"}
+                  inputName={"tahun-batch"}
+                  placeholder={"Isi tahun ajaran"}
+                />
                 <div>
-                  <label for="batch" className="block font-medium mb-2">
+                  <label for="tahun-batch" className="block font-medium mb-2">
                     Tahun Ajaran:
                   </label>
                   <input
                     type="text"
-                    id="batch"
-                    name="batch"
-                    className="w-full p-2 border border-gray-400 rounded focus:border-[#2F8F9D] focus:ring focus:ring-[#2F8F9D] focus:ring-opacity-50"
+                    id="tahun-batch"
+                    name="tahun-batch"
+                    className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
                   />
                 </div>
                 <div>
-                  <label for="batch" className="block font-medium mb-2">
+                  <label for="semester" className="block font-medium mb-2">
                     Semester:
                   </label>
                   <select
-                    id="gender"
-                    name="gender"
-                    className="focus:border-[#2F8F9D] focus:ring focus:ring-[#2F8F9D] focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
+                    id="semester"
+                    name="semester"
+                    className="focus:border-darkblue-04 focus:ring focus:outline-none focus:ring-darkblue-04 focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
                     required
                   >
                     <option value="ganjil">Ganjil</option>
@@ -107,17 +114,21 @@ export default function AssignKoordinator() {
                 </div>
                 <div class="col-span-2">
                   <div className="flex justify-end">
-                    <button
-                      type="submit"
-                      className="bg-[#2F8F9D] text-white py-2 px-4 rounded hover:bg-[#82DBD8]"
+                    <Button
+                      id="assign-koordinator"
+                      name="assign-koordinator"
+                      text="Assign"
+                      variant="primary"
+                      to="/"
                     >
                       Assign
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </form>
             </div>
           </main>
+          <Footer />
         </div>
       </div>
     </div>

@@ -16,35 +16,35 @@ export default function Dosen() {
             <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
               <div className="text-lg font-bold mb-14">Dosen</div>
               <table className="w-full border-collapse bg-white text-left text-sm text-gray-500 max-w-3xl">
-                <thead className="bg-gray-50">
+                <thead className="bg-gray-50 text-base">
                   <tr>
                     <th
                       scope="col"
-                      className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                      className="px-4 py-2 font-semibold text-neutral-05"
                     >
                       Nama
                     </th>
                     <th
                       scope="col"
-                      className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                      className="px-4 py-2 font-semibold text-neutral-05"
                     >
                       NIDN
                     </th>
                     <th
                       scope="col"
-                      className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                      className="px-4 py-2 font-semibold text-neutral-05"
                     >
                       Program Studi
                     </th>
                     <th
                       scope="col"
-                      className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                      className="px-4 py-2 font-semibold text-neutral-05"
                     ></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-02 border-t border-neutral-02">
-                  <tr className="hover:bg-gray-50">
-                    <th className="px-4 py-2 font-normal text-gray-900">
+                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
+                    <td className="px-4 py-2 font-normal">
                       <div className="flex gap-3 ">
                         <div className="max-h-10 max-w-[2.5rem]">
                           <Image
@@ -55,17 +55,17 @@ export default function Dosen() {
                             width={40}
                           />
                         </div>
-                        <div className="text-xs font-normal">
-                          <div className=" text-gray-700">Nama Dosen</div>
+                        <div className="font-normal">
+                          <div className=" ">Nama Dosen</div>
                           <div className="text-gray-400">dosen@del.ac.id</div>
                         </div>
                       </div>
-                    </th>
+                    </td>
                     <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">xxxxxxx</div>
+                      <div className="font-medium ">xxxxxxx</div>
                     </td>
                     <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 flex justify-end">
                       <Button
                         variant="primary"
                         text="Lihat Detail"
@@ -73,8 +73,8 @@ export default function Dosen() {
                       />
                     </td>
                   </tr>
-                  <tr className="hover:bg-gray-50">
-                    <th className="px-4 py-2 font-normal text-gray-900">
+                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
+                    <td className="px-4 py-2 font-normal">
                       <div className="flex gap-3 ">
                         <div className="max-h-10 max-w-[2.5rem]">
                           <Image
@@ -85,17 +85,17 @@ export default function Dosen() {
                             width={40}
                           />
                         </div>
-                        <div className="text-xs font-normal">
-                          <div className=" text-gray-700">Nama Dosen</div>
+                        <div className="font-normal">
+                          <div className=" ">Nama Dosen</div>
                           <div className="text-gray-400">dosen@del.ac.id</div>
                         </div>
                       </div>
-                    </th>
+                    </td>
                     <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">xxxxxxx</div>
+                      <div className="font-medium ">xxxxxxx</div>
                     </td>
                     <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 flex justify-end">
                       <Button
                         variant="primary"
                         text="Lihat Detail"
@@ -103,8 +103,8 @@ export default function Dosen() {
                       />
                     </td>
                   </tr>
-                  <tr className="hover:bg-gray-50">
-                    <th className="px-4 py-2 font-normal text-gray-900">
+                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
+                    <td className="px-4 py-2 font-normal">
                       <div className="flex gap-3 ">
                         <div className="max-h-10 max-w-[2.5rem]">
                           <Image
@@ -115,17 +115,17 @@ export default function Dosen() {
                             width={40}
                           />
                         </div>
-                        <div className="text-xs font-normal">
-                          <div className=" text-gray-700">Nama Dosen</div>
+                        <div className="font-normal">
+                          <div className=" ">Nama Dosen</div>
                           <div className="text-gray-400">dosen@del.ac.id</div>
                         </div>
                       </div>
-                    </th>
+                    </td>
                     <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">xxxxxxx</div>
+                      <div className="font-medium ">xxxxxxx</div>
                     </td>
                     <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 flex justify-end">
                       <Button
                         variant="primary"
                         text="Lihat Detail"
@@ -133,8 +133,8 @@ export default function Dosen() {
                       />
                     </td>
                   </tr>
-                  <tr className="hover:bg-gray-50">
-                    <th className="px-4 py-2 font-normal text-gray-900">
+                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
+                    <td className="px-4 py-2 font-normal">
                       <div className="flex gap-3 ">
                         <div className="max-h-10 max-w-[2.5rem]">
                           <Image
@@ -145,17 +145,17 @@ export default function Dosen() {
                             width={40}
                           />
                         </div>
-                        <div className="text-xs font-normal">
-                          <div className=" text-gray-700">Nama Dosen</div>
+                        <div className="font-normal">
+                          <div className=" ">Nama Dosen</div>
                           <div className="text-gray-400">dosen@del.ac.id</div>
                         </div>
                       </div>
-                    </th>
+                    </td>
                     <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">xxxxxxx</div>
+                      <div className="font-medium ">xxxxxxx</div>
                     </td>
                     <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 flex justify-end">
                       <Button
                         variant="primary"
                         text="Lihat Detail"
@@ -163,8 +163,8 @@ export default function Dosen() {
                       />
                     </td>
                   </tr>
-                  <tr className="hover:bg-gray-50">
-                    <th className="px-4 py-2 font-normal text-gray-900">
+                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
+                    <td className="px-4 py-2 font-normal">
                       <div className="flex gap-3 ">
                         <div className="max-h-10 max-w-[2.5rem]">
                           <Image
@@ -175,17 +175,17 @@ export default function Dosen() {
                             width={40}
                           />
                         </div>
-                        <div className="text-xs font-normal">
-                          <div className=" text-gray-700">Nama Dosen</div>
+                        <div className="font-normal">
+                          <div className=" ">Nama Dosen</div>
                           <div className="text-gray-400">dosen@del.ac.id</div>
                         </div>
                       </div>
-                    </th>
+                    </td>
                     <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">xxxxxxx</div>
+                      <div className="font-medium ">xxxxxxx</div>
                     </td>
                     <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 flex justify-end">
                       <Button
                         variant="primary"
                         text="Lihat Detail"
