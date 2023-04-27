@@ -44,6 +44,7 @@ export default function CreatePengumuman() {
                   </div>
                   <div className="flex justify-end">
                     <Button
+                      variant="primary"
                       id="submit-pengumuman"
                       name="submit-pengumuman"
                       text="Tambah"

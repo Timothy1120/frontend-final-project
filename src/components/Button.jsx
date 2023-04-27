@@ -52,7 +52,7 @@ export default function Button({
               ></Image>
             )}
           </div>
-          <div className={`${textSize}`}>{text}</div>
+          <div className={`font-bold ${textSize}`}>{text}</div>
         </div>
       </Link>
     </div>

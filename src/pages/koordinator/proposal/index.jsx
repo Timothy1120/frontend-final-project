@@ -3,25 +3,52 @@ import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 
-export default function BukaBatch() {
+export default function Proposal() {
   return (
     <div className="font-poppins">
       <Navbar />
       <div className="flex flex-row">
         <Sidebar />
         <div className="w-full flex flex-col justify-between">
-          <main id="buka-batch-contents">
+          <main id="proposal-contents">
             <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
-              <div className="flex justify-end">
+              <div className="flex space-x-8">
                 <Button
                   variant="primary"
-                  id="button-buka-batch"
-                  name="button-buka-batch"
-                  text="Buka Batch"
-                  to="batch/create"
+                  id="terbitkan-proposal"
+                  name="terbitkan-proposal"
+                  text="Terbitkan Proposal"
+                  to="/"
+                  textSize="text-sm"
+                />
+                <Button
+                  variant="primary"
+                  id="tambah-dokumen"
+                  name="tambah-dokumen"
+                  text="Tambah Dokumen"
+                  to="upload-dokumen"
+                  textSize="text-sm"
+                />
+                <Button
+                  variant="primary"
+                  id="mahasiswa-eligible"
+                  name="mahasiswa-eligible"
+                  text="Mahasiswa Eligible"
+                  to="/"
+                  textSize="text-sm"
+                />
+                <Button
+                  variant="primary"
+                  id="penerimaan-mitra"
+                  name="penerimaan-mitra"
+                  text="Lulus Penerimaan Mitra"
+                  to="proposal/kelulusan"
+                  textSize="text-sm"
                 />
               </div>
-              <div className="text-lg font-bold mt-9 mb-14">Riwayat Batch</div>
+              <div className="text-base text-darkblue-04 font-bold mt-9 mb-6">
+                Daftar Pengajuan Proposal
+              </div>
               <table className="w-full border-collapse bg-white text-left text-sm text-gray-500 max-w-4xl">
                 <thead className="bg-gray-50">
                   <tr>
@@ -29,19 +56,31 @@ export default function BukaBatch() {
                       scope="col"
                       className="px-4 py-2 text-sm font-semibold text-neutral-05"
                     >
-                      Batch
+                      No
                     </th>
                     <th
                       scope="col"
                       className="px-4 py-2 text-sm font-semibold text-neutral-05"
                     >
-                      Jumlah Peserta
+                      NIM
                     </th>
                     <th
                       scope="col"
                       className="px-4 py-2 text-sm font-semibold text-neutral-05"
                     >
-                      Rentang Waktu Pelaksanaan
+                      Nama Mahasiswa
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                    >
+                      Angkatan
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                    >
+                      Status
                     </th>
                     <th
                       scope="col"
@@ -53,48 +92,46 @@ export default function BukaBatch() {
                   <tr className="hover:bg-gray-50">
                     <td className="px-4 py-2 font-normal text-neutral-05">1</td>
                     <td className="px-4 py-2 font-normal text-neutral-05">
-                      100 peserta
+                      11S19016
                     </td>
                     <td className="px-4 py-2 font-normal text-neutral-05">
-                      16 Februari 2021 - 6 Juni 2021
+                      Timothy Sipahutar
+                    </td>
+                    <td className="px-4 py-2 font-normal text-neutral-05">
+                      2019
+                    </td>
+                    <td className="px-4 py-2 font-normal text-success">
+                      Disetujui
                     </td>
                     <td className="px-4 py-2 flex justify-end">
                       <Button
                         variant="primary"
-                        text="Lihat Detail"
-                        to="/batch/1/detail"
-                      />
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="px-4 py-2 font-normal text-neutral-05">2</td>
-                    <td className="px-4 py-2 font-normal text-neutral-05">
-                      100 peserta
-                    </td>
-                    <td className="px-4 py-2 font-normal text-neutral-05">
-                      30 Agustus 2022 - 1 Januari 2023
-                    </td>
-                    <td className="px-4 py-2 flex justify-end">
-                      <Button
-                        variant="primary"
-                        text="Lihat Detail"
-                        to="/batch/2/detail"
+                        text="Tools"
+                        to="/"
+                        textSize="text-sm"
                       />
                     </td>
                   </tr>
                   <tr className="hover:bg-gray-50">
                     <td className="px-4 py-2 font-normal text-neutral-05">3</td>
                     <td className="px-4 py-2 font-normal text-neutral-05">
-                      100 peserta
+                      11S19016
                     </td>
                     <td className="px-4 py-2 font-normal text-neutral-05">
-                      16 Februari 2023 - 6 Juni 2023
+                      Timothy Sipahutar
+                    </td>
+                    <td className="px-4 py-2 font-normal text-neutral-05">
+                      2019
+                    </td>
+                    <td className="px-4 py-2 font-normal text-danger">
+                      Ditolak
                     </td>
                     <td className="px-4 py-2 flex justify-end">
                       <Button
                         variant="primary"
-                        text="Lihat Detail"
-                        to="/batch/3/detail"
+                        text="Tools"
+                        to="/"
+                        textSize="text-sm"
                       />
                     </td>
                   </tr>

@@ -19,7 +19,7 @@ export default function Pengumuman() {
                   id="button-pengajuan"
                   name="button-pengajuan"
                   text="Tambah Pengumuman"
-                  to="/pengumuman/create"
+                  to="pengumuman/create"
                   textSize="text-sm"
                   icon={PlusIcon}
                 />
