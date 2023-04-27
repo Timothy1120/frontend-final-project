@@ -10,15 +10,17 @@ export default function Transkrip() {
       <div className="flex flex-row">
         <Sidebar />
         <div className="w-full flex flex-col justify-between">
-          <main id="pengumuman-contents">
+          <main id="transkrip-contents">
             <div className="m-5 px-5 py-5">
-              <Button
-                variant="primary"
-                id="button-pengajuan"
-                name="button-pengajuan"
-                text="Ajukan Transkrip"
-                to="/pengumuman/tambah"
-              />
+              <div className="flex justify-end">
+                <Button
+                  variant="primary"
+                  id="button-pengajuan"
+                  name="button-pengajuan"
+                  text="Ajukan Transkrip"
+                  to="tambah"
+                />
+              </div>
               <div className="text-lg font-bold text-darkblue-04 mt-9 mb-14">
                 Daftar Pengajuan Transkrip
               </div>

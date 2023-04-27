@@ -18,7 +18,7 @@ export default function Kelulusan() {
                   id="button-program"
                   name="button-program"
                   text="Tambah Program"
-                  to="/mahasiswa/kelulusan/create"
+                  to="kelulusan/create"
                 />
               </div>
               <div className="text-lg font-bold mt-9 mb-14">
