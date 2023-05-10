@@ -28,10 +28,10 @@ export default function UploadDokumen() {
                 <div className="mb-3">
                   <label className="text-base">Deskripsi</label>
                   <textarea
-                    id="category"
-                    name="category"
+                    id="description"
+                    name="description"
                     type=""
-                    className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:ring focus:ring-darkblborder-darkblue-04 focus:ring-opacity-50"
+                    className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
                   ></textarea>
                 </div>
                 <div className="mb-3">

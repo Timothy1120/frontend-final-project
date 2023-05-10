@@ -21,7 +21,7 @@ export default function CreatePengumuman() {
                       id="title"
                       name="title"
                       type="text"
-                      className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:ring focus:ring-darkblborder-darkblue-04 focus:ring-opacity-50"
+                      className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
                     ></input>
                   </div>
                   <div className="mb-3">
@@ -30,7 +30,7 @@ export default function CreatePengumuman() {
                       id="category"
                       name="category"
                       type="text"
-                      className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:ring focus:ring-darkblborder-darkblue-04 focus:ring-opacity-50"
+                      className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
                     ></input>
                   </div>
                   <div className="mb-3">
@@ -39,7 +39,7 @@ export default function CreatePengumuman() {
                       id="category"
                       name="category"
                       type=""
-                      className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:ring focus:ring-darkblborder-darkblue-04 focus:ring-opacity-50"
+                      className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
                     ></textarea>
                   </div>
                   <div className="flex justify-end">

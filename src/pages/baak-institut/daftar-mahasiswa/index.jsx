@@ -3,7 +3,7 @@ import Footer from "@/components/Footer";
 import Sidebar from "@/components/user/koordinator/Sidebar";
 import Button from "@/components/Button";
 
-export default function Kelulusan() {
+export default function Mahasiswa() {
   return (
     <div className="font-poppins">
       <Navbar />
@@ -13,7 +13,7 @@ export default function Kelulusan() {
           <main id="kelulusan-contents">
             <div className="m-5 px-5 py-5">
               <div className="text-lg font-bold text-darkblue-04 mt-9 mb-14">
-                Daftar Lulus Penerimaan Mitra
+                Daftar Mahasiswa MBKM
               </div>
               <table className="w-full border-collapse bg-white text-left text-xs font-normal text-gray-500 max-w-4xl">
                 <thead className="bg-gray-50">
@@ -62,7 +62,7 @@ export default function Kelulusan() {
                       <Button
                         variant="primary"
                         text="Tools"
-                        to="kelulusan/detail"
+                        to="daftar-mahasiswa/detail"
                         textSize={"text-sm"}
                       />
                     </td>
@@ -77,7 +77,7 @@ export default function Kelulusan() {
                       <Button
                         variant="primary"
                         text="Tools"
-                        to="kelulusan/detail"
+                        to="daftar-mahasiswa/detail"
                         textSize={"text-sm"}
                       />
                     </td>
