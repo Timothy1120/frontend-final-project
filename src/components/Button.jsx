@@ -7,6 +7,7 @@ export default function Button({
   name,
   text,
   to,
+  size,
   icon,
   variant,
   className,
@@ -14,7 +15,8 @@ export default function Button({
   textSize,
   ...props
 }) {
-  let buttonColor = "";
+  let buttonColor,
+    buttonSize = "";
   if (variant === "primary") {
     buttonColor = "bg-darkblue-04";
   } else if (variant === "danger") {
@@ -25,6 +27,12 @@ export default function Button({
     buttonColor = "bg-success";
   } else if (variant === "disable") {
     buttonColor = "bg-disable";
+  }
+
+  if (size === "small") {
+    buttonSize = "px-3 py-2";
+  } else {
+    buttonSize = "px-6 py-[1.125rem]";
   }
 
   return (
@@ -39,7 +47,7 @@ export default function Button({
           id={id}
           name={name}
           {...props}
-          className={`flex px-6 py-[1.125rem] ${buttonColor} text-neutral-01 rounded-lg justify-center ${className}`}
+          className={`flex ${buttonSize} ${buttonColor} text-neutral-01 rounded-lg justify-center ${className}`}
         >
           <div>
             {icon && (
