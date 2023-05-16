@@ -10,17 +10,17 @@ const withProtectedRoute = (WrappedComponent) => {
 
     React.useEffect(() => {
       if (!token) {
-        router.replace("/login");
+        router.push("/login");
       } else {
         try {
           const decoded = jwt_decode(token);
 
-          if (decoded.data.data.role !== "admin") {
-            router.replace("/unauthorized");
+          if (decoded.data.role !== "admin") {
+            router.push("/unauthorized");
           }
         } catch (error) {
           console.error("Token Error:", error);
-          router.replace("/login");
+          router.push("/login");
         }
       }
     }, []);
