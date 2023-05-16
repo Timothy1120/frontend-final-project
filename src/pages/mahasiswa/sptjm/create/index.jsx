@@ -3,7 +3,7 @@ import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 
-export default function TambahBatch() {
+export default function RequestSPTJM() {
   return (
     <div className="font-poppins">
       <Navbar></Navbar>
@@ -17,73 +17,99 @@ export default function TambahBatch() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label
-                      htmlFor="gelombang-program"
+                      htmlFor="nama-lengkap"
                       className="block font-medium mb-2"
                     >
-                      Gelombang Program
+                      Nama Lengkap
                     </label>
                     <input
                       type="text"
-                      id="gelombang-program"
-                      name="gelombang-program"
+                      id="nama-lengkap"
+                      name="nama-lengkap"
                       className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
                     />
                   </div>
                   <div>
                     <label
-                      htmlFor="tahun-ajaran"
+                      htmlFor="program-studi"
                       className="block font-medium mb-2"
                     >
-                      Tahun Ajaran
+                      Program Studi
                     </label>
                     <input
                       type="text"
-                      id="tahun-ajaran"
-                      name="tahun-ajaran"
+                      id="program-studi"
+                      name="program-studi"
+                      className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="nik" className="block font-medium mb-2">
+                      NIK
+                    </label>
+                    <input
+                      type="text"
+                      id="nik"
+                      name="nik"
                       className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
                     />
                   </div>
                   <div>
                     <label
-                      htmlFor="semester"
+                      htmlFor="nomor-handphone"
                       className="block font-medium mb-2"
                     >
-                      Semester
+                      No. HP (WhatsApp)
                     </label>
                     <input
                       type="text"
-                      id="semester"
-                      name="semester"
+                      id="nomor-handphone"
+                      name="nomor-handphone"
+                      className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block font-medium mb-2">
+                      Email Mahasiswa
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
                       className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
                     />
                   </div>
                   <div>
                     <label
-                      htmlFor="ipk-minimum"
+                      htmlFor="nama-orang-tua"
                       className="block font-medium mb-2"
                     >
-                      IPK Minimum
+                      Nama Orang Tua Penandatangan
                     </label>
                     <input
                       type="text"
-                      id="ipk-minimum"
-                      name="ipk-minimum"
+                      id="nama-orang-tua"
+                      name="nama-orang-tua"
                       className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-medium mb-2">
+                      Surat Rekomendasi
+                    </label>
+                    <input
+                      type="file"
+                      id="dokumen-sptjm"
+                      name="dokumen-sptjm"
                     />
                   </div>
                 </div>
-                <div className="flex justify-end mt-10">
-                  <Button
-                    id="submit-batch"
-                    name="submit-batch"
-                    text="Buka"
-                    to="/batch/create/new"
-                  />
+                <div className="flex justify-end mt-2">
+                  <Button variant="primary" to="/" text="Kirim" />
                 </div>
               </form>
             </div>
           </main>
-          <Footer />
         </div>
       </div>
     </div>

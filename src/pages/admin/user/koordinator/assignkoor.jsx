@@ -31,7 +31,10 @@ export default function AssignKoordinator() {
               <div className="text-lg font-bold mb-14">Assign Koordinator</div>
               <form className="grid grid-cols-2 gap-4">
                 <div>
-                  <label for="program-studi" className="block font-medium mb-2">
+                  <label
+                    htmlFor="program-studi"
+                    className="block font-medium mb-2"
+                  >
                     Program Studi:
                   </label>
                   <select
@@ -48,7 +51,7 @@ export default function AssignKoordinator() {
                   </select>
                 </div>
                 <div>
-                  <label for="dosen" className="block font-medium mb-2">
+                  <label htmlFor="dosen" className="block font-medium mb-2">
                     Dosen:
                   </label>
                   <select
@@ -96,7 +99,10 @@ export default function AssignKoordinator() {
                   placeholder={"Isi tahun ajaran"}
                 />
                 <div>
-                  <label for="tahun-batch" className="block font-medium mb-2">
+                  <label
+                    htmlFor="tahun-batch"
+                    className="block font-medium mb-2"
+                  >
                     Tahun Ajaran:
                   </label>
                   <input
@@ -107,7 +113,7 @@ export default function AssignKoordinator() {
                   />
                 </div>
                 <div>
-                  <label for="semester" className="block font-medium mb-2">
+                  <label htmlFor="semester" className="block font-medium mb-2">
                     Semester:
                   </label>
                   <select

@@ -3,14 +3,13 @@ import Sidebar from "@/components/admin/Sidebar";
 import Footer from "@/components/Footer";
 import * as AiIcons from "react-icons/ai";
 import Link from "next/link";
-import withAdminAuth from '../hoc/withAdminAuth';
-import React, { useState, useEffect } from "react";
+import React from "react";
+import withProtectedRoute from "@/components/withProtectedRoute";
 
-function Admin() {
+const AdminPage = () => {
   return (
     <div className="font-poppins">
       <Navbar />
-      <p>{user}</p>
       <div className="flex flex-row">
         <Sidebar />
         <div className="w-full flex flex-col justify-between ">
@@ -73,6 +72,8 @@ function Admin() {
       </div>
     </div>
   );
-}
+};
+
+export default withProtectedRoute(AdminPage);
 
 export default withAdminAuth(Admin);
