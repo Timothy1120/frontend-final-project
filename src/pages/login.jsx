@@ -6,6 +6,7 @@ import mbkmLogo from "../../public/images/Kampus-Merdeka-01.png";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Cookies from 'js-cookie';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -17,30 +18,19 @@ export default function Login() {
     event.preventDefault();
     try {
       const data = { username, password };
-      const response = await axios.post("http://localhost:4000/users/login", data);
-      console.log(response.data);
+      const response = await axios.post("http://localhost:7000/api/auth/login", data);
       const token = response.data.data.token;
-      localStorage.setItem("token", token);
-      router.push('/admin')
-
+      const refreshToken = response.data.data.refreshToken;
+      const user = response.data.data.data;
+      console.log(user)
+      // Menyimpan token dan refresh token di sisi klien
+      Cookies.set('token', token);
+      Cookies.set('refreshToken', refreshToken);
     } catch (error) {
       alert("login gagal");
     }
   }
 
-  const getToken = () => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("token");
-    }
-    return null;
-  };
-
-  useEffect(() => {
-    const token = getToken();
-    if (token) {
-      router.push("/admin");
-    }
-  }, []);
 
   return (
     <div>

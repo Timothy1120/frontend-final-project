@@ -3,38 +3,10 @@ import Sidebar from "@/components/admin/Sidebar";
 import Footer from "@/components/Footer";
 import * as AiIcons from "react-icons/ai";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import withAdminAuth from '../hoc/withAdminAuth';
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
-export default function Admin() {
-  const router = useRouter();
-  const [user, setUser] = useState('');
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      router.push('/login');
-    } else {
-      axios.get('http://localhost:4000/users', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => {
-          setUser(response.data.data);
-          console.log(user);
-        })
-        .catch((error) => {
-          if (error.response && error.response.status === 403) {
-            router.push('/login'); // redirect to login page if token is invalid
-          } else {
-            console.error(error);
-          }
-        });
-    }
-  }, []);
-
+function Admin() {
   return (
     <div className="font-poppins">
       <Navbar />
@@ -102,3 +74,5 @@ export default function Admin() {
     </div>
   );
 }
+
+export default withAdminAuth(Admin);
