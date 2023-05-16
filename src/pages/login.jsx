@@ -27,15 +27,15 @@ export default function Login() {
 
     try {
       await axios
-        .post("http://localhost:7000/users/login", credentials)
+        .post("http://localhost:7000/api/users/login", credentials)
         .then(async (res) => {
           Cookies.set("accessToken", res.data.data.token, { expires: 5 });
           let role = res.data.data.data.role;
           console.log(role);
           if (role == "admin") {
-            return router.push("/admin");
-          } else if (role == "mahasiswa") {
-            return router.push("/mahasiswa");
+            router.push("/admin");
+          } else if (role == "student") {
+            router.push("/mahasiswa");
           }
         });
     } catch (error) {
