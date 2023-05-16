@@ -2,46 +2,60 @@ import Image from "next/image";
 import delLogo from "../../public/images/itdel.png";
 import mbkmLogo from "../../public/images/Kampus-Merdeka-01.png";
 import axios from "axios";
-import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import React, { useState, useEffect } from 'react';
+import jwt from 'jsonwebtoken';
 
 export default function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const [inputs, setInputs] = useState({
-    username: "",
-    password: "",
-  });
-
-  const handleChange = (prop) => (event) => {
-    setInputs({ ...inputs, [prop]: event.target.value });
-  };
+  useEffect(() => {
+    const token = Cookies.get('token');
+    console.log(token);
+    try {
+      if (token) {
+        const decodedToken = jwt.verify(token, 'lulusta2023');
+        const data = decodedToken;
+        console.log(data);
+        if (roles.includes('admin')) {
+          router.push('/admin-dashboard');
+        } else if (roles.includes('mahasiswa')) {
+          router.push('/mahasiswa-dashboard');
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const credentials = {
-      username: inputs.username,
-      password: inputs.password,
-    };
-
     try {
-      await axios
-        .post("http://localhost:7000/api/users/login", credentials)
-        .then(async (res) => {
-          Cookies.set("accessToken", res.data.data.token, { expires: 5 });
-          let role = res.data.data.data.role;
-          console.log(role);
-          if (role == "admin") {
-            router.push("/admin");
-          } else if (role == "student") {
-            router.push("/mahasiswa");
-          }
-        });
+      const data = { username, password };
+      const response = await axios.post("http://localhost:7000/api/auth/login", data);
+      const token = response.data.data.token;
+      const refreshToken = response.data.data.refreshToken;
+      const userRoles = response.data.data.data.roles;
+      const lowerRoles = userRoles.map(item => item.toLowerCase());
+
+      console.log(lowerRoles)
+      // Menyimpan token dan refresh token di sisi klien
+      Cookies.set('token', token);
+      Cookies.set('refreshToken', refreshToken);
+
+      //Mengarahkan ke dashboard berdasarkan role
+      if (lowerRoles.includes('admin')) {
+        router.push('admin');
+      } else if (lowerRoles.includes('mahasiswa')) {
+        router.push('/mahasiswa-dashboard');
+      }
     } catch (error) {
-      alert("login gagal");
+      alert('gagal login');
     }
-  };
+  }
 
   return (
     <div>
@@ -69,8 +83,8 @@ export default function Login() {
                 type="text"
                 required
                 className="block rounded-md border border-neutral-02 focus:outline-none focus:border-darkblue-02 py-2 px-4 my-2 shadow-sm w-full"
-                onChange={handleChange("username")}
-                value={inputs.username}
+                onChange={e => setUsername(e.target.value)}
+                value={username}
               />
             </div>
             <div className="mb-6">
@@ -86,8 +100,8 @@ export default function Login() {
                 type="password"
                 required
                 className="block rounded-md border border-neutral-02 focus:outline-none focus:border-darkblue-02 py-2 px-4 my-2 shadow-sm w-full"
-                onChange={handleChange("password")}
-                value={inputs.password}
+                onChange={e => setPassword(e.target.value)}
+                value={password}
               />
             </div>
             <button

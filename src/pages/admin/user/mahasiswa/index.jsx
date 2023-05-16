@@ -1,3 +1,5 @@
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/admin/Sidebar";
 import Footer from "@/components/Footer";
@@ -6,6 +8,18 @@ import Face from "../../../../../public/images/user-avatar.png";
 import Button from "@/components/Button";
 
 export default function Mahasiswa() {
+  const [mahasiswa, setMahasiswa] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:7000/api/mahasiswa')
+      .then(res => {
+        setMahasiswa(res.data.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
+
   return (
     <div className="font-poppins">
       <Navbar></Navbar>
@@ -15,7 +29,7 @@ export default function Mahasiswa() {
           <main id="user-mahasiswa-contents">
             <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
               <div className="text-lg font-bold mb-14">Mahasiswa</div>
-              <table className="w-full border-collapse bg-white text-left max-w-4xl">
+              <table className="w-full border-collapse bg-white text-left">
                 <thead className="bg-gray-50 text-base">
                   <tr>
                     <th
@@ -46,171 +60,41 @@ export default function Mahasiswa() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-02 border-t border-neutral-02">
-                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
-                    <td className="px-4 py-2 font-normal">
-                      <div className="flex gap-3 ">
-                        <div className="max-h-10 max-w-[2.5rem]">
-                          <Image
-                            className="h-auto w-auto rounded-full object-cover object-center"
-                            src={Face}
-                            alt="face"
-                            height={40}
-                            width={40}
-                          />
-                        </div>
-                        <div className=" font-normal">
-                          <div className=" ">Timothy Sipahutar</div>
-                          <div className="text-gray-400">
-                            ifsxxxxx@del.ac.id
+                  {mahasiswa.map((mhs, index) => (
+                    <tr className="hover:bg-gray-50 text-sm text-neutral-05" key={index}>
+                      <td className="px-4 py-2 font-normal">
+                        <div className="flex gap-3 ">
+                          <div className="max-h-10 max-w-[2.5rem]">
+                            <Image
+                              className="h-auto w-auto rounded-full object-cover object-center"
+                              src={Face}
+                              alt="face"
+                              height={40}
+                              width={40}
+                            />
+                          </div>
+                          <div className=" font-normal">
+                            <div className=" ">{mhs.nama}</div>
+                            <div className="text-gray-400">
+                              ifsxxxxx@del.ac.id
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">11S19016</div>
-                    </td>
-                    <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">2019</td>
-                    <td className="px-4 py-2 flex justify-end">
-                      <Button
-                        variant="primary"
-                        text="Lihat Detail"
-                        to="/admin/user/mahasiswa/detail"
-                      />
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
-                    <td className="px-4 py-2 font-normal">
-                      <div className="flex gap-3 ">
-                        <div className="max-h-10 max-w-[2.5rem]">
-                          <Image
-                            className="h-auto w-auto rounded-full object-cover object-center"
-                            src={Face}
-                            alt="face"
-                            height={40}
-                            width={40}
-                          />
-                        </div>
-                        <div className=" font-normal">
-                          <div className=" ">Timothy Sipahutar</div>
-                          <div className="text-gray-400">
-                            ifsxxxxx@del.ac.id
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">11S19016</div>
-                    </td>
-                    <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">2019</td>
-                    <td className="px-4 py-2 flex justify-end">
-                      <Button
-                        variant="primary"
-                        text="Lihat Detail"
-                        to="/admin/user/mahasiswa/detail"
-                      />
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
-                    <td className="px-4 py-2 font-normal">
-                      <div className="flex gap-3 ">
-                        <div className="max-h-10 max-w-[2.5rem]">
-                          <Image
-                            className="h-auto w-auto rounded-full object-cover object-center"
-                            src={Face}
-                            alt="face"
-                            height={40}
-                            width={40}
-                          />
-                        </div>
-                        <div className=" font-normal">
-                          <div className=" ">Timothy Sipahutar</div>
-                          <div className="text-gray-400">
-                            ifsxxxxx@del.ac.id
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">11S19016</div>
-                    </td>
-                    <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">2019</td>
-                    <td className="px-4 py-2 flex justify-end">
-                      <Button
-                        variant="primary"
-                        text="Lihat Detail"
-                        to="/admin/user/mahasiswa/detail"
-                      />
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
-                    <td className="px-4 py-2 font-normal">
-                      <div className="flex gap-3 ">
-                        <div className="max-h-10 max-w-[2.5rem]">
-                          <Image
-                            className="h-auto w-auto rounded-full object-cover object-center"
-                            src={Face}
-                            alt="face"
-                            height={40}
-                            width={40}
-                          />
-                        </div>
-                        <div className=" font-normal">
-                          <div className=" ">Timothy Sipahutar</div>
-                          <div className="text-gray-400">
-                            ifsxxxxx@del.ac.id
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">11S19016</div>
-                    </td>
-                    <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">2019</td>
-                    <td className="px-4 py-2 flex justify-end">
-                      <Button
-                        variant="primary"
-                        text="Lihat Detail"
-                        to="/admin/user/mahasiswa/detail"
-                      />
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
-                    <td className="px-4 py-2 font-normal">
-                      <div className="flex gap-3 ">
-                        <div className="max-h-10 max-w-[2.5rem]">
-                          <Image
-                            className="h-auto w-auto rounded-full object-cover object-center"
-                            src={Face}
-                            alt="face"
-                            height={40}
-                            width={40}
-                          />
-                        </div>
-                        <div className=" font-normal">
-                          <div className=" ">Timothy Sipahutar</div>
-                          <div className="text-gray-400">
-                            ifsxxxxx@del.ac.id
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">11S19016</div>
-                    </td>
-                    <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2">2019</td>
-                    <td className="px-4 py-2 flex justify-end">
-                      <Button
-                        variant="primary"
-                        text="Lihat Detail"
-                        to="/admin/user/mahasiswa/detail"
-                      />
-                    </td>
-                  </tr>
+                      </td>
+                      <td className="px-4 py-2">
+                        <div className="font-medium text-gray-700">11S19016</div>
+                      </td>
+                      <td className="px-4 py-2">S1 Informatika</td>
+                      <td className="px-4 py-2">2019</td>
+                      <td className="px-4 py-2 flex justify-end">
+                        <Button
+                          variant="primary"
+                          text="Lihat Detail"
+                          to="/admin/user/mahasiswa/detail"
+                        />
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

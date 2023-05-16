@@ -52,7 +52,7 @@ export default function SidebarDropdownMenu({ text, icon }) {
         </li>
         <li>
           <Link
-            href="/admin/user/staff"
+            href="/admin/user/staf"
             className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-hover-sidebar-menu pl-11"
           >
             Staf

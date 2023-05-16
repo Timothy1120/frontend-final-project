@@ -4,8 +4,23 @@ import Footer from "@/components/Footer";
 import Image from "next/image";
 import Face from "../../../../../public/images/user-avatar.png";
 import Button from "@/components/Button";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Staff() {
+
+  const [dataStaf, setDataStaf] = useState([])
+
+  useEffect(() => {
+    axios.get('http://localhost:7000/api/staff')
+      .then(res => {
+        setDataStaf(res.data.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }, []);
+
   return (
     <div className="font-poppins">
       <Navbar></Navbar>
@@ -15,7 +30,7 @@ export default function Staff() {
           <main id="user-koordinator-contents">
             <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
               <div className="text-lg font-bold mb-14">Staf</div>
-              <table className="w-full border-collapse bg-white text-left max-w-3xl">
+              <table className="w-full border-collapse bg-white text-left">
                 <thead className="bg-gray-50 text-base">
                   <tr>
                     <th
@@ -40,156 +55,38 @@ export default function Staff() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-02 border-t border-neutral-02">
-                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
-                    <td className="px-4 py-2 font-normal">
-                      <div className="flex gap-3 ">
-                        <div className="max-h-10 max-w-[2.5rem]">
-                          <Image
-                            className="h-auto w-auto rounded-full object-cover object-center"
-                            src={Face}
-                            alt="face"
-                            height={40}
-                            width={40}
-                          />
+                  {dataStaf.map((data, index) => (
+                    <tr className="hover:bg-gray-50 text-sm text-neutral-05" key={index}>
+                      <td className="px-4 py-2 font-normal">
+                        <div className="flex gap-3 ">
+                          <div className="max-h-10 max-w-[2.5rem]">
+                            <Image
+                              className="h-auto w-auto rounded-full object-cover object-center"
+                              src={Face}
+                              alt="face"
+                              height={40}
+                              width={40}
+                            />
+                          </div>
+                          <div className="font-normal">
+                            <div className=" ">{data.nama}</div>
+                            <div className="text-gray-400">staf@del.ac.id</div>
+                          </div>
                         </div>
-                        <div className="font-normal">
-                          <div className=" ">Nama Staf</div>
-                          <div className="text-gray-400">staf@del.ac.id</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium ">xxxxxxx</div>
-                    </td>
-                    <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2 flex justify-end">
-                      <Button
-                        variant="primary"
-                        text="Lihat Detail"
-                        to={"/admin/user/staf/detail"}
-                      />
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
-                    <td className="px-4 py-2 font-normal">
-                      <div className="flex gap-3 ">
-                        <div className="max-h-10 max-w-[2.5rem]">
-                          <Image
-                            className="h-auto w-auto rounded-full object-cover object-center"
-                            src={Face}
-                            alt="face"
-                            height={40}
-                            width={40}
-                          />
-                        </div>
-                        <div className="font-normal">
-                          <div className=" ">Nama Staf</div>
-                          <div className="text-gray-400">staf@del.ac.id</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium ">xxxxxxx</div>
-                    </td>
-                    <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2 flex justify-end">
-                      <Button
-                        variant="primary"
-                        text="Lihat Detail"
-                        to={"/admin/user/staf/detail"}
-                      />
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
-                    <td className="px-4 py-2 font-normal">
-                      <div className="flex gap-3 ">
-                        <div className="max-h-10 max-w-[2.5rem]">
-                          <Image
-                            className="h-auto w-auto rounded-full object-cover object-center"
-                            src={Face}
-                            alt="face"
-                            height={40}
-                            width={40}
-                          />
-                        </div>
-                        <div className="font-normal">
-                          <div className=" ">Nama Staf</div>
-                          <div className="text-gray-400">staf@del.ac.id</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium ">xxxxxxx</div>
-                    </td>
-                    <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2 flex justify-end">
-                      <Button
-                        variant="primary"
-                        text="Lihat Detail"
-                        to={"/admin/user/staf/detail"}
-                      />
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
-                    <td className="px-4 py-2 font-normal">
-                      <div className="flex gap-3 ">
-                        <div className="max-h-10 max-w-[2.5rem]">
-                          <Image
-                            className="h-auto w-auto rounded-full object-cover object-center"
-                            src={Face}
-                            alt="face"
-                            height={40}
-                            width={40}
-                          />
-                        </div>
-                        <div className="font-normal">
-                          <div className=" ">Nama Staf</div>
-                          <div className="text-gray-400">staf@del.ac.id</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium ">xxxxxxx</div>
-                    </td>
-                    <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2 flex justify-end">
-                      <Button
-                        variant="primary"
-                        text="Lihat Detail"
-                        to={"/admin/user/staf/detail"}
-                      />
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50 text-sm text-neutral-05">
-                    <td className="px-4 py-2 font-normal">
-                      <div className="flex gap-3 ">
-                        <div className="max-h-10 max-w-[2.5rem]">
-                          <Image
-                            className="h-auto w-auto rounded-full object-cover object-center"
-                            src={Face}
-                            alt="face"
-                            height={40}
-                            width={40}
-                          />
-                        </div>
-                        <div className="font-normal">
-                          <div className=" ">Nama Staf</div>
-                          <div className="text-gray-400">staf@del.ac.id</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium ">xxxxxxx</div>
-                    </td>
-                    <td className="px-4 py-2">S1 Informatika</td>
-                    <td className="px-4 py-2 flex justify-end">
-                      <Button
-                        variant="primary"
-                        text="Lihat Detail"
-                        to={"/admin/user/staf/detail"}
-                      />
-                    </td>
-                  </tr>
+                      </td>
+                      <td className="px-4 py-2">
+                        <div className="font-medium ">{data.nip}</div>
+                      </td>
+                      <td className="px-4 py-2">{data.program_studi}</td>
+                      <td className="px-4 py-2 flex justify-end">
+                        <Button
+                          variant="primary"
+                          text="Lihat Detail"
+                          to={"/admin/user/staf/detail"}
+                        />
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

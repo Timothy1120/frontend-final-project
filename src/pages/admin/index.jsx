@@ -74,4 +74,4 @@ const AdminPage = () => {
   );
 };
 
-export default withProtectedRoute(AdminPage);
+export default AdminPage;
