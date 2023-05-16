@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import * as AiIcons from "react-icons/ai";
 import Link from "next/link";
 import React from "react";
+import withProtectedRoute from "@/components/hoc/withProtectedRoute";
 
 const AdminPage = () => {
   return (
@@ -74,4 +75,3 @@ const AdminPage = () => {
 };
 
 export default AdminPage;
-
