@@ -8,15 +8,15 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function Staff() {
-
-  const [dataStaf, setDataStaf] = useState([])
+  const [dataStaf, setDataStaf] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:7000/api/staff')
-      .then(res => {
+    axios
+      .get("http://localhost:7000/api/staff")
+      .then((res) => {
         setDataStaf(res.data.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   }, []);
@@ -56,7 +56,10 @@ export default function Staff() {
                 </thead>
                 <tbody className="divide-y divide-neutral-02 border-t border-neutral-02">
                   {dataStaf.map((data, index) => (
-                    <tr className="hover:bg-gray-50 text-sm text-neutral-05" key={index}>
+                    <tr
+                      className="hover:bg-gray-50 text-sm text-neutral-05"
+                      key={index}
+                    >
                       <td className="px-4 py-2 font-normal">
                         <div className="flex gap-3 ">
                           <div className="max-h-10 max-w-[2.5rem]">
@@ -82,7 +85,7 @@ export default function Staff() {
                         <Button
                           variant="primary"
                           text="Lihat Detail"
-                          to={"/admin/user/staf/detail"}
+                          to={`staf/detail/${data.id}`}
                         />
                       </td>
                     </tr>

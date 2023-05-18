@@ -8,15 +8,15 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function Koordinator() {
-
-  const [dataKoordinator, setDataKoordinator] = useState([])
+  const [dataKoordinator, setDataKoordinator] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:7000/api/koordinator')
-      .then(res => {
+    axios
+      .get("http://localhost:7000/api/koordinator")
+      .then((res) => {
         setDataKoordinator(res.data.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   }, []);
@@ -28,7 +28,14 @@ export default function Koordinator() {
         <div className="w-full flex flex-col justify-between">
           <main id="user-koordinator-contents">
             <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
-              <div className="text-lg font-bold mb-14">Koordinator</div>
+              <div className="flex justify-between">
+                <div className="text-lg font-bold mb-14">Koordinator</div>
+                <Button
+                  text="Assign Koordinator"
+                  to={"koordinator/assign-koordinator"}
+                  variant={"primary"}
+                />
+              </div>
               <table className="w-full border-collapse bg-white text-left text-xs font-normal text-gray-500">
                 <thead className="bg-gray-50 text-base">
                   <tr>
@@ -55,7 +62,10 @@ export default function Koordinator() {
                 </thead>
                 <tbody className="divide-y divide-neutral-02 border-t border-neutral-02">
                   {dataKoordinator.map((data, index) => (
-                    <tr className="hover:bg-gray-50 text-sm text-neutral-05" key={index}>
+                    <tr
+                      className="hover:bg-gray-50 text-sm text-neutral-05"
+                      key={index}
+                    >
                       <td className="px-4 py-2 font-normal">
                         <div className="flex gap-3 ">
                           <div className="max-h-10 max-w-[2.5rem]">
@@ -68,9 +78,7 @@ export default function Koordinator() {
                             />
                           </div>
                           <div className="font-normal">
-                            <div className=" text-gray-700">
-                              {data.nama}
-                            </div>
+                            <div className=" text-gray-700">{data.nama}</div>
                             <div className="text-gray-400">
                               ifsxxxxx@del.ac.id
                             </div>
@@ -87,7 +95,7 @@ export default function Koordinator() {
                         <Button
                           variant="primary"
                           text="Lihat Detail"
-                          to={"/admin/user/koordinator/detail"}
+                          to={`koordinator/detail/${data.id}`}
                         />
                       </td>
                     </tr>
