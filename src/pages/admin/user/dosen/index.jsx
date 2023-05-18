@@ -8,18 +8,19 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 export default function Dosen() {
-
-  const [dataDosen, setDataDosen] = useState([])
+  const [dataDosen, setDataDosen] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:7000/api/dosen')
-      .then(res => {
+    axios
+      .get("http://localhost:7000/api/dosen")
+      .then((res) => {
         setDataDosen(res.data.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   }, []);
+
   return (
     <div className="font-poppins">
       <Navbar></Navbar>
@@ -58,7 +59,10 @@ export default function Dosen() {
                 </thead>
                 <tbody className="divide-y divide-neutral-02 border-t border-neutral-02">
                   {dataDosen.map((data, index) => (
-                    <tr className="hover:bg-gray-50 text-sm text-neutral-05" key={index}>
+                    <tr
+                      className="hover:bg-gray-50 text-sm text-neutral-05"
+                      key={index}
+                    >
                       <td className="px-4 py-2 font-normal">
                         <div className="flex gap-3 ">
                           <div className="max-h-10 max-w-[2.5rem]">
@@ -84,12 +88,11 @@ export default function Dosen() {
                         <Button
                           variant="primary"
                           text="Lihat Detail"
-                          to="/admin/user/dosen/detail"
+                          to={`/admin/user/dosen/detail/${data.id}`}
                         />
                       </td>
                     </tr>
                   ))}
-
                 </tbody>
               </table>
             </div>

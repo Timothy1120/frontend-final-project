@@ -4,19 +4,25 @@ import mbkmLogo from "../../public/images/Kampus-Merdeka-01.png";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
+=======
+import React, { useState, useEffect } from "react";
+import jwt from "jsonwebtoken";
+>>>>>>> b7bbb99594247146f5f8b5eaa32d83b7db9acb05
 
 export default function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter();
 
   useEffect(() => {
-    const token = Cookies.get('token');
+    const token = Cookies.get("token");
     console.log(token);
     try {
       if (token) {
+<<<<<<< HEAD
         // const decodedToken = jwt.verify(token, 'lulusta2023');
         const decoded = jwtDecode(token);
         const userRoles = decoded.data.roles
@@ -26,6 +32,15 @@ export default function Login() {
           router.push('/admin');
         } else if (roles.includes('mahasiswa')) {
           router.push('/mahasiswa-dashboard');
+=======
+        const decodedToken = jwt.verify(token, "lulusta2023");
+        const data = decodedToken;
+        console.log(data);
+        if (roles.includes("admin")) {
+          router.push("/admin");
+        } else if (roles.includes("mahasiswa")) {
+          router.push("/mahasiswa");
+>>>>>>> b7bbb99594247146f5f8b5eaa32d83b7db9acb05
         }
       }
     } catch (err) {
@@ -37,27 +52,30 @@ export default function Login() {
     event.preventDefault();
     try {
       const data = { username, password };
-      const response = await axios.post("http://localhost:7000/api/auth/login", data);
+      const response = await axios.post(
+        "http://localhost:7000/api/auth/login",
+        data
+      );
       const token = response.data.data.token;
       const refreshToken = response.data.data.refreshToken;
       const userRoles = response.data.data.data.roles;
-      const lowerRoles = userRoles.map(item => item.toLowerCase());
+      const lowerRoles = userRoles.map((item) => item.toLowerCase());
 
-      console.log(lowerRoles)
+      console.log(lowerRoles);
       // Menyimpan token dan refresh token di sisi klien
-      Cookies.set('token', token);
-      Cookies.set('refreshToken', refreshToken);
+      Cookies.set("token", token);
+      Cookies.set("refreshToken", refreshToken);
 
       //Mengarahkan ke dashboard berdasarkan role
-      if (lowerRoles.includes('admin')) {
-        router.push('admin');
-      } else if (lowerRoles.includes('mahasiswa')) {
-        router.push('/mahasiswa-dashboard');
+      if (lowerRoles.includes("admin")) {
+        router.push("admin");
+      } else if (lowerRoles.includes("mahasiswa")) {
+        router.push("/mahasiswa");
       }
     } catch (error) {
-      alert('gagal login');
+      alert("gagal login");
     }
-  }
+  };
 
   return (
     <div>
@@ -85,7 +103,7 @@ export default function Login() {
                 type="text"
                 required
                 className="block rounded-md border border-neutral-02 focus:outline-none focus:border-darkblue-02 py-2 px-4 my-2 shadow-sm w-full"
-                onChange={e => setUsername(e.target.value)}
+                onChange={(e) => setUsername(e.target.value)}
                 value={username}
               />
             </div>
@@ -102,7 +120,7 @@ export default function Login() {
                 type="password"
                 required
                 className="block rounded-md border border-neutral-02 focus:outline-none focus:border-darkblue-02 py-2 px-4 my-2 shadow-sm w-full"
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 value={password}
               />
             </div>
