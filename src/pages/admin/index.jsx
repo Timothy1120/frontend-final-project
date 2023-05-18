@@ -3,10 +3,29 @@ import Sidebar from "@/components/admin/Sidebar";
 import Footer from "@/components/Footer";
 import * as AiIcons from "react-icons/ai";
 import Link from "next/link";
-import React from "react";
-import withProtectedRoute from "@/components/hoc/withProtectedRoute";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const AdminPage = () => {
+  const [dataAdmin, setDataAdmin] = useState([]);
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    axios
+      .get("http://localhost:7000/api/admin/data-summary", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setDataAdmin(res.data.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
   return (
     <div className="font-poppins">
       <Navbar />
@@ -23,7 +42,7 @@ const AdminPage = () => {
                   Mahasiswa
                 </h5>
                 <span className="text-base text-neutral-01 leading-none">
-                  200 Users
+                  {dataAdmin.mahasiswasCount} Users
                 </span>
               </div>
               <AiIcons.AiOutlineUser className="w-16 h-auto" />
@@ -35,7 +54,7 @@ const AdminPage = () => {
               <div className="flex flex-col space-y-8">
                 <h5 className="text-neutral-05 text-2xl font-bold">Dosen</h5>
                 <span className="text-base text-neutral-01 leading-none">
-                  50 Users
+                  {dataAdmin.dosenCount} Users
                 </span>
               </div>
               <AiIcons.AiOutlineUser className="w-16 h-auto" />
@@ -49,7 +68,7 @@ const AdminPage = () => {
                   Koordinator
                 </h5>
                 <span className="text-base text-neutral-01 leading-none">
-                  3 Users
+                  {dataAdmin.koordinatorCount} Users
                 </span>
               </div>
               <AiIcons.AiOutlineUser className="w-16 h-auto" />
@@ -59,9 +78,9 @@ const AdminPage = () => {
               className="rounded-lg p-4 bg-darkblue-03 flex flex-row justify-between"
             >
               <div className="flex flex-col space-y-8">
-                <h5 className="text-neutral-05 text-2xl font-bold">Staff</h5>
+                <h5 className="text-neutral-05 text-2xl font-bold">Staf</h5>
                 <span className="text-base text-neutral-01 leading-none">
-                  7 Users
+                  {dataAdmin.staffCount} Users
                 </span>
               </div>
               <AiIcons.AiOutlineUser className="w-16 h-auto" />

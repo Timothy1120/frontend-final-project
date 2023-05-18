@@ -1,21 +1,28 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/admin/Sidebar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import Face from "../../../../../public/images/user-avatar.png";
 import Button from "@/components/Button";
+import Cookies from "js-cookie";
 
 export default function Mahasiswa() {
-  const [mahasiswa, setMahasiswa] = useState([]);
+  const [dataMahasiswa, setDataMahasiswa] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:7000/api/mahasiswa')
-      .then(res => {
-        setMahasiswa(res.data.data);
+    const token = Cookies.get("token");
+    axios
+      .get("http://localhost:7000/api/mahasiswa", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .catch(err => {
+      .then((res) => {
+        setDataMahasiswa(res.data.data);
+      })
+      .catch((err) => {
         console.error(err);
       });
   }, []);
@@ -60,8 +67,11 @@ export default function Mahasiswa() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-02 border-t border-neutral-02">
-                  {mahasiswa.map((mhs, index) => (
-                    <tr className="hover:bg-gray-50 text-sm text-neutral-05" key={index}>
+                  {dataMahasiswa.map((data, index) => (
+                    <tr
+                      className="hover:bg-gray-50 text-sm text-neutral-05"
+                      key={index}
+                    >
                       <td className="px-4 py-2 font-normal">
                         <div className="flex gap-3 ">
                           <div className="max-h-10 max-w-[2.5rem]">
@@ -74,7 +84,7 @@ export default function Mahasiswa() {
                             />
                           </div>
                           <div className=" font-normal">
-                            <div className=" ">{mhs.nama}</div>
+                            <div className=" ">{data.nama}</div>
                             <div className="text-gray-400">
                               ifsxxxxx@del.ac.id
                             </div>
@@ -82,15 +92,17 @@ export default function Mahasiswa() {
                         </div>
                       </td>
                       <td className="px-4 py-2">
-                        <div className="font-medium text-gray-700">11S19016</div>
+                        <div className="font-medium text-gray-700">
+                          {data.nim}
+                        </div>
                       </td>
-                      <td className="px-4 py-2">S1 Informatika</td>
-                      <td className="px-4 py-2">2019</td>
+                      <td className="px-4 py-2">{data.program_studi}</td>
+                      <td className="px-4 py-2">{data.angkatan}</td>
                       <td className="px-4 py-2 flex justify-end">
                         <Button
                           variant="primary"
                           text="Lihat Detail"
-                          to="/admin/user/mahasiswa/detail"
+                          to={`mahasiswa/detail/${data.id}`}
                         />
                       </td>
                     </tr>
