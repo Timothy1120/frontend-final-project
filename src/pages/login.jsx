@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import React, { useState, useEffect } from 'react';
-import jwt from 'jsonwebtoken';
+import jwtDecode from 'jwt-decode';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -17,11 +17,13 @@ export default function Login() {
     console.log(token);
     try {
       if (token) {
-        const decodedToken = jwt.verify(token, 'lulusta2023');
-        const data = decodedToken;
-        console.log(data);
+        // const decodedToken = jwt.verify(token, 'lulusta2023');
+        const decoded = jwtDecode(token);
+        const userRoles = decoded.data.roles
+        const roles = userRoles.map(item => item.toLowerCase());
+        console.log(roles);
         if (roles.includes('admin')) {
-          router.push('/admin-dashboard');
+          router.push('/admin');
         } else if (roles.includes('mahasiswa')) {
           router.push('/mahasiswa-dashboard');
         }
