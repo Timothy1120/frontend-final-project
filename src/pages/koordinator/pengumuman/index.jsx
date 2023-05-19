@@ -24,7 +24,7 @@ export default function Pengumuman() {
                   icon={PlusIcon}
                 />
               </div>
-              <table className="w-full border-collapse bg-white text-left text-xs font-normal text-gray-500 max-w-4xl mt-8">
+              <table className="w-full border-collapse bg-white text-left text-xs font-normal text-gray-500 mt-8">
                 <thead className="bg-gray-50">
                   <tr>
                     <th

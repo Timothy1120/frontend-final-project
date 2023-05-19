@@ -13,7 +13,6 @@ const withProtectedRoute = (WrappedComponent) => {
       } else {
         try {
           const decoded = jwt_decode(token);
-
           if (decoded.data.role !== "admin") {
             return NextResponse.redirect("/unauthorized");
           }
