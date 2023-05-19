@@ -61,7 +61,13 @@ export default function Koordinator() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-02 border-t border-neutral-02">
-                  {dataKoordinator.map((data, index) => (
+                  {dataKoordinator.length === 0 ? (
+                    <tr>
+                      <td colSpan="4" className="text-center text-gray-500 py-4">
+                        Koordinator belum ada
+                      </td>
+                    </tr>
+                  ) : (dataKoordinator.map((data, index) => (
                     <tr
                       className="hover:bg-gray-50 text-sm text-neutral-05"
                       key={index}
@@ -99,7 +105,7 @@ export default function Koordinator() {
                         />
                       </td>
                     </tr>
-                  ))}
+                  )))}
                 </tbody>
               </table>
             </div>
