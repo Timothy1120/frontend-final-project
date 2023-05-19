@@ -52,7 +52,7 @@ export default function Navbar() {
               </ul>
               <div className="py-1">
                 <a
-                  href="#"
+                  href="/login"
                   className="block px-4 py-2 text-sm text-neutral-05 hover:bg-gray-100"
                 >
                   Sign out

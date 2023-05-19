@@ -4,13 +4,8 @@ import mbkmLogo from "../../public/images/Kampus-Merdeka-01.png";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
-<<<<<<< HEAD
-import React, { useState, useEffect } from 'react';
-import jwtDecode from 'jwt-decode';
-=======
 import React, { useState, useEffect } from "react";
 import jwt from "jsonwebtoken";
->>>>>>> b7bbb99594247146f5f8b5eaa32d83b7db9acb05
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -22,17 +17,6 @@ export default function Login() {
     console.log(token);
     try {
       if (token) {
-<<<<<<< HEAD
-        // const decodedToken = jwt.verify(token, 'lulusta2023');
-        const decoded = jwtDecode(token);
-        const userRoles = decoded.data.roles
-        const roles = userRoles.map(item => item.toLowerCase());
-        console.log(roles);
-        if (roles.includes('admin')) {
-          router.push('/admin');
-        } else if (roles.includes('mahasiswa')) {
-          router.push('/mahasiswa-dashboard');
-=======
         const decodedToken = jwt.verify(token, "lulusta2023");
         const data = decodedToken;
         console.log(data);
@@ -40,7 +24,6 @@ export default function Login() {
           router.push("/admin");
         } else if (roles.includes("mahasiswa")) {
           router.push("/mahasiswa");
->>>>>>> b7bbb99594247146f5f8b5eaa32d83b7db9acb05
         }
       }
     } catch (err) {

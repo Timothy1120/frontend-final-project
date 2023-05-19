@@ -90,7 +90,7 @@ export default function Koordinator() {
                           {data.program_studi}
                         </div>
                       </td>
-                      <td className="px-4 py-2">3</td>
+                      <td className="px-4 py-2">{data.batch}</td>
                       <td className="flex justify-end px-4 py-2">
                         <Button
                           variant="primary"
