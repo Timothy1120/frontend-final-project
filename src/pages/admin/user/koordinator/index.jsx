@@ -86,7 +86,7 @@ export default function Koordinator() {
                           <div className="font-normal">
                             <div className=" text-gray-700">{data.nama}</div>
                             <div className="text-gray-400">
-                              ifsxxxxx@del.ac.id
+                              {data.User.email}
                             </div>
                           </div>
                         </div>
