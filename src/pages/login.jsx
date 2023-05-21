@@ -22,8 +22,8 @@ export default function Login() {
         console.log(data);
         if (roles.includes("admin")) {
           router.push("/admin");
-        } else if (roles.includes("mahasiswa")) {
-          router.push("/mahasiswa");
+        } else {
+          router.push("/dashboard");
         }
       }
     } catch (err) {
