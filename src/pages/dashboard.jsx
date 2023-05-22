@@ -4,8 +4,25 @@ import { FaBullhorn } from "react-icons/fa";
 import { AiOutlineTag, AiOutlineClockCircle } from "react-icons/ai";
 import { GrDocumentText } from "react-icons/gr";
 import { FiMonitor } from "react-icons/fi";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import Pengumuman from "./koordinator/pengumuman";
 
 export default function Dashboard({ userData }) {
+  const [pengumuman, setPengumuman] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:7000/api/pengumuman")
+      .then((res) => {
+        setPengumuman(res.data.data.slice(0, 5));
+
+      })
+      .catch((err) => {
+
+      });
+  }, []);
+  console.log(pengumuman);
   return (
     <MainLayout>
       <div className="flex mx-6 my-8 space-x-4">
@@ -48,70 +65,31 @@ export default function Dashboard({ userData }) {
           </div>
           <hr className="border-b border-neutral-02 mt-2" />
           <div>
-            <div className="mt-4">
-              <div className="text-sm font-semibold">
-                <span className="text-darkblue-04">[S1 Informatika]</span>{" "}
-                Sosialisasi Pembuatan Proposal Kampus Merdeka
+
+            {pengumuman.length === 0 ? (
+              <div className="text-sm mt-4 text-center">
+                Belum ada pengumuman
               </div>
-              <div className="flex space-x-4">
-                <div className="flex space-x-2 font-light">
-                  <AiOutlineTag />
-                  <p className="text-xs">Sosialisasi</p>
+            ) :
+              (pengumuman.map((data, index) => (
+                <div className="mt-4" key={index}>
+                  <div className="text-sm font-semibold">
+                    <span className="text-darkblue-04">[{data.kategori}]</span>{" "}
+                    {data.judul}
+                  </div>
+                  <div className="flex space-x-4">
+                    <div className="flex space-x-2 font-light">
+                      <AiOutlineTag />
+                      <p className="text-xs">Sosialisasi</p>
+                    </div>
+                    <div className="flex space-x-2 font-light">
+                      <AiOutlineClockCircle />
+                      <p className="text-xs">{data.createdAt}</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex space-x-2 font-light">
-                  <AiOutlineClockCircle />
-                  <p className="text-xs">2023-04-04</p>
-                </div>
-              </div>
-            </div>
-            <div className="mt-4">
-              <div className="text-sm font-semibold">
-                <span className="text-darkblue-04">[S1 Informatika]</span>{" "}
-                Sosialisasi Pembuatan Proposal Kampus Merdeka
-              </div>
-              <div className="flex space-x-4">
-                <div className="flex space-x-2 font-light">
-                  <AiOutlineTag />
-                  <p className="text-xs">Sosialisasi</p>
-                </div>
-                <div className="flex space-x-2 font-light">
-                  <AiOutlineClockCircle />
-                  <p className="text-xs">2023-04-04</p>
-                </div>
-              </div>
-            </div>
-            <div className="mt-4">
-              <div className="text-sm font-semibold">
-                <span className="text-darkblue-04">[S1 Informatika]</span>{" "}
-                Sosialisasi Pembuatan Proposal Kampus Merdeka
-              </div>
-              <div className="flex space-x-4">
-                <div className="flex space-x-2 font-light">
-                  <AiOutlineTag />
-                  <p className="text-xs">Sosialisasi</p>
-                </div>
-                <div className="flex space-x-2 font-light">
-                  <AiOutlineClockCircle />
-                  <p className="text-xs">2023-04-04</p>
-                </div>
-              </div>
-            </div>
-            <div className="mt-4">
-              <div className="text-sm font-semibold">
-                <span className="text-darkblue-04">[S1 Informatika]</span>{" "}
-                Sosialisasi Pembuatan Proposal Kampus Merdeka
-              </div>
-              <div className="flex space-x-4">
-                <div className="flex space-x-2 font-light">
-                  <AiOutlineTag />
-                  <p className="text-xs">Sosialisasi</p>
-                </div>
-                <div className="flex space-x-2 font-light">
-                  <AiOutlineClockCircle />
-                  <p className="text-xs">2023-04-04</p>
-                </div>
-              </div>
-            </div>
+              )))
+            }
           </div>
         </div>
       </div>
