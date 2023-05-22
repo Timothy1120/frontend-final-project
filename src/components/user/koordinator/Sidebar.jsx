@@ -14,7 +14,7 @@ export default function Sidebar() {
           </p>
         </div>
         <div className="mt-9 flex flex-col mx-5">
-          <SidebarMenu href="/koordinator" text="Beranda" icon={HomeIcon} />
+          <SidebarMenu href="/dashboard" text="Beranda" icon={HomeIcon} />
           <SidebarMenu
             href="/koordinator/batch"
             text="Kampus Merdeka"
