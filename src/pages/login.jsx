@@ -52,8 +52,8 @@ export default function Login() {
       //Mengarahkan ke dashboard berdasarkan role
       if (lowerRoles.includes("admin")) {
         router.push("admin");
-      } else if (lowerRoles.includes("mahasiswa")) {
-        router.push("/mahasiswa");
+      } else {
+        router.push("/dashboard");
       }
     } catch (error) {
       alert("gagal login");
