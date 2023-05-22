@@ -3,8 +3,22 @@ import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import PlusIcon from "../../../../public/icons/plus.svg";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Pengumuman() {
+  const [dataPengumuman, setDataPengumuman] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:7000/api/pengumuman")
+      .then((res) => {
+        setDataPengumuman(res.data.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
   return (
     <div className="font-poppins">
       <Navbar />
@@ -50,101 +64,26 @@ export default function Pengumuman() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-02 border-t border-neutral-02">
-                  <tr className="hover:bg-gray-50">
-                    <td className="px-4 py-2 font-normal text-neutral-05">
-                      1.
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Proin feugiat.
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">2023-03-03</td>
-                    <td className="px-4 py-2">
-                      <Button
-                        variant="primary"
-                        text="Tools"
-                        to="/pengumuman/details"
-                      />
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="px-4 py-2 font-normal text-neutral-05">
-                      2.
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Proin feugiat.
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">2023-03-03</td>
-                    <td className="px-4 py-2">
-                      <Button
-                        variant="primary"
-                        text="Tools"
-                        to="/pengumuman/details"
-                      />
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="px-4 py-2 font-normal text-neutral-05">
-                      3.
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Proin feugiat.
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">2023-03-03</td>
-                    <td className="px-4 py-2">
-                      <Button
-                        variant="primary"
-                        text="Tools"
-                        to="/pengumuman/details"
-                      />
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="px-4 py-2 font-normal text-neutral-05">
-                      4.
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Proin feugiat.
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">2023-03-03</td>
-                    <td className="px-4 py-2">
-                      <Button
-                        variant="primary"
-                        text="Tools"
-                        to="/pengumuman/details"
-                      />
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-gray-50">
-                    <td className="px-4 py-2 font-normal text-neutral-05">
-                      5.
-                    </td>
-                    <td className="px-4 py-2">
-                      <div className="font-medium text-gray-700">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Proin feugiat.
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">2023-03-03</td>
-                    <td className="px-4 py-2">
-                      <Button
-                        variant="primary"
-                        text="Tools"
-                        to="/pengumuman/details"
-                      />
-                    </td>
-                  </tr>
+                  {dataPengumuman.map((data, index) => (
+                    <tr className="hover:bg-gray-50" key={index}>
+                      <td className="px-4 py-2 font-normal text-neutral-05">
+                        {data.id}
+                      </td>
+                      <td className="px-4 py-2">
+                        <div className="font-medium text-gray-700">
+                          {data.judul}
+                        </div>
+                      </td>
+                      <td className="px-4 py-2">{data.createdAt}</td>
+                      <td className="px-4 py-2">
+                        <Button
+                          variant="primary"
+                          text="Tools"
+                          to={`pengumuman/detail/${data.id}`}
+                        />
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

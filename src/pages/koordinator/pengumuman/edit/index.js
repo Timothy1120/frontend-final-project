@@ -3,7 +3,7 @@ import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 
-export default function CreatePengumuman() {
+export default function EditPengumuman() {
   return (
     <>
       <div className="font-poppins">
