@@ -13,6 +13,7 @@ export default function Button({
   className,
   disabled,
   textSize,
+  onChange,
   ...props
 }) {
   let buttonColor,
