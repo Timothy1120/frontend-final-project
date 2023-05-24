@@ -1,6 +1,11 @@
 import Select from "react-select";
 
-export default function InputWithOption({ options, onChange, placeholder }) {
+export default function InputWithOption({
+  options,
+  onChange,
+  placeholder,
+  value,
+}) {
   const customStyles = {
     option: (provided, state) => ({
       ...provided,
@@ -10,17 +15,14 @@ export default function InputWithOption({ options, onChange, placeholder }) {
     }),
     control: (provided, state) => ({
       ...provided,
-      border: state.isFocused ? "1px solid #2F8F9D" : "1px solid #9CA3AF",
-      "&::after": {
-        outline: "2px solid transparent !important",
-        outlineOffset: "2px",
-        boxShadow:
-          "var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color)",
-        "--tw-ring-color":
-          "rgb(47 143 157 / var(--tw-ring-opacity)) !important",
-        "--tw-ring-opacity": "0.5",
+      // border: "1px solid #9CA3AF",
+      boxShadow: state.isFocused ? "0 0 0 3px rgba(47, 143, 157, 0.5)" : 0,
+      borderColor: state.isFocused ? "#2F8F9D" : "#9CA3AF",
+      "&:hover": {
+        borderColor: state.isFocused ? "#2F8F9D" : "#9CA3AF",
       },
     }),
+
     menu: (provided) => ({
       ...provided,
       backgroundColor: "#fff",
@@ -35,6 +37,7 @@ export default function InputWithOption({ options, onChange, placeholder }) {
 
   return (
     <Select
+      defaultValue={value}
       options={options}
       styles={customStyles}
       onChange={onChange}

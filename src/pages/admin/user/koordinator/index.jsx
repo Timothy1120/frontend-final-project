@@ -36,7 +36,7 @@ export default function Koordinator() {
                   variant={"primary"}
                 />
               </div>
-              <table className="w-full border-collapse bg-white text-left text-xs font-normal text-gray-500">
+              <table className="w-full border-collapse bg-white text-left font-normal text-gray-500">
                 <thead className="bg-gray-50 text-base">
                   <tr>
                     <th
@@ -63,49 +63,54 @@ export default function Koordinator() {
                 <tbody className="divide-y divide-neutral-02 border-t border-neutral-02">
                   {dataKoordinator.length === 0 ? (
                     <tr>
-                      <td colSpan="4" className="text-center text-gray-500 py-4">
+                      <td
+                        colSpan="4"
+                        className="text-center text-gray-500 py-4"
+                      >
                         Koordinator belum ada
                       </td>
                     </tr>
-                  ) : (dataKoordinator.map((data, index) => (
-                    <tr
-                      className="hover:bg-gray-50 text-sm text-neutral-05"
-                      key={index}
-                    >
-                      <td className="px-4 py-2 font-normal">
-                        <div className="flex gap-3 ">
-                          <div className="max-h-10 max-w-[2.5rem]">
-                            <Image
-                              className="h-auto w-auto rounded-full object-cover object-center"
-                              src={Face}
-                              alt="face"
-                              height={40}
-                              width={40}
-                            />
-                          </div>
-                          <div className="font-normal">
-                            <div className=" text-gray-700">{data.nama}</div>
-                            <div className="text-gray-400">
-                              {data.User.email}
+                  ) : (
+                    dataKoordinator.map((data, index) => (
+                      <tr
+                        className="hover:bg-gray-50 text-sm text-neutral-05"
+                        key={index}
+                      >
+                        <td className="px-4 py-2 font-normal">
+                          <div className="flex gap-3 ">
+                            <div className="max-h-10 max-w-[2.5rem]">
+                              <Image
+                                className="h-auto w-auto rounded-full object-cover object-center"
+                                src={Face}
+                                alt="face"
+                                height={40}
+                                width={40}
+                              />
+                            </div>
+                            <div className="font-normal">
+                              <div className=" text-gray-700">{data.nama}</div>
+                              <div className="text-gray-400">
+                                {data.User.email}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-2">
-                        <div className="font-medium text-gray-700">
-                          {data.program_studi}
-                        </div>
-                      </td>
-                      <td className="px-4 py-2">{data.batch}</td>
-                      <td className="flex justify-end px-4 py-2">
-                        <Button
-                          variant="primary"
-                          text="Lihat Detail"
-                          to={`koordinator/detail/${data.id}`}
-                        />
-                      </td>
-                    </tr>
-                  )))}
+                        </td>
+                        <td className="px-4 py-2">
+                          <div className="font-medium text-gray-700">
+                            {data.program_studi}
+                          </div>
+                        </td>
+                        <td className="px-4 py-2">{data.batch}</td>
+                        <td className="flex justify-end px-4 py-2">
+                          <Button
+                            variant="primary"
+                            text="Lihat Detail"
+                            to={`koordinator/detail/${data.id}`}
+                          />
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>

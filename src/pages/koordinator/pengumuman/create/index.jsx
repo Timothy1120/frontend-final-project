@@ -84,8 +84,8 @@ export default function CreatePengumuman() {
                 <div className="mb-3">
                   <label className="text-base">Isi Pengumuman</label>
                   <textarea
-                    id="category"
-                    name="category"
+                    id="isi-pengumuman"
+                    name="isi-pengumuman"
                     type=""
                     value={isiPengumuman}
                     onChange={(e) => setIsiPengumuman(e.target.value)}

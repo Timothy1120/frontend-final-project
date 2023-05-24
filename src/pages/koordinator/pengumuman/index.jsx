@@ -5,6 +5,8 @@ import Button from "@/components/Button";
 import PlusIcon from "../../../../public/icons/plus.svg";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Tooltip from "@/components/Tooltip";
+import Link from "next/link";
 
 export default function Pengumuman() {
   const [dataPengumuman, setDataPengumuman] = useState([]);
@@ -38,7 +40,7 @@ export default function Pengumuman() {
                   icon={PlusIcon}
                 />
               </div>
-              <table className="w-full border-collapse bg-white text-left text-xs font-normal text-gray-500 mt-8">
+              <table className="w-full border-collapse bg-white text-left text-base font-normal text-gray-500 mt-8">
                 <thead className="bg-gray-50">
                   <tr>
                     <th
@@ -65,7 +67,7 @@ export default function Pengumuman() {
                 </thead>
                 <tbody className="divide-y divide-neutral-02 border-t border-neutral-02">
                   {dataPengumuman.map((data, index) => (
-                    <tr className="hover:bg-gray-50" key={index}>
+                    <tr className="hover:bg-gray-50 text-sm" key={index}>
                       <td className="px-4 py-2 font-normal text-neutral-05">
                         {data.id}
                       </td>
@@ -76,11 +78,25 @@ export default function Pengumuman() {
                       </td>
                       <td className="px-4 py-2">{data.createdAt}</td>
                       <td className="px-4 py-2">
-                        <Button
-                          variant="primary"
-                          text="Tools"
-                          to={`pengumuman/detail/${data.id}`}
-                        />
+                        <Tooltip text={"Tools"}>
+                          <div className="flex flex-col divide-y divide-neutral-500 text-center">
+                            <Link
+                              href={`pengumuman/detail/${data.id}`}
+                              className="px-4 py-2"
+                            >
+                              Detail
+                            </Link>
+                            <Link
+                              href={`pengumuman/edit/${data.id}`}
+                              className="px-4 py-2"
+                            >
+                              Edit
+                            </Link>
+                            <Link href={"/"} className="text-danger px-4 py-2">
+                              Hapus
+                            </Link>
+                          </div>
+                        </Tooltip>
                       </td>
                     </tr>
                   ))}
