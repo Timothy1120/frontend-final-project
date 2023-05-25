@@ -1,13 +1,13 @@
 import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/admin/Sidebar";
+import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import Face from "../../../../../public/images/user-avatar.png";
+import Face from "../../../../public/images/user-avatar.png";
 import Button from "@/components/Button";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function Koordinator() {
+export default function AssignKoordinator() {
   const [dataKoordinator, setDataKoordinator] = useState([]);
 
   useEffect(() => {
@@ -20,6 +20,7 @@ export default function Koordinator() {
         console.error(err);
       });
   }, []);
+  console.log(dataKoordinator);
   return (
     <div className="font-poppins">
       <Navbar></Navbar>
@@ -29,10 +30,12 @@ export default function Koordinator() {
           <main id="user-koordinator-contents">
             <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
               <div className="flex justify-between">
-                <div className="text-lg font-bold mb-14">Koordinator</div>
+                <div className="text-lg font-bold mb-14">
+                  Riwayat Koordinator
+                </div>
                 <Button
                   text="Assign Koordinator"
-                  to={"koordinator/assign-koordinator"}
+                  to={"assign-koordinator/create"}
                   variant={"primary"}
                 />
               </div>
@@ -105,7 +108,7 @@ export default function Koordinator() {
                           <Button
                             variant="primary"
                             text="Lihat Detail"
-                            to={`koordinator/detail/${data.id}`}
+                            to={`assign-koordinator/detail/${data.id}`}
                           />
                         </td>
                       </tr>
