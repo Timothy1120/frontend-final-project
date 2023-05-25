@@ -2,11 +2,10 @@ import MainLayout from "@/components/MainLayout";
 import Link from "next/link";
 import { FaBullhorn } from "react-icons/fa";
 import { AiOutlineTag, AiOutlineClockCircle } from "react-icons/ai";
-import { GrDocumentText } from "react-icons/gr";
-import { FiMonitor } from "react-icons/fi";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { IoSchoolOutline } from "react-icons/io5";
 
 export default function Dashboard({ userData }) {
   const [pengumuman, setPengumuman] = useState([]);
@@ -16,7 +15,9 @@ export default function Dashboard({ userData }) {
       try {
         const token = Cookies.get("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        const response = await axios.get("http://localhost:7000/api/pengumuman");
+        const response = await axios.get(
+          "http://localhost:7000/api/pengumuman"
+        );
         setPengumuman(response.data.data.slice(0, 5));
       } catch (error) {
         console.error(error);
@@ -29,28 +30,13 @@ export default function Dashboard({ userData }) {
     <MainLayout>
       <div className="flex mx-6 my-8 space-x-4">
         <div className="w-3/5">
-          <Link href={"/koordinator/administrasi"}>
+          <Link href={"/"}>
             <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8">
               <div className="flex space-x-4">
-                <GrDocumentText className="w-9 h-auto" />
-                <div>
-                  <p className="text-2xl text-darkblue-04 font-bold">
-                    Administrasi
-                  </p>
-                  <p className="text-xs text-darkblue-04 font-light">
-                    S1 Informatika
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Link>
-          <Link href={"/koordinator/pelaksanaan"}>
-            <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8 mt-6">
-              <div className="flex space-x-4">
-                <FiMonitor className="w-9 h-auto" />
-                <div>
+                <IoSchoolOutline className="w-16 h-auto" />
+                <div className="mt-3">
                   <div className="text-2xl text-darkblue-04 font-bold">
-                    Pelaksanaan/Monitoring
+                    Kampus Merdeka Batch 1
                   </div>
                   <div className="text-xs text-darkblue-04 font-light">
                     S1 Informatika
