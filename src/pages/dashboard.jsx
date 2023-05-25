@@ -6,20 +6,25 @@ import { GrDocumentText } from "react-icons/gr";
 import { FiMonitor } from "react-icons/fi";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Pengumuman from "./koordinator/pengumuman";
+import Cookies from "js-cookie";
 
 export default function Dashboard({ userData }) {
   const [pengumuman, setPengumuman] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:7000/api/pengumuman")
-      .then((res) => {
-        setPengumuman(res.data.data.slice(0, 5));
-      })
-      .catch((err) => {});
+    const fetchData = async () => {
+      try {
+        const token = Cookies.get("token");
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        const response = await axios.get("http://localhost:7000/api/pengumuman");
+        setPengumuman(response.data.data.slice(0, 5));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
   }, []);
-  console.log(pengumuman);
+
   return (
     <MainLayout>
       <div className="flex mx-6 my-8 space-x-4">
