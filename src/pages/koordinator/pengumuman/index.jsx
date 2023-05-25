@@ -7,20 +7,26 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Tooltip from "@/components/Tooltip";
 import Link from "next/link";
+import Cookies from "js-cookie";
 
 export default function Pengumuman() {
   const [dataPengumuman, setDataPengumuman] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:7000/api/pengumuman")
-      .then((res) => {
-        setDataPengumuman(res.data.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    const fetchData = async () => {
+      try {
+        const token = Cookies.get("token");
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        const response = await axios.get("http://localhost:7000/api/pengumuman");
+        setDataPengumuman(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
   }, []);
+
   return (
     <div className="font-poppins">
       <Navbar />

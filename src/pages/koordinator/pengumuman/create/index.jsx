@@ -10,8 +10,9 @@ import jwt_decode from "jwt-decode";
 export default function CreatePengumuman() {
   const token = Cookies.get("token");
   console.log(token);
-  const decoded = jwt_decode(token);
-  const userId = decoded.data.user.id;
+  const decoded = token ? jwt_decode(token) : null;
+  const userId = decoded ? decoded.data.user.id : null;
+  console.log(userId)
   const router = useRouter();
   const [judulPengumuman, setJudulPengumuman] = useState("");
   const pilihanKategori = [
@@ -25,6 +26,14 @@ export default function CreatePengumuman() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    if (!userId) {
+      alert('user id tidak ditemukan')
+    }
+
+    axios.interceptors.request.use((config) => {
+      config.headers.Authorization = `Bearer ${token}`;
+      return config;
+    });
 
     axios
       .post("http://localhost:7000/api/pengumuman", {

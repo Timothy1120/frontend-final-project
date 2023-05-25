@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export default function DetailPengumuman() {
   const router = useRouter();
@@ -11,14 +12,19 @@ export default function DetailPengumuman() {
   const [detailPengumuman, setDetailPengumuman] = useState([]);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:7000/api/pengumuman/${id}`)
-      .then((res) => {
-        setDetailPengumuman(res.data.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    const fetchData = async () => {
+      try {
+        const token = Cookies.get("token");
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+        const response = await axios.get(`http://localhost:7000/api/pengumuman/${id}`);
+        setDetailPengumuman(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
   }, []);
   console.log(detailPengumuman);
   return (
