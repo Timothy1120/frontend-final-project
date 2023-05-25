@@ -78,7 +78,7 @@ export default function CreatePengumuman() {
                   <select
                     value={kategori}
                     onChange={(e) => setKategori(e.target.value)}
-                    class="focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
+                    className="focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
                     id="category"
                     name="category"
                     required
