@@ -78,6 +78,7 @@ export default function TambahBatch() {
                     name="submit-batch"
                     text="Buka"
                     to="/batch/create/new"
+                    variant="primary"
                   />
                 </div>
               </form>
