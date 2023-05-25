@@ -1,32 +1,13 @@
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
 
-export default function DetailPengumuman() {
-  const router = useRouter();
-  const { id } = router.query;
-  const [detailPengumuman, setDetailPengumuman] = useState([]);
+export default function DetailPengumuman({ detailPengumuman }) {
+  const createMarkup = (html) => {
+    return { __html: html };
+  };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = Cookies.get("token");
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-        const response = await axios.get(`http://localhost:7000/api/pengumuman/${id}`);
-        setDetailPengumuman(response.data.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-  console.log(detailPengumuman);
   return (
     <div className="font-poppins">
       <Navbar />
@@ -38,8 +19,8 @@ export default function DetailPengumuman() {
               <div className="text-lg font-bold text-darkblue-04 mb-7">
                 {detailPengumuman.judul}
               </div>
-              <div className="rounded-md border border-neutral-05 px-5 py-4 mb-4">
-                <p>{detailPengumuman.deskripsi}</p>
+              <div className="">
+                <div dangerouslySetInnerHTML={createMarkup(detailPengumuman.deskripsi)} />
               </div>
               <span className="text-sm font-medium text-darkblue-04 mb-7">
                 Kategori: {detailPengumuman.kategori}
@@ -51,4 +32,25 @@ export default function DetailPengumuman() {
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { id } = context.query;
+  const token = context.req.cookies.token;
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+  try {
+    const response = await axios.get(`http://localhost:7000/api/pengumuman/${id}`);
+    return {
+      props: {
+        detailPengumuman: response.data.data
+      },
+    };
+  } catch (error) {
+    // handle the error accordingly
+    console.error('Error fetching the pengumuman detail', error);
+    return {
+      props: {},
+    };
+  }
 }
