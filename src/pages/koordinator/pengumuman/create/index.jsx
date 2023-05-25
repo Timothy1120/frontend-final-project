@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
+import TextEditor from "@/components/TextEditor";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -90,7 +91,7 @@ export default function CreatePengumuman() {
                     ))}
                   </select>
                 </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <label className="text-base">Isi Pengumuman</label>
                   <textarea
                     id="isi-pengumuman"
@@ -100,7 +101,8 @@ export default function CreatePengumuman() {
                     onChange={(e) => setIsiPengumuman(e.target.value)}
                     className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
                   ></textarea>
-                </div>
+                </div> */}
+                <TextEditor value={isiPengumuman} setValue={setIsiPengumuman} />
                 <div className="flex justify-end">
                   <button
                     type="submit"
