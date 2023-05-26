@@ -24,7 +24,7 @@ export default function BukaBatch() {
                 />
               </div>
               <div className="w-full my-6 grid grid-cols-1 gap-8">
-                <Link href={"/"}>
+                <Link href={"/batch/detail"}>
                   <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8">
                     <div className="flex justify-between">
                       <div className="flex space-x-4">
@@ -59,7 +59,7 @@ export default function BukaBatch() {
                     </div>
                   </div>
                 </Link>
-                <Link href={"/"}>
+                <Link href={"/batch/detail"}>
                   <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8">
                     <div className="flex justify-between">
                       <div className="flex space-x-4">

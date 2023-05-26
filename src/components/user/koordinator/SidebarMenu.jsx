@@ -14,9 +14,7 @@ export default function SidebarMenu({ href, text, icon }) {
         isActive ? "bg-darkblue-02" : "bg-neutral-01"
       }`}
     >
-      <div>
-        <Image src={icon} height={20} width={20} alt="menu-icons" />
-      </div>
+      <div>{icon}</div>
       <div className="mt-[0.125rem]">{text}</div>
     </Link>
   );
