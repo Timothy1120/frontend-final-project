@@ -30,7 +30,7 @@ export default function Dashboard({ userData }) {
     <MainLayout>
       <div className="flex mx-6 my-8 space-x-4">
         <div className="w-3/5">
-          <Link href={"/"}>
+          <Link href={"/batch/detail"}>
             <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8">
               <div className="flex space-x-4">
                 <IoSchoolOutline className="w-16 h-auto" />
