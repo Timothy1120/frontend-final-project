@@ -21,7 +21,7 @@ export default function Sidebar() {
             icon={SchoolIcon}
           />
           <SidebarMenu
-            href="/koordinator/pengumuman"
+            href="/koordinator/pengumuman?page=1"
             text="Pengumuman"
             icon={MegaphoneIcon}
           />

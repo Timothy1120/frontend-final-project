@@ -91,17 +91,6 @@ export default function CreatePengumuman() {
                     ))}
                   </select>
                 </div>
-                {/* <div className="mb-3">
-                  <label className="text-base">Isi Pengumuman</label>
-                  <textarea
-                    id="isi-pengumuman"
-                    name="isi-pengumuman"
-                    type=""
-                    value={isiPengumuman}
-                    onChange={(e) => setIsiPengumuman(e.target.value)}
-                    className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
-                  ></textarea>
-                </div> */}
                 <TextEditor value={isiPengumuman} setValue={setIsiPengumuman} />
                 <div className="flex justify-end">
                   <button

@@ -8,24 +8,38 @@ import axios from "axios";
 import Tooltip from "@/components/Tooltip";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import Pagination from "@/components/Pagination";
+import { useRouter } from 'next/router';
 
 export default function Pengumuman() {
   const [dataPengumuman, setDataPengumuman] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const { page } = router.query;
+        setCurrentPage(parseInt(page));
+        console.log(currentPage);
         const token = Cookies.get("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        const response = await axios.get("http://localhost:7000/api/pengumuman");
+        const response = await axios.get(`http://localhost:7000/api/pengumuman?page=${currentPage}`);
         setDataPengumuman(response.data.data);
+        setTotalPages(Math.ceil(response.data.total / 10));
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    router.push(`/pengumuman?page=${page}`);
+  };
 
   return (
     <div className="font-poppins">
@@ -108,6 +122,11 @@ export default function Pengumuman() {
                   ))}
                 </tbody>
               </table>
+              {/* <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              /> */}
             </div>
           </main>
           <Footer />
