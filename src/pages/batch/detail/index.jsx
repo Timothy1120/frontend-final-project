@@ -7,7 +7,7 @@ export default function DetailBatch() {
   return (
     <MainLayout>
       <div className="grid grid-cols-2 gap-6 mx-6 my-8">
-        <Link href={"/"}>
+        <Link href={"/administrasi"}>
           <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8">
             <div className="flex space-x-4">
               <GrDocumentText className="w-16 h-auto" />

@@ -11,7 +11,7 @@ export default function Input({
 }) {
   return (
     <div>
-      <label htmlFor={inputFor} className="block font-medium mb-2">
+      <label htmlFor={inputFor} className="block font-semibold mb-2">
         {label}
       </label>
       <input
