@@ -34,7 +34,7 @@ export default function Tooltip({ text, children }) {
       </button>
       {isOpen && (
         <div className="relative">
-          <div className="absolute mt-14 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2  bg-white shadow-sm shadow-neutral-02 rounded">
+          <div className="absolute mt-14 left-1/2 top-4 -translate-x-1/2 -translate-y-1/2  bg-white shadow-sm shadow-neutral-02 rounded w-32">
             {children}
           </div>
         </div>
