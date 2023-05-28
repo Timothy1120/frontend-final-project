@@ -10,7 +10,7 @@ const dosenOptions = [
   { label: "John Doe, MBA", value: "John Doe, MBA" },
 ];
 
-export default function DetailProposal(params) {
+export default function DetailProposal() {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const handleChange = (selectedOption) => {

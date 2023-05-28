@@ -5,6 +5,7 @@ import { AiOutlineHome } from "react-icons/ai";
 import { MdOutlineSchool } from "react-icons/md";
 import { BsMegaphone } from "react-icons/bs";
 import { IoPersonOutline } from "react-icons/io5";
+import { ImOffice } from "react-icons/im";
 
 export default function Sidebar() {
   const [isKoordinator, setIsKoordinator] = useState(false);
@@ -35,6 +36,11 @@ export default function Sidebar() {
             href="/koordinator/assign-koordinator"
             text="Assign Koordinator"
             icon={<IoPersonOutline className="w-6 h-auto" />}
+          />
+          <SidebarMenu
+            href={"/sptjm"}
+            text={"BAA"}
+            icon={<ImOffice className="w-6 h-auto" />}
           />
         </div>
       </div>
