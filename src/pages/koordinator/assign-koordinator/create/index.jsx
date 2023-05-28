@@ -6,18 +6,14 @@ import Input from "@/components/Input";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+import jwt from 'jsonwebtoken';
 
 export default function AssignKoordinator() {
   const router = useRouter();
-  const prodiOptions = [
-    "S1 Informatika",
-    "S1 Teknik Elektro",
-    "S1 Sistem Informasi",
-  ];
   const semesterOptions = ["Ganjil", "Genap"];
   const [dosen, setDosen] = useState([]);
   const [batch, setBatch] = useState("");
-  const [prodi, setProdi] = useState(prodiOptions[0]);
   const [selectedDosenId, setSelectedDosenId] = useState(null);
   const [tahunAjaran, setTahunAjaran] = useState("");
   const [semester, setSemester] = useState(semesterOptions[0]);
@@ -29,9 +25,25 @@ export default function AssignKoordinator() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
+  function getUserId(token, secretKey) {
+    try {
+      const decodedToken = jwt.verify(token, secretKey);
+      const userId = decodedToken.sub; // atau `decodedToken.userId`
+
+      return userId;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
   useEffect(() => {
+    const token = Cookies.get("token");
+    const secretKey = 'lulusta2023'
+    const userId = getUserId(token, secretKey)
+    console.log(userId);
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     axios
-      .get(`http://localhost:7000/api/dosen?program_studi=${prodi}`)
+      .get(`http://localhost:7000/api/dosen/${userId}/byauth`)
       .then((res) => {
         setDosen(res.data.data);
         if (res.data.data.length > 0) {
@@ -42,34 +54,24 @@ export default function AssignKoordinator() {
       .catch((error) => {
         console.error("Error fetching dosen", error);
       });
-  }, [prodi]);
-  console.log("selectedDosenid", selectedDosenId);
-  console.log("prodi", prodi);
-  console.log("batch", batch);
-  console.log("tahun ajaran", tahunAjaran);
-  console.log("semester", semester);
-
-  function handleBatchChange(event) {
-    const value = event.target.value;
-    if (value === "") {
-      setBatchError("Batch belum terisi");
-      setBatch("");
-    } else if (!/^\d+$/.test(value)) {
-      setBatchError("Batch harus berupa angka bulat positif");
-    } else {
-      setBatchError("");
-      setBatch(value);
-    }
-  }
+  }, []);
+  // function handleBatchChange(event) {
+  //   const value = event.target.value;
+  //   if (value === "") {
+  //     setBatchError("Batch belum terisi");
+  //     setBatch("");
+  //   } else if (!/^\d+$/.test(value)) {
+  //     setBatchError("Batch harus berupa angka bulat positif");
+  //   } else {
+  //     setBatchError("");
+  //     setBatch(value);
+  //   }
+  // }
 
   function handleSubmit(event) {
     event.preventDefault();
     if (
-      selectedDosenId === null ||
-      prodi === "" ||
-      batch === "" ||
-      tahunAjaran === "" ||
-      semester === ""
+      selectedDosenId === null
     ) {
       setError("Semua field harus terisi!");
       setModalOpen(true);
@@ -77,13 +79,7 @@ export default function AssignKoordinator() {
     }
     // CONSUME THE API
     axios
-      .post("http://localhost:7000/api/koordinator", {
-        dosenId: Number(selectedDosenId),
-        program_studi: prodi,
-        batch: Number(batch),
-        tahun_ajaran: Number(tahunAjaran),
-        semester: semester,
-      })
+      .put(`http://localhost:7000/api/dosen/${selectedDosenId}/assign-koor`)
       .then((response) => {
         setSuccess(true);
         setModalOpen(true);
@@ -108,14 +104,13 @@ export default function AssignKoordinator() {
             <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
               <div className="p-6">
                 <h2
-                  className={`text-2xl mb-4 ${
-                    success ? "text-green-600" : "text-red-600"
-                  }`}
+                  className={`text-2xl mb-4 ${success ? "text-green-600" : "text-red-600"
+                    }`}
                 >
                   {success ? "Success" : "Error"}
                 </h2>
                 <p className="text-base">
-                  {success ? "Koordinator berhasil ditambahkan!" : error}
+                  {success ? "Dosen berhasil diassign sebagai koordinator!" : error}
                 </p>
                 <div className="flex justify-end">
                   {!success && (
@@ -126,29 +121,7 @@ export default function AssignKoordinator() {
             </Modal>
             <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
               <div className="text-lg font-bold mb-14">Assign Koordinator</div>
-              <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
-                {/* <div>
-                  <label
-                    htmlFor="program-studi"
-                    className="block font-medium mb-2"
-                  >
-                    Program Studi:
-                  </label>
-                  <select
-                    value={prodi}
-                    onChange={(e) => setProdi(e.target.value)}
-                    class="focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
-                    required
-                    id="program_studi"
-                    name="program_studi"
-                  >
-                    {prodiOptions.map((p) => (
-                      <option key={p} value={p}>
-                        {p}
-                      </option>
-                    ))}
-                  </select>
-                </div> */}
+              <form className="grid grid-cols-1 gap-4" onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="dosen" className="block font-medium mb-2">
                     Dosen:
@@ -164,56 +137,6 @@ export default function AssignKoordinator() {
                     {dosen.map((d) => (
                       <option key={d.id} value={d.id}>
                         {d.nama}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <Input
-                    label={"Batch"}
-                    inputType={"text"}
-                    inputFor={"batch"}
-                    inputId={"batch"}
-                    inputName={"batch"}
-                    id="batch"
-                    name="batch"
-                    className={`${
-                      batchError
-                        ? "focus:border-danger focus:ring focus:outline-none focus:ring-danger"
-                        : ""
-                    }`}
-                    value={batch}
-                    onChange={handleBatchChange}
-                    placeholder={"Isi batch MBKM"}
-                  />
-                  {batchError && (
-                    <div className="mt-2 text-sm text-danger">{batchError}</div>
-                  )}
-                </div>
-                <Input
-                  label={"Tahun Ajaran"}
-                  inputFor={"tahun_ajaran"}
-                  inputId={"tahun_ajaran"}
-                  inputName={"tahun_ajaran"}
-                  placeholder={"Isi tahun ajaran"}
-                  value={tahunAjaran}
-                  onChange={(e) => setTahunAjaran(e.target.value)}
-                />
-                <div>
-                  <label htmlFor="semester" className="block font-medium mb-2">
-                    Semester:
-                  </label>
-                  <select
-                    value={semester}
-                    onChange={(e) => setSemester(e.target.value)}
-                    className="focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded "
-                    required
-                    id="semester"
-                    name="semester"
-                  >
-                    {semesterOptions.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
                       </option>
                     ))}
                   </select>
@@ -235,7 +158,7 @@ export default function AssignKoordinator() {
           </main>
           <Footer />
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }

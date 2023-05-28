@@ -7,6 +7,7 @@ import { BsMegaphone } from "react-icons/bs";
 import { IoPersonOutline } from "react-icons/io5";
 
 export default function Sidebar() {
+  const [isKoordinator, setIsKoordinator] = useState(false);
   return (
     <div className="font-poppins">
       <div className="bg-darkblue-04 h-screen w-[260px]">
