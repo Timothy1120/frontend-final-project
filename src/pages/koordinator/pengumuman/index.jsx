@@ -17,7 +17,9 @@ export default function Pengumuman() {
       try {
         const token = Cookies.get("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        const response = await axios.get("http://localhost:7000/api/pengumuman");
+        const response = await axios.get(
+          "http://localhost:7000/api/pengumuman"
+        );
         setDataPengumuman(response.data.data);
       } catch (error) {
         console.error(error);
@@ -84,7 +86,7 @@ export default function Pengumuman() {
                       </td>
                       <td className="px-4 py-2">{data.createdAt}</td>
                       <td className="px-4 py-2">
-                        <Tooltip text={"Tools"}>
+                        <Tooltip text={"Tools"} className={"top-[3.75rem]"}>
                           <div className="flex flex-col divide-y divide-neutral-500 text-center">
                             <Link
                               href={`pengumuman/detail/${data.id}`}
