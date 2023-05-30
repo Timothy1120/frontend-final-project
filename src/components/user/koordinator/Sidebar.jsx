@@ -8,6 +8,14 @@ import { IoPersonOutline } from "react-icons/io5";
 import { ImOffice } from "react-icons/im";
 
 export default function Sidebar() {
+  const kampusMerdekaLinks = [{ link: "/batch", text: "Batch MBKM" }];
+
+  const baaLinks = [
+    { link: "/baa/surat-rekomendasi", text: "Surat Rekomendasi" },
+    { link: "/baa/sptjm", text: "SPTJM" },
+    { link: "/baa/transkrip", text: "Transkrip Nilai" },
+  ];
+
   return (
     <div className="font-poppins">
       <div className="bg-darkblue-04 h-screen w-[260px]">
@@ -25,6 +33,7 @@ export default function Sidebar() {
           <SidebarDropdownMenu
             icon={<MdOutlineSchool className="w-6 h-auto" />}
             text="Kampus Merdeka"
+            items={kampusMerdekaLinks}
           />
           <SidebarMenu
             href="/koordinator/pengumuman"
@@ -36,10 +45,10 @@ export default function Sidebar() {
             text="Assign Koordinator"
             icon={<IoPersonOutline className="w-6 h-auto" />}
           />
-          <SidebarMenu
-            href={"/sptjm"}
-            text={"BAA"}
+          <SidebarDropdownMenu
             icon={<ImOffice className="w-6 h-auto" />}
+            text={"BAA"}
+            items={baaLinks}
           />
         </div>
       </div>

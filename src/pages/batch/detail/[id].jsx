@@ -2,12 +2,18 @@ import MainLayout from "@/components/MainLayout";
 import Link from "next/link";
 import { GrDocumentText } from "react-icons/gr";
 import { FiMonitor } from "react-icons/fi";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function DetailBatch() {
+  const router = useRouter();
+  const { id } = router.query;
+
+  useEffect(() => {});
   return (
     <MainLayout>
       <div className="grid grid-cols-2 gap-6 mx-6 my-8">
-        <Link href={"/administrasi"}>
+        <Link href={`/administrasi/${id}`}>
           <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8">
             <div className="flex space-x-4">
               <GrDocumentText className="w-16 h-auto" />
@@ -22,7 +28,7 @@ export default function DetailBatch() {
             </div>
           </div>
         </Link>
-        <Link href={"/"}>
+        <Link href={`/laporan/${id}`}>
           <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8">
             <div className="flex space-x-4">
               <FiMonitor className="w-16 h-auto" />

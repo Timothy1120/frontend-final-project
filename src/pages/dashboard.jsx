@@ -8,43 +8,80 @@ import Cookies from "js-cookie";
 import { IoSchoolOutline } from "react-icons/io5";
 
 export default function Dashboard({ userData }) {
-  const [pengumuman, setPengumuman] = useState([]);
+  const [dataPengumuman, setDataPengumuman] = useState([]);
+  const [dataBatch, setDataBatch] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchDataPengumuman = async () => {
+  //     try {
+
+  //       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  //       const response = await axios.get(
+  //         "http://localhost:7000/api/pengumuman"
+  //       );
+  //       setPengumuman(response.data.data.slice(0, 5));
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   const fetchDataBatch = async () => {
+  //     try {
+
+  //       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  //       const response = await axios.get("http://localhost:7000/api/batch");
+  //       setPengumuman(response.data.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //  fetchDataPengumuman();
+  //  fetchDataBatch();
+  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const token = Cookies.get("token");
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        const response = await axios.get(
-          "http://localhost:7000/api/pengumuman"
-        );
-        setPengumuman(response.data.data.slice(0, 5));
-      } catch (error) {
-        console.error(error);
-      }
+      const token = Cookies.get("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const [responsePengumuman, responseBatch] = await Promise.all([
+        axios.get("http://localhost:7000/api/pengumuman"),
+        axios.get("http://localhost:7000/api/batch"),
+      ]);
+
+      setDataPengumuman(responsePengumuman.data.data.slice(0, 5));
+      setDataBatch(responseBatch.data.data);
     };
-    fetchData();
+
+    fetchData().catch((error) => console.error("Error:", error));
   }, []);
 
   return (
     <MainLayout>
       <div className="flex mx-6 my-8 space-x-4">
         <div className="w-3/5">
-          <Link href={"/batch/detail"}>
-            <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8">
-              <div className="flex space-x-4">
-                <IoSchoolOutline className="w-16 h-auto" />
-                <div className="mt-3">
-                  <div className="text-2xl text-darkblue-04 font-bold">
-                    Kampus Merdeka Batch 1
-                  </div>
-                  <div className="text-xs text-darkblue-04 font-light">
-                    S1 Informatika
+          {dataBatch.length === 0 ? (
+            <div className="text-3xl font-light text-neutral-03 mt-4 text-center">
+              Belum ada program
+            </div>
+          ) : (
+            dataBatch.map((data, index) => (
+              <Link href={`/batch/detail/${data.id}`} key={index}>
+                <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8 mb-4">
+                  <div className="flex space-x-4">
+                    <IoSchoolOutline className="w-16 h-auto" />
+                    <div className="mt-3">
+                      <div className="text-2xl text-darkblue-04 font-bold">
+                        {data.nama_program}
+                      </div>
+                      <div className="text-xs text-darkblue-04 font-light">
+                        S1 Informatika
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </Link>
+              </Link>
+            ))
+          )}
         </div>
         <div className="w-2/5 rounded-sm border border-neutral-02 shadow-md px-6 py-5">
           <div className="flex space-x-3 items-center ">
@@ -53,12 +90,12 @@ export default function Dashboard({ userData }) {
           </div>
           <hr className="border-b border-neutral-02 mt-2" />
           <div>
-            {pengumuman.length === 0 ? (
+            {dataPengumuman.length === 0 ? (
               <div className="text-sm mt-4 text-center">
                 Belum ada pengumuman
               </div>
             ) : (
-              pengumuman.map((data, index) => (
+              dataPengumuman.map((data, index) => (
                 <div className="mt-4" key={index}>
                   <div className="text-sm font-semibold mb-1">
                     <span className="text-darkblue-04">[{data.kategori}]</span>{" "}

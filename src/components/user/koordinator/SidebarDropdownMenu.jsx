@@ -1,9 +1,8 @@
 import { React, useState } from "react";
-import Image from "next/image";
 import * as AiIcons from "react-icons/ai";
 import Link from "next/link";
 
-export default function SidebarDropdownMenu({ text, icon }) {
+export default function SidebarDropdownMenu({ text, icon, items }) {
   const [dropdownMenu, setDropdownMenu] = useState(false);
 
   const showDropdownMenu = () => setDropdownMenu(!dropdownMenu);
@@ -27,14 +26,16 @@ export default function SidebarDropdownMenu({ text, icon }) {
         className="bg-neutral-01 rounded-lg mt-[0.125rem] mb-4"
         hidden={!dropdownMenu}
       >
-        <li>
-          <Link
-            href="/batch"
-            className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-hover-sidebar-menu pl-11"
-          >
-            Batch MBKM
-          </Link>
-        </li>
+        {items.map((item, index) => (
+          <li key={index}>
+            <Link
+              href={item.link}
+              className="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-hover-sidebar-menu pl-11"
+            >
+              {item.text}
+            </Link>
+          </li>
+        ))}
       </ul>
     </>
   );
