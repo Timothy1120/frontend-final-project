@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function Tooltip({ text, children }) {
+export default function Tooltip({ text, children, className }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const dropdownRef = useRef(null);
@@ -34,7 +34,9 @@ export default function Tooltip({ text, children }) {
       </button>
       {isOpen && (
         <div className="relative">
-          <div className="absolute mt-14 left-1/2 top-4 -translate-x-1/2 -translate-y-1/2  bg-white shadow-sm shadow-neutral-02 rounded w-32">
+          <div
+            className={`absolute left-1/2 -translate-x-1/2 -translate-y-1/2  bg-white shadow-sm shadow-neutral-02 rounded w-32 ${className}`}
+          >
             {children}
           </div>
         </div>
