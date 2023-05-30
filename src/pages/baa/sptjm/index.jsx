@@ -44,7 +44,7 @@ export default function SuratPTJM() {
               <div className="text-lg font-bold text-darkblue-04 mt-9 mb-14">
                 Daftar Pengajuan SPTJM
               </div>
-              <table className="w-full border-collapse bg-white text-left font-normal text-gray-500 max-w-4xl">
+              <table className="w-full border-collapse bg-white text-left text-sm font-normal text-gray-500 max-w-4xl">
                 <thead className="bg-gray-50">
                   <tr>
                     <th

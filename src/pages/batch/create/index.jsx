@@ -2,8 +2,30 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import InputWithOption from "@/components/InputWithOption";
+import { useState } from "react";
+
+const semesterOptions = [
+  { label: "Genap", value: "genap" },
+  { label: "Ganjil", value: "ganjil" },
+];
 
 export default function TambahBatch() {
+  const [selectedSemester, setSelectedSemester] = useState(null);
+  const [ipkMinimum, setIpkMinimum] = useState("0");
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  const handleSemesterChange = (selected) => {
+    setSelectedSemester(selected);
+    console.log(selectedSemester.value);
+  };
+
+  const handleIpMinimum = (event) => {
+    const ipk = event.target.value;
+    setIpkMinimum(ipk);
+    console.log(ipkMinimum);
+  };
+
   return (
     <div className="font-poppins">
       <Navbar></Navbar>
@@ -31,6 +53,20 @@ export default function TambahBatch() {
                   </div>
                   <div>
                     <label
+                      htmlFor="gelombang-program"
+                      className="block font-medium mb-2"
+                    >
+                      Nama Program
+                    </label>
+                    <input
+                      type="text"
+                      id="gelombang-program"
+                      name="gelombang-program"
+                      className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
+                    />
+                  </div>
+                  <div>
+                    <label
                       htmlFor="tahun-ajaran"
                       className="block font-medium mb-2"
                     >
@@ -44,19 +80,14 @@ export default function TambahBatch() {
                     />
                   </div>
                   <div>
-                    <label
-                      htmlFor="semester"
-                      className="block font-medium mb-2"
-                    >
-                      Semester
-                    </label>
-                    <input
-                      type="text"
-                      id="semester"
-                      name="semester"
-                      className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
+                    <label className="block font-medium mb-2">Semester</label>
+                    <InputWithOption
+                      options={semesterOptions}
+                      onChange={handleSemesterChange}
+                      placeholder={"Pilih Semester.."}
                     />
                   </div>
+
                   <div>
                     <label
                       htmlFor="ipk-minimum"
@@ -69,7 +100,12 @@ export default function TambahBatch() {
                       id="ipk-minimum"
                       name="ipk-minimum"
                       className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
+                      onChange={handleIpMinimum}
+                      value={ipkMinimum}
                     />
+                    {errorMessage && (
+                      <div className="text-red-500 mt-2">{errorMessage}</div>
+                    )}
                   </div>
                 </div>
                 <div className="flex justify-end mt-10">
