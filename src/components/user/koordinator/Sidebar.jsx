@@ -16,6 +16,7 @@ export default function Sidebar() {
     { link: "/baa/transkrip", text: "Transkrip Nilai" },
   ];
 
+  const [isKoordinator, setIsKoordinator] = useState(false);
   return (
     <div className="font-poppins">
       <div className="bg-darkblue-04 h-screen w-[260px]">
@@ -36,7 +37,7 @@ export default function Sidebar() {
             items={kampusMerdekaLinks}
           />
           <SidebarMenu
-            href="/koordinator/pengumuman"
+            href="/koordinator/pengumuman?page=1"
             text="Pengumuman"
             icon={<BsMegaphone className="w-6 h-auto" />}
           />

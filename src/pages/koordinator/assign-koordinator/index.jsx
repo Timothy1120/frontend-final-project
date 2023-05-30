@@ -6,13 +6,31 @@ import Face from "../../../../public/images/user-avatar.png";
 import Button from "@/components/Button";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
+import jwt from 'jsonwebtoken';
+
 
 export default function AssignKoordinator() {
   const [dataKoordinator, setDataKoordinator] = useState([]);
 
+  function getUserId(token, secretKey) {
+    try {
+      const decodedToken = jwt.verify(token, secretKey);
+      const userId = decodedToken.sub; // atau `decodedToken.userId`
+      return userId;
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
+  }
   useEffect(() => {
+    const token = Cookies.get("token");
+    const secretKey = 'lulusta2023'
+    const userId = getUserId(token, secretKey)
+    console.log(userId);
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     axios
-      .get("http://localhost:7000/api/koordinator")
+      .get(`http://localhost:7000/api/dosen/${userId}/koor-byauth`)
       .then((res) => {
         setDataKoordinator(res.data.data);
       })
@@ -31,7 +49,7 @@ export default function AssignKoordinator() {
             <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
               <div className="flex justify-between">
                 <div className="text-lg font-bold mb-14">
-                  Riwayat Koordinator
+                  Koordinator
                 </div>
                 <Button
                   text="Assign Koordinator"
@@ -58,7 +76,7 @@ export default function AssignKoordinator() {
                       scope="col"
                       className="px-4 py-2 font-semibold text-neutral-05"
                     >
-                      Batch
+                      Status
                     </th>
                     <th scope="col"></th>
                   </tr>
@@ -93,23 +111,19 @@ export default function AssignKoordinator() {
                             <div className="font-normal">
                               <div className=" text-gray-700">{data.nama}</div>
                               <div className="text-gray-400">
-                                {data.User.email}
+                                test
                               </div>
                             </div>
                           </div>
                         </td>
-                        <td className="px-4 py-2">
-                          <div className="font-medium text-gray-700">
-                            {data.program_studi}
-                          </div>
-                        </td>
-                        <td className="px-4 py-2">{data.batch}</td>
+                        <td className="px-4 py-2">{data.prodi.nama_prodi}</td>
+                        <td className="px-4 py-2">{data.isKoordinator ? 'Koordinator Aktif' : 'Tidak Aktif'}</td>
                         <td className="flex justify-end px-4 py-2">
-                          <Button
+                          {/* <Button
                             variant="primary"
                             text="Lihat Detail"
                             to={`assign-koordinator/detail/${data.id}`}
-                          />
+                          /> */}
                         </td>
                       </tr>
                     ))
