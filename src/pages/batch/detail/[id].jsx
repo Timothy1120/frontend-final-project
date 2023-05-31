@@ -9,11 +9,11 @@ export default function DetailBatch() {
   const router = useRouter();
   const { id } = router.query;
 
-  useEffect(() => {});
+  useEffect(() => { });
   return (
     <MainLayout>
       <div className="grid grid-cols-2 gap-6 mx-6 my-8">
-        <Link href={`/administrasi/${id}`}>
+        <Link href={`administrasi/${id}`}>
           <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8">
             <div className="flex space-x-4">
               <GrDocumentText className="w-16 h-auto" />
