@@ -45,7 +45,7 @@ export default function Dashboard({ userData }) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const [responsePengumuman, responseBatch] = await Promise.all([
         axios.get("http://localhost:7000/api/pengumuman"),
-        axios.get("http://localhost:7000/api/batch"),
+        axios.get("http://localhost:7000/api/batch/allbatches"),
       ]);
 
       setDataPengumuman(responsePengumuman.data.data.slice(0, 5));

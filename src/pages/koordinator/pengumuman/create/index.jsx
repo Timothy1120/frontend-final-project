@@ -13,7 +13,6 @@ export default function CreatePengumuman() {
   console.log(token);
   const decoded = token ? jwt_decode(token) : null;
   const userId = decoded ? decoded.data.user.id : null;
-  console.log(userId)
   const router = useRouter();
   const [judulPengumuman, setJudulPengumuman] = useState("");
   const pilihanKategori = [

@@ -15,7 +15,7 @@ export default function DaftarBatch() {
     const fetchDataBatch = async () => {
       try {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        const response = await axios.get("http://localhost:7000/api/batch");
+        const response = await axios.get("http://localhost:7000/api/batch/allbatches");
         setDataBatch(response.data.data);
       } catch (error) {
         console.error(error);
@@ -79,14 +79,14 @@ export default function DaftarBatch() {
                             <span className="text-base text-darkblue-04">
                               S1 Informatika
                             </span>
-                            <button
+                            {/* <button
                               type="submit"
                               id="tambah-pengumuman"
                               name="tambah-pengumuman"
                               className="px-3 py-2 bg-darkblue-04 text-neutral-01 rounded-lg justify-center"
                             >
                               Akhiri Batch
-                            </button>
+                            </button> */}
                           </div>
                         </div>
                       </div>

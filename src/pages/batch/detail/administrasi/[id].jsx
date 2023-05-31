@@ -2,10 +2,14 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import Tooltip from "@/components/Tooltip";
 import Link from "next/link";
 
 export default function Proposal() {
+  const router = useRouter();
+  const { id } = router.query;
   return (
     <div className="font-poppins">
       <Navbar />
@@ -14,6 +18,33 @@ export default function Proposal() {
         <div className="w-full flex flex-col justify-between">
           <main id="proposal-contents">
             <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
+
+              <div className="flex space-x-8">
+                <Button
+                  variant="primary"
+                  id="ajukan-proposal"
+                  name="ajukan-proposal"
+                  text="Ajukan Proposal"
+                  to={`ajukan-proposal/${id}`}
+                  textSize="text-sm"
+                />
+                <Button
+                  variant="primary"
+                  id="tambah-dokumen"
+                  name="tambah-dokumen"
+                  text="Tambah Dokumen"
+                  to="proposal/upload-dokumen"
+                  textSize="text-sm"
+                />
+                <Button
+                  variant="primary"
+                  id="penerimaan-mitra"
+                  name="penerimaan-mitra"
+                  text="Lulus Penerimaan Mitra"
+                  to="proposal/kelulusan"
+                  textSize="text-sm"
+                />
+              </div>
               <div className="text-base text-darkblue-04 font-bold mt-9 mb-6">
                 Daftar Pengajuan Proposal
               </div>
@@ -78,16 +109,22 @@ export default function Proposal() {
                       Disetujui
                     </td>
                     <td className="px-4 py-2 font-normal text-warning">
-                      Menunggu Diterbitkan
+                      Belum Diterbitkan
                     </td>
                     <td className="px-4 py-2">
-                      <Tooltip text={"Tools"} className={"top-16"}>
+                      <Tooltip text={"Tools"} className={"top-[6.5rem]"}>
                         <div className="flex flex-col divide-y divide-neutral-500 text-center">
                           <Link href={"/"} className="px-4 py-2">
-                            Generate Surat Rekomendasi
+                            Unduh Surat Rekomendasi
                           </Link>
                           <Link href={"proposal/detail"} className="px-4 py-2">
                             Lihat Detail
+                          </Link>
+                          <Link href={"proposal/detail"} className="px-4 py-2">
+                            Approve Proposal
+                          </Link>
+                          <Link href={"proposal/detail"} className="px-4 py-2">
+                            Reject Proposal
                           </Link>
                         </div>
                       </Tooltip>
@@ -105,25 +142,25 @@ export default function Proposal() {
                       2019
                     </td>
                     <td className="px-4 py-2 font-normal text-warning">
-                      Menunggu
+                      Menunggu Persetujuan
                     </td>
                     <td className="px-4 py-2 font-normal text-warning">
-                      Menunggu Persetujuan Proposal
+                      Belum Diterbitkan
                     </td>
                     <td className="px-4 py-2">
-                      <Tooltip text={"Tools"} className={"top-16"}>
+                      <Tooltip text={"Tools"} className={"top-[6.5rem]"}>
                         <div className="flex flex-col divide-y divide-neutral-500 text-center">
                           <Link href={"/"} className="px-4 py-2">
-                            Unduh
-                          </Link>
-                          <Link href={"/"} className="px-4 py-2">
-                            Approve
-                          </Link>
-                          <Link href={"/"} className="px-4 py-2">
-                            Reject
+                            Unduh Surat Rekomendasi
                           </Link>
                           <Link href={"proposal/detail"} className="px-4 py-2">
                             Lihat Detail
+                          </Link>
+                          <Link href={"proposal/detail"} className="px-4 py-2">
+                            Approve Proposal
+                          </Link>
+                          <Link href={"proposal/detail"} className="px-4 py-2">
+                            Reject Proposal
                           </Link>
                         </div>
                       </Tooltip>
@@ -143,21 +180,23 @@ export default function Proposal() {
                     <td className="px-4 py-2 font-normal text-danger">
                       Ditolak
                     </td>
-                    <td className="px-4 py-2 font-normal text-neutral-05">-</td>
+                    <td className="px-4 py-2 font-normal text-warning">
+                      Belum Diterbitkan
+                    </td>
                     <td className="px-4 py-2">
-                      <Tooltip text={"Tools"} className={"top-16"}>
+                      <Tooltip text={"Tools"} className={"top-[6.5rem]"}>
                         <div className="flex flex-col divide-y divide-neutral-500 text-center">
                           <Link href={"/"} className="px-4 py-2">
-                            Unduh
-                          </Link>
-                          <Link href={"/"} className="px-4 py-2">
-                            Approve
-                          </Link>
-                          <Link href={"/"} className="px-4 py-2">
-                            Reject
+                            Unduh Surat Rekomendasi
                           </Link>
                           <Link href={"proposal/detail"} className="px-4 py-2">
                             Lihat Detail
+                          </Link>
+                          <Link href={"proposal/detail"} className="px-4 py-2">
+                            Approve Proposal
+                          </Link>
+                          <Link href={"proposal/detail"} className="px-4 py-2">
+                            Reject Proposal
                           </Link>
                         </div>
                       </Tooltip>

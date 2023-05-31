@@ -2,7 +2,6 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
 import Modal from "@/components/Modal";
-import Input from "@/components/Input";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
