@@ -13,6 +13,7 @@
     "cookie-parser": "^1.4.6",
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.3",
+    "file-saver": "^2.0.5",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "8.5.1",
     "jwt-decode": "^3.1.2",
