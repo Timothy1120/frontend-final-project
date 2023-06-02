@@ -8,7 +8,7 @@ import Tooltip from "@/components/Tooltip";
 import Link from "next/link";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { saveAs } from 'file-saver';
+import { saveAs } from "file-saver";
 
 export default function Proposal() {
   const router = useRouter();
@@ -37,20 +37,23 @@ export default function Proposal() {
 
   const handleDownload = async (proposalId, name) => {
     try {
-      const response = await axios.get(`http://localhost:7000/api/proposal/${proposalId}/download`, {
-        responseType: 'blob',
-        headers: {
-          'Authorization': `Bearer ${token}`,
+      const response = await axios.get(
+        `http://localhost:7000/api/proposal/${proposalId}/download`,
+        {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
+      );
 
-      const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
 
       saveAs(pdfBlob, `proposal_${name}.pdf`);
     } catch (error) {
       console.error(error);
     }
-  }
+  };
   return (
     <div className="font-poppins">
       <Navbar />
@@ -154,9 +157,15 @@ export default function Proposal() {
                           {data.angkatan}
                         </td>
                         <td className="px-4 py-2 font-normal">
-                          {data.status_approval === 'Menunggu' && (<span className="text-warning">Menunggu</span>)}
-                          {data.status_approval === 'Disetujui' && (<span className="text-success">Disetujui</span>)}
-                          {data.status_approval === 'Ditolak' && (<span className="text-danger">Ditolak</span>)}
+                          {data.status_approval === "Menunggu" && (
+                            <span className="text-warning">Menunggu</span>
+                          )}
+                          {data.status_approval === "Disetujui" && (
+                            <span className="text-success">Disetujui</span>
+                          )}
+                          {data.status_approval === "Ditolak" && (
+                            <span className="text-danger">Ditolak</span>
+                          )}
                         </td>
                         <td className="px-4 py-2 font-normal text-warning">
                           Belum Diterbitkan
@@ -164,25 +173,29 @@ export default function Proposal() {
                         <td className="px-4 py-2">
                           <Tooltip text={"Tools"} className={"top-[6.5rem]"}>
                             <div className="flex flex-col divide-y divide-neutral-500 text-center">
-                              <button className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200" onClick={() => handleDownload(data.id, data.nama_mahasiswa)}>Unduh Proposal</button>
-                              <Link href={"/"} className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200">
-                                Unduh Surat Rekomendasi
-                              </Link>
+                              <button
+                                className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                                onClick={() =>
+                                  handleDownload(data.id, data.nama_mahasiswa)
+                                }
+                              >
+                                Unduh Proposal
+                              </button>
                               <Link
-                                href={"proposal/detail"}
+                                href={`detail-proposal/${data.id}`}
                                 className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
                               >
                                 Lihat Detail
                               </Link>
                               <Link
                                 href={"proposal/detail"}
-                                className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                                className="px-4 py-2 text-success hover:bg-gray-200 transition-colors duration-200"
                               >
                                 Approve Proposal
                               </Link>
                               <Link
                                 href={"proposal/detail"}
-                                className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                                className="px-4 py-2 text-danger hover:bg-gray-200 transition-colors duration-200"
                               >
                                 Reject Proposal
                               </Link>
@@ -191,7 +204,6 @@ export default function Proposal() {
                         </td>
                       </tr>
                     ))}
-
                   </tbody>
                 </table>
               )}
@@ -199,7 +211,7 @@ export default function Proposal() {
           </main>
           <Footer />
         </div>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 }
