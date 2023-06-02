@@ -161,25 +161,25 @@ export default function Proposal() {
                         <td className="px-4 py-2">
                           <Tooltip text={"Tools"} className={"top-[6.5rem]"}>
                             <div className="flex flex-col divide-y divide-neutral-500 text-center">
-                              <button className="px-4 py-2" onClick={() => handleDownload(data.id, data.nama_mahasiswa)}>Unduh Proposal</button>
-                              <Link href={"/"} className="px-4 py-2">
+                              <button className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200" onClick={() => handleDownload(data.id, data.nama_mahasiswa)}>Unduh Proposal</button>
+                              <Link href={"/"} className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200">
                                 Unduh Surat Rekomendasi
                               </Link>
                               <Link
                                 href={"proposal/detail"}
-                                className="px-4 py-2"
+                                className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
                               >
                                 Lihat Detail
                               </Link>
                               <Link
                                 href={"proposal/detail"}
-                                className="px-4 py-2"
+                                className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
                               >
                                 Approve Proposal
                               </Link>
                               <Link
                                 href={"proposal/detail"}
-                                className="px-4 py-2"
+                                className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
                               >
                                 Reject Proposal
                               </Link>
