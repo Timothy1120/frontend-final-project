@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import Spinner from "@/components/Spinner";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Tooltip from "@/components/Tooltip";
@@ -15,6 +16,7 @@ export default function Proposal() {
   const { id } = router.query;
 
   const [dataProposal, setDataProposal] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // State for loading
 
   const token = Cookies.get("token");
   useEffect(() => {
@@ -25,9 +27,14 @@ export default function Proposal() {
           const response = await axios.get(
             `http://localhost:7000/api/proposal/${id}/proposals`
           );
-          setDataProposal(response.data.data);
+          // Introduce a delay of 2 seconds before setting the data
+          setTimeout(() => {
+            setDataProposal(response.data.data);
+            setIsLoading(false);
+          }, 1000);
         } catch (error) {
           console.error(error);
+          setIsLoading(false); // Set loading state to false in case of error
         }
       };
 
@@ -140,7 +147,9 @@ export default function Proposal() {
               <div className="text-base text-darkblue-04 font-bold mt-9 mb-6">
                 Daftar Pengajuan Proposal
               </div>
-              {dataProposal.length === 0 ? (
+              {isLoading ? (
+                <Spinner />
+              ) : dataProposal.length === 0 ? (
                 <div className="text-3xl font-light text-neutral-03 mt-4 text-center">
                   Belum ada pengajuan proposal
                 </div>
