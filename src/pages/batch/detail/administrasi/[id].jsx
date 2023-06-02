@@ -13,24 +13,27 @@ import { saveAs } from 'file-saver';
 export default function Proposal() {
   const router = useRouter();
   const { id } = router.query;
-  const batchId = id;
+
   const [dataProposal, setDataProposal] = useState([]);
+
   const token = Cookies.get("token");
   useEffect(() => {
-    const fetchDataProposal = async () => {
-      try {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        const response = await axios.get(
-          `http://localhost:7000/api/proposal/${batchId}/proposals`
-        );
-        setDataProposal(response.data.data);
-        console.log(dataProposal);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchDataProposal();
-  }, []);
+    if (router.isReady) {
+      const fetchDataProposal = async () => {
+        try {
+          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          const response = await axios.get(
+            `http://localhost:7000/api/proposal/${id}/proposals`
+          );
+          setDataProposal(response.data.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      fetchDataProposal();
+    }
+  }, [router.isReady]);
 
   const handleDownload = async (proposalId, name) => {
     try {
@@ -70,7 +73,7 @@ export default function Proposal() {
                   id="tambah-dokumen"
                   name="tambah-dokumen"
                   text="Tambah Dokumen"
-                  to="proposal/upload-dokumen"
+                  to="upload-dokumen"
                   textSize="text-sm"
                 />
                 <Button

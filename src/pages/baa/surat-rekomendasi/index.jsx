@@ -138,11 +138,8 @@ export default function SuratRekomendasi() {
                 Belum Diterbitkan
               </td>
               <td className="px-4 py-2">
-                <Tooltip text={"Tools"} className={"top-[5.5rem]"}>
+                <Tooltip text={"Tools"} className={"top-16"}>
                   <div className="flex flex-col divide-y divide-neutral-500 text-center">
-                    <Link href={"/"} className="px-4 py-2">
-                      Unduh Proposal
-                    </Link>
                     <Link href={"/"} className="px-4 py-2">
                       Generate Surat Rekomendasi
                     </Link>
@@ -167,11 +164,8 @@ export default function SuratRekomendasi() {
                 Sudah Diterbitkan
               </td>
               <td className="px-4 py-2">
-                <Tooltip text={"Tools"} className={"top-[5.5rem]"}>
+                <Tooltip text={"Tools"} className={"top-16"}>
                   <div className="flex flex-col divide-y divide-neutral-500 text-center">
-                    <Link href={"/"} className="px-4 py-2">
-                      Unduh Proposal
-                    </Link>
                     <Link href={"/"} className="px-4 py-2">
                       Generate Surat Rekomendasi
                     </Link>
