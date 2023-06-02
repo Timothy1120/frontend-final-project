@@ -11,8 +11,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { saveAs } from "file-saver";
 
-
-
 export default function Proposal() {
   const router = useRouter();
   const { id } = router.query;
@@ -64,6 +62,53 @@ export default function Proposal() {
     }
   };
 
+  const handleApprove = async (proposalId) => {
+    try {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await axios.put(
+        `http://localhost:7000/api/proposal/${proposalId}/approve`
+      );
+
+      if (response.status === 200) {
+        setDataProposal(
+          dataProposal.map((item) =>
+            item.id === proposalId
+              ? { ...item, status_approval: "Disetujui" }
+              : item
+          )
+        );
+        // router.reload();
+      } else {
+        console.error("Error approving proposal");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleReject = async (proposalId) => {
+    try {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await axios.put(
+        `http://localhost:7000/api/proposal/${proposalId}/reject`
+      );
+
+      if (response.status === 200) {
+        setDataProposal(
+          dataProposal.map((item) =>
+            item.id === proposalId
+              ? { ...item, status_approval: "Ditolak" }
+              : item
+          )
+        );
+        // router.reload();
+      } else {
+        console.error("Error rejecting proposal");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="font-poppins">
@@ -200,18 +245,18 @@ export default function Proposal() {
                               >
                                 Lihat Detail
                               </Link>
-                              <Link
-                                href={"proposal/detail"}
+                              <button
                                 className="px-4 py-2 text-success hover:bg-gray-200 transition-colors duration-200"
+                                onClick={() => handleApprove(data.id)}
                               >
                                 Approve Proposal
-                              </Link>
-                              <Link
-                                href={"proposal/detail"}
+                              </button>
+                              <button
                                 className="px-4 py-2 text-danger hover:bg-gray-200 transition-colors duration-200"
+                                onClick={() => handleReject(data.id)}
                               >
                                 Reject Proposal
-                              </Link>
+                              </button>
                             </div>
                           </Tooltip>
                         </td>
