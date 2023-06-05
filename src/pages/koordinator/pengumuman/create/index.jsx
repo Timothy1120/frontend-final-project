@@ -6,14 +6,12 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
-import dynamic from 'next/dynamic';
-const TextEditor = dynamic(
-  () => import('@/components/TextEditor'),
-  { ssr: false }
-);
+import dynamic from "next/dynamic";
+const TextEditor = dynamic(() => import("@/components/TextEditor"), {
+  ssr: false,
+});
 export default function CreatePengumuman() {
   const token = Cookies.get("token");
-  console.log(token);
   const decoded = token ? jwt_decode(token) : null;
   const userId = decoded ? decoded.data.user.id : null;
   const router = useRouter();
@@ -30,7 +28,7 @@ export default function CreatePengumuman() {
   function handleSubmit(event) {
     event.preventDefault();
     if (!userId) {
-      alert('user id tidak ditemukan')
+      alert("user id tidak ditemukan");
     }
 
     axios.interceptors.request.use((config) => {
