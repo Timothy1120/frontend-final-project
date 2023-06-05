@@ -6,6 +6,7 @@ import Modal from "@/components/Modal";
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { useRouter } from "next/router";
+import axios from "axios";
 const TextEditor = dynamic(
   () => import('@/components/TextEditor'),
   { ssr: false }
@@ -51,7 +52,15 @@ export default function UploadDokumen() {
         }, 1000);
       })
       .catch((error) => {
-        setError(error.response.data);
+        console.log('error: ', typeof error.response.data);
+        let errorMessage;
+        if (typeof error.response.data === 'string') {
+          errorMessage = error.response.data;
+        } else if (typeof error.response.data === 'object') {
+          console.log(error.response.data.error);
+          errorMessage = error.response.data.error;
+        }
+        setError(errorMessage);
         setModalOpen(true);
       });
   };
@@ -65,7 +74,7 @@ export default function UploadDokumen() {
     console.log(file);
     let error = '';
 
-    const allowedFileTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/jpg', 'image/png', 'application/x-rar-compressed', 'application/zip'];
+    const allowedFileTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/jpg', 'image/png', 'application/x-rar-compressed', 'application/zip', 'application/x-zip-compressed'];
 
     if (!file) {
       error = 'File harus diupload.';
@@ -144,22 +153,22 @@ export default function UploadDokumen() {
                     Attachment
                   </label>
                   <div className="flex items-center justify-center w-full">
-                    <label forhtml="dropzone-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 ">
+                    <label forhtml="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 ">
                       <div className="flex flex-col items-center justify-center pt-5 pb-6" onDrop={handleFileChange}
                         onDragOver={handleDragOver}>
                         {fileName ?
                           <>
-                            <svg fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400">
+                            <svg fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-10 h-10 mb-3 text-gray-400">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                             </svg>
                             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">{fileName}</p>
-                            <button onClick={handleRemoveFile} class="text-xs text-white p-1 rounded-sm bg-red-600">Remove File</button>
+                            <button onClick={handleRemoveFile} className="text-xs text-white p-1 rounded-sm bg-red-600">Remove File</button>
                           </> :
                           <>
-                            <svg fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400">
+                            <svg fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="w-10 h-10 mb-3 text-gray-400">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18" />
                             </svg>
-                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
                             <p className="text-xs text-gray-500 dark:text-gray-400">PDF, DOC, DOCX, PPT, PPTX, JPEG, JPG, PNG, RAR, or ZIP (MAX. 10MB - single file)</p>
                           </>
                         }

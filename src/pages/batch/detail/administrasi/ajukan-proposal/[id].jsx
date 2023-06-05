@@ -28,7 +28,6 @@ export default function AjukanProposal() {
         const token = Cookies.get("token");
 
         const formData = new FormData();
-
         formData.append('jenis_program', jenisProgram);
         formData.append('dokumen_proposal', file);
         formData.append('batchId', id);

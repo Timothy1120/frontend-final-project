@@ -17,6 +17,7 @@ export default function Proposal() {
   const { id } = router.query;
 
   const [dataProposal, setDataProposal] = useState([]);
+  const [document, setDocument] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // State for loading
 
   const token = Cookies.get("token");
@@ -39,9 +40,30 @@ export default function Proposal() {
         }
       };
 
+      const fetchDocument = async () => {
+        try {
+          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          const response = await axios.get(
+            `http://localhost:7000/api/document/${id}/documents`
+          );
+          // Introduce a delay of 2 seconds before setting the data
+          setTimeout(() => {
+            setDocument(response.data.data);
+            setIsLoading(false);
+          }, 1000);
+        } catch (error) {
+          console.error(error);
+          setIsLoading(false); // Set loading state to false in case of error
+        }
+      };
+
       fetchDataProposal();
+      fetchDocument();
     }
   }, [router.isReady]);
+
+  console.log(dataProposal);
+  console.log(document);
 
   const handleDownload = async (proposalId, name) => {
     try {
@@ -62,6 +84,64 @@ export default function Proposal() {
       console.error(error);
     }
   };
+
+  const handleDocumentDownload = async (documentId, name) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:7000/api/document/${documentId}/download`,
+        {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Mendapatkan ekstensi berdasarkan tipe konten
+      let extension = "";
+      switch (response.headers['content-type']) {
+        case "application/pdf":
+          extension = ".pdf";
+          break;
+        case "application/msword":
+        case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+          extension = ".docx";
+          break;
+        case "application/vnd.ms-powerpoint":
+        case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+          extension = ".pptx";
+          break;
+        case "application/vnd.ms-excel":
+        case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+          extension = ".xlsx";
+          break;
+        case "image/png":
+          extension = ".png";
+          break;
+        case "image/jpeg":
+          extension = ".jpeg";
+          break;
+        case "image/jpg":
+          extension = ".jpg";
+          break;
+        case "application/zip":
+          extension = ".zip";
+          break;
+        case "application/x-rar-compressed":
+          extension = ".rar";
+          break;
+        // tambahkan lebih banyak kasus jika diperlukan
+        default:
+          extension = ".txt";
+      }
+
+      const blob = new Blob([response.data], { type: response.headers['content-type'] });
+      saveAs(blob, `document_${name}${extension}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   const handleApprove = async (proposalId) => {
     try {
@@ -149,26 +229,29 @@ export default function Proposal() {
                 <div className="text-base text-darkblue-04 font-bold mb-6">
                   Dokumen
                 </div>
-                <div className="grid grid-cols-5">
-                  <div className="text-center">
-                    <div className="flex justify-center">
-                      <GrDocumentText className="w-5 h-auto" />
+
+                {isLoading ? (
+                  <Spinner size={6} />
+                ) :
+                  document.length === 0 ? (
+                    <div className="text-sm font-light text-neutral-03 mt-4 text-center">
+                      Belum ada dokumen administrasi
                     </div>
-                    <div className="mt-4">Dokumen.pdf</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="flex justify-center">
-                      <GrDocumentText className="w-5 h-auto" />
-                    </div>
-                    <div className="mt-4">Dokumen.pdf</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="flex justify-center">
-                      <GrDocumentText className="w-5 h-auto" />
-                    </div>
-                    <div className="mt-4">Dokumen.pdf</div>
-                  </div>
-                </div>
+                  )
+                    : (
+                      <div className="grid grid-cols-10">
+                        {document.map((data, index) => (
+                          <div className="text-center cursor-pointer" key={index} onClick={() => handleDocumentDownload(data.id, data.document_title)}>
+                            <div className="flex justify-center ">
+                              <GrDocumentText className="w-5 h-auto" />
+                            </div>
+                            <div className="mt-4 text-darkblue-04">{data.document_title}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )
+                }
+
               </div>
               <div className="text-base text-darkblue-04 font-bold mt-9 mb-6">
                 Daftar Pengajuan Proposal
