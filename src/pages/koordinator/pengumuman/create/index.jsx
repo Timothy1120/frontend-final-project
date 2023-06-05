@@ -1,13 +1,16 @@
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
-// import TextEditor from "@/components/TextEditor";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
-
+import dynamic from 'next/dynamic';
+const TextEditor = dynamic(
+  () => import('@/components/TextEditor'),
+  { ssr: false }
+);
 export default function CreatePengumuman() {
   const token = Cookies.get("token");
   console.log(token);
@@ -90,7 +93,7 @@ export default function CreatePengumuman() {
                     ))}
                   </select>
                 </div>
-                {/* <TextEditor value={isiPengumuman} setValue={setIsiPengumuman} /> */}
+                <TextEditor value={isiPengumuman} setValue={setIsiPengumuman} />
                 <div className="flex justify-end">
                   <button
                     type="submit"

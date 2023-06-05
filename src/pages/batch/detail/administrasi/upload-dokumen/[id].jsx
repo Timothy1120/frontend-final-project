@@ -1,13 +1,15 @@
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
-import Button from "@/components/Button";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
-import TextEditor from "@/components/TextEditor";
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { useRouter } from "next/router";
-
+const TextEditor = dynamic(
+  () => import('@/components/TextEditor'),
+  { ssr: false }
+);
 
 export default function UploadDokumen() {
   const router = useRouter();
@@ -142,7 +144,7 @@ export default function UploadDokumen() {
                     Attachment
                   </label>
                   <div class="flex items-center justify-center w-full">
-                    <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 ">
+                    <label forhtml="dropzone-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 ">
                       <div class="flex flex-col items-center justify-center pt-5 pb-6" onDrop={handleFileChange}
                         onDragOver={handleDragOver}>
                         {fileName ?
