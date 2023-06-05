@@ -10,6 +10,7 @@ import Link from "next/link";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { saveAs } from "file-saver";
+import { GrDocumentText } from "react-icons/gr";
 
 export default function Proposal() {
   const router = useRouter();
@@ -265,6 +266,31 @@ export default function Proposal() {
                   </tbody>
                 </table>
               )}
+              <div className="rounded-sm border border-neutral-02 shadow-md mt-6 px-5 py-5">
+                <div className="text-base text-darkblue-04 font-bold mb-6">
+                  Dokumen
+                </div>
+                <div className="grid grid-cols-5 gap-4">
+                  <div className="text-center">
+                    <div className="flex justify-center">
+                      <GrDocumentText className="w-10 h-auto" />
+                    </div>
+                    <div className="mt-4">Dokumen.pdf</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex justify-center">
+                      <GrDocumentText className="w-10 h-auto" />
+                    </div>
+                    <div className="mt-4">Dokumen.pdf</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex justify-center">
+                      <GrDocumentText className="w-10 h-auto" />
+                    </div>
+                    <div className="mt-4">Dokumen.pdf</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </main>
           <Footer />

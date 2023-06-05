@@ -7,11 +7,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { IoSchoolOutline } from "react-icons/io5";
+import Spinner from "@/components/Spinner";
 
 export default function Dashboard({ userData }) {
   const [dataPengumuman, setDataPengumuman] = useState([]);
   const [dataBatch, setDataBatch] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isDataBatchLoading, setDataBatchIsLoading] = useState(true); // State for loading
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,11 +22,12 @@ export default function Dashboard({ userData }) {
         axios.get("http://localhost:7000/api/pengumuman"),
         axios.get("http://localhost:7000/api/batch/allbatches"),
       ]);
+
       setTimeout(() => {
         setDataPengumuman(responsePengumuman.data.data.slice(0, 5));
         setDataBatch(responseBatch.data.data);
-        setIsLoading(false);
-      }, 500);
+        setDataBatchIsLoading(false);
+      }, 1000);
     };
 
     fetchData().catch((error) => console.error("Error:", error));
@@ -35,7 +37,7 @@ export default function Dashboard({ userData }) {
     <MainLayout>
       <div className="flex mx-6 my-8 space-x-4">
         <div className="w-3/5">
-          {isLoading ? (
+          {isDataBatchLoading ? (
             <Spinner />
           ) : dataBatch.length === 0 ? (
             <div className="text-3xl font-light text-neutral-03 mt-4 text-center">
@@ -68,7 +70,7 @@ export default function Dashboard({ userData }) {
           </div>
           <hr className="border-b border-neutral-02 mt-2" />
           <div>
-            {isLoading ? (
+            {isDataBatchLoading ? (
               <Spinner />
             ) : dataPengumuman.length === 0 ? (
               <div className="text-sm mt-4 text-center">
