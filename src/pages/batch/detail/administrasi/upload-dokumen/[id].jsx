@@ -3,8 +3,8 @@ import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
-import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import dynamic from "next/dynamic";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 const TextEditor = dynamic(
@@ -16,9 +16,8 @@ export default function UploadDokumen() {
   const router = useRouter();
   const { id } = router.query;
 
-  const [judul, setJudul] = useState('');
-  const [deskripsi, setDeskripsi] = useState('');
-
+  const [judul, setJudul] = useState("");
+  const [deskripsi, setDeskripsi] = useState("");
 
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState(null);
@@ -34,14 +33,14 @@ export default function UploadDokumen() {
     e.preventDefault();
     const formData = new FormData();
 
-    formData.append('document_title', judul);
-    formData.append('document_description', deskripsi);
-    formData.append('dokumen_administrasi', file);
-    formData.append('batchId', id);
+    formData.append("document_title", judul);
+    formData.append("document_description", deskripsi);
+    formData.append("dokumen_administrasi", file);
+    formData.append("batchId", id);
     axios
-      .post('http://localhost:8000/document', formData, {
+      .post("http://localhost:8000/document", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((res) => {
@@ -70,18 +69,22 @@ export default function UploadDokumen() {
   };
 
   const handleFileChange = (event) => {
-    const file = event.type === 'drop' ? event.dataTransfer.files[0] : event.target.files[0];
+    const file =
+      event.type === "drop"
+        ? event.dataTransfer.files[0]
+        : event.target.files[0];
     console.log(file);
-    let error = '';
+    let error = "";
 
     const allowedFileTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/jpg', 'image/png', 'application/x-rar-compressed', 'application/zip', 'application/x-zip-compressed'];
 
     if (!file) {
-      error = 'File harus diupload.';
+      error = "File harus diupload.";
     } else if (!allowedFileTypes.includes(file.type)) {
-      error = 'File harus bertipe PDF, DOC, DOCX, PPT, PPTX, JPEG, JPG, PNG, RAR, atau ZIP.';
+      error =
+        "File harus bertipe PDF, DOC, DOCX, PPT, PPTX, JPEG, JPG, PNG, RAR, atau ZIP.";
     } else if (file.size > 10 * 1024 * 1024) {
-      error = 'File tidak boleh lebih dari 10MB.';
+      error = "File tidak boleh lebih dari 10MB.";
     }
 
     setFile(file);
@@ -99,9 +102,9 @@ export default function UploadDokumen() {
     setErrors((prevErrors) => ({ ...prevErrors, file: null }));
   };
 
-  console.log('Judul :', judul);
-  console.log('Deskripsi :', deskripsi);
-  console.log('File :', file);
+  console.log("Judul :", judul);
+  console.log("Deskripsi :", deskripsi);
+  console.log("File :", file);
 
   return (
     <div className="font-poppins">
@@ -113,8 +116,9 @@ export default function UploadDokumen() {
             <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
               <div className="p-6">
                 <h2
-                  className={`text-2xl mb-4 ${success ? "text-green-600" : "text-red-600"
-                    }`}
+                  className={`text-2xl mb-4 ${
+                    success ? "text-green-600" : "text-red-600"
+                  }`}
                 >
                   {success ? "Success" : "Error"}
                 </h2>
@@ -147,11 +151,7 @@ export default function UploadDokumen() {
                   <TextEditor value={deskripsi} setValue={setDeskripsi} />
                 </div>
                 <div className="mb-3">
-                  <label
-                    className="block font-medium mb-2"
-                  >
-                    Attachment
-                  </label>
+                  <label className="block font-medium mb-2">Attachment</label>
                   <div className="flex items-center justify-center w-full">
                     <label forhtml="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 ">
                       <div className="flex flex-col items-center justify-center pt-5 pb-6" onDrop={handleFileChange}
@@ -171,14 +171,22 @@ export default function UploadDokumen() {
                             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span> or drag and drop</p>
                             <p className="text-xs text-gray-500 dark:text-gray-400">PDF, DOC, DOCX, PPT, PPTX, JPEG, JPG, PNG, RAR, or ZIP (MAX. 10MB - single file)</p>
                           </>
-                        }
+                        )}
                       </div>
-                      <input id="dropzone-file" name="dokumen_administrasi" type="file" className="hidden" onChange={handleFileChange} />
+                      <input
+                        id="dropzone-file"
+                        name="dokumen_administrasi"
+                        type="file"
+                        className="hidden"
+                        onChange={handleFileChange}
+                      />
                     </label>
                   </div>
-                  {errors.file && <p className="text-red-500 text-xs mt-2">{errors.file}</p>}
+                  {errors.file && (
+                    <p className="text-red-500 text-xs mt-2">{errors.file}</p>
+                  )}
                 </div>
-                <div className="flex justify-between mt-6">
+                <div className="flex justify-end mt-6">
                   <button
                     type="submit"
                     id="tambah-dokumen"
