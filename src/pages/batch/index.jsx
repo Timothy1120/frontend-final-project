@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/user/koordinator/Sidebar";
+import Sidebar from "@/components/user/Sidebar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import { IoSchoolSharp } from "react-icons/io5";
@@ -15,7 +15,9 @@ export default function DaftarBatch() {
     const fetchDataBatch = async () => {
       try {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        const response = await axios.get("http://localhost:7000/api/batch/allbatches");
+        const response = await axios.get(
+          "http://localhost:7000/api/batch/allbatches"
+        );
         setDataBatch(response.data.data);
       } catch (error) {
         console.error(error);
