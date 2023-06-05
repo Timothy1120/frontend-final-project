@@ -1,4 +1,5 @@
 import MainLayout from "@/components/MainLayout";
+import Spinner from "@/components/Spinner";
 import Link from "next/link";
 import { FaBullhorn } from "react-icons/fa";
 import { AiOutlineTag, AiOutlineClockCircle } from "react-icons/ai";
@@ -12,34 +13,6 @@ export default function Dashboard({ userData }) {
   const [dataPengumuman, setDataPengumuman] = useState([]);
   const [dataBatch, setDataBatch] = useState([]);
   const [isDataBatchLoading, setDataBatchIsLoading] = useState(true); // State for loading
-
-  // useEffect(() => {
-  //   const fetchDataPengumuman = async () => {
-  //     try {
-
-  //       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  //       const response = await axios.get(
-  //         "http://localhost:7000/api/pengumuman"
-  //       );
-  //       setPengumuman(response.data.data.slice(0, 5));
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   const fetchDataBatch = async () => {
-  //     try {
-
-  //       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  //       const response = await axios.get("http://localhost:7000/api/batch");
-  //       setPengumuman(response.data.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //  fetchDataPengumuman();
-  //  fetchDataBatch();
-  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -97,7 +70,9 @@ export default function Dashboard({ userData }) {
           </div>
           <hr className="border-b border-neutral-02 mt-2" />
           <div>
-            {dataPengumuman.length === 0 ? (
+            {isDataBatchLoading ? (
+              <Spinner />
+            ) : dataPengumuman.length === 0 ? (
               <div className="text-sm mt-4 text-center">
                 Belum ada pengumuman
               </div>

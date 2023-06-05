@@ -133,7 +133,7 @@ export default function Proposal() {
                   id="tambah-dokumen"
                   name="tambah-dokumen"
                   text="Tambah Dokumen"
-                  to="upload-dokumen"
+                  to={`upload-dokumen/${id}`}
                   textSize="text-sm"
                 />
                 <Button
