@@ -6,9 +6,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 
-const dosenOptions = [
-  { label: "Jenny Doe, MBA", value: "Jenny Doe, MBA" },
-  { label: "John Doe, MBA", value: "John Doe, MBA" },
+const jlhOptions = [
+  { label: "1", value: "1" },
+  { label: "2", value: "2" },
 ];
 
 export default function DetailProposal() {
@@ -19,23 +19,43 @@ export default function DetailProposal() {
   const router = useRouter();
   const { id } = router.query;
 
-  const handleChange = (selectedOption) => {
+  const handleJlhChange = (selectedOption) => {
     setSelectedOption(selectedOption);
   };
 
   useEffect(() => {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    axios
-      .get(`http://localhost:7000/api/proposal/${id}/detail`)
-      .then((res) => {
-        setDataDetailProposal(res.data.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    const fetchDataDetailProposal = async () => {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios
+        .get(`http://localhost:7000/api/proposal/${id}/detail`)
+        .then((res) => {
+          setDataDetailProposal(res.data.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
+    fetchDataDetailProposal();
   }, []);
 
-  console.log(dataDetailProposal);
+  function handlePenilaiSubmit(event) {
+    event.preventDefault();
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    axios
+      .post(`http://localhost:7000/api/proposal/${proposalId}/assignjlhpenilai`, {
+        userId: userId,
+        judul: judulPengumuman,
+        deskripsi: isiPengumuman,
+        kategori: kategori,
+      })
+      .then((res) => {
+        router.push("/koordinator/pengumuman");
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  }
+
   return (
     <MainLayout>
       <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
@@ -56,10 +76,6 @@ export default function DetailProposal() {
             </div>
           </div>
           <div>
-            {/* <div className="text-lg mb-4">
-              <p className="font-semibold">Mitra</p>
-              <p className="font-normal">PT. Sample Company</p>
-            </div> */}
             <div className="text-lg mb-4">
               <p className="font-semibold">Program</p>
               <p className="font-normal">{dataDetailProposal.jenis_program}</p>
@@ -77,22 +93,6 @@ export default function DetailProposal() {
               )}
             </div>
           </div>
-          {/* <div>
-            <div className="text-lg mb-4">
-              <p className="font-semibold">Minimal Penilaian</p>
-              <p className="font-normal">Belum ada</p>
-            </div>
-            <div className="text-lg">
-              <Input
-                label={"Minimal Nilai Approval"}
-                inputType={"number"}
-                inputFor={"minimal-nilai"}
-                inputId={"minimal-nilai"}
-                inputName={"minimal-nilai"}
-                placeholder={"Isi Minimal Nilai Approval"}
-              />
-            </div>
-          </div> */}
         </div>
         <div className="grid grid-cols-2 mt-8 mb-4">
           <div>
@@ -102,21 +102,16 @@ export default function DetailProposal() {
           <form>
             <div>
               <label className="block font-medium mb-2">
-                Assign Dosen Penilai
+                Jumlah Penilai
               </label>
+
               <InputWithOption
-                options={dosenOptions}
-                onChange={handleChange}
-                placeholder={"Pilih Dosen Penilai"}
+                options={jlhOptions}
+                onChange={handleJlhChange}
+                placeholder={"Pilih Jumlah Penilai"}
               />
-            </div>
-            <div className="mt-4 flex justify-end">
-              <Button
-                variant="primary"
-                to="/"
-                text="Assign"
-                textSize="text-sm"
-              />
+              <button type="submit" className="mt-2 px-2 py-[1rem] bg-darkblue-04 text-neutral-01 rounded-lg justify-end">Submit</button>
+
             </div>
           </form>
         </div>

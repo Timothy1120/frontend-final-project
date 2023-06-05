@@ -44,61 +44,6 @@ export default function SuratRekomendasi() {
   return (
     <MainLayout>
       <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
-        {/* {role == "student" && (
-          <div className="flex space-x-8">
-            <Button
-              variant="primary"
-              id="ajukan-proposal"
-              name="ajukan-proposal"
-              text="Ajukan Proposal"
-              to="/proposal"
-            />
-            <Button
-              variant="primary"
-              id="unduh-template"
-              name="unduh-template"
-              text="Unduh Template"
-              to="/proposal"
-            />
-          </div>
-        )}
-        {role == "admin" && (
-          <div className="flex space-x-8">
-            <Button
-              variant="primary"
-              id="upload-proposal"
-              name="upload-proposal"
-              text="Upload Proposal"
-              to="proposal/upload-proposal"
-              textSize="text-sm"
-            />
-            <Button
-              variant="primary"
-              id="tambah-dokumen"
-              name="tambah-dokumen"
-              text="Tambah Dokumen"
-              to="proposal/upload-dokumen"
-              textSize="text-sm"
-            />
-            <Button
-              variant="primary"
-              id="mahasiswa-eligible"
-              name="mahasiswa-eligible"
-              text="Mahasiswa Eligible"
-              to="proposal/eligible"
-              textSize="text-sm"
-            />
-            <Button
-              variant="primary"
-              id="penerimaan-mitra"
-              name="penerimaan-mitra"
-              text="Lulus Penerimaan Mitra"
-              to="proposal/kelulusan"
-              textSize="text-sm"
-            />
-          </div>
-        )} */}
-
         <div className="text-base text-darkblue-04 font-bold mt-9 mb-6">
           Daftar Pengajuan Proposal
         </div>
