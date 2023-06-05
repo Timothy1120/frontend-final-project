@@ -109,7 +109,7 @@ export default function SuratRekomendasi() {
             Belum ada pengajuan proposal
           </div>
         ) : (
-          <table className="w-full border-collapse bg-white text-left text-sm text-gray-500 max-w-4xl">
+          <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
             <thead className="bg-gray-50">
               <tr>
                 <th
