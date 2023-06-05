@@ -7,7 +7,7 @@ import Modal from "@/components/Modal";
 import TextEditor from "@/components/TextEditor";
 import { useState } from 'react';
 import { useRouter } from "next/router";
-import axios from 'axios';
+
 
 export default function UploadDokumen() {
   const router = useRouter();
@@ -133,18 +133,10 @@ export default function UploadDokumen() {
                 </div>
                 <div className="mb-3">
                   <label className="text-base">Deskripsi</label>
-                  {/* <textarea
-                    id="description"
-                    name="description"
-                    type=""
-                    className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
-                    onChange={handleDeskripsiChange}
-                  ></textarea> */}
                   <TextEditor value={deskripsi} setValue={setDeskripsi} />
                 </div>
                 <div className="mb-3">
                   <label
-                    htmlFor="attachment"
                     className="block font-medium mb-2"
                   >
                     Attachment
@@ -176,7 +168,14 @@ export default function UploadDokumen() {
                   {errors.file && <p className="text-red-500 text-xs mt-2">{errors.file}</p>}
                 </div>
                 <div className="flex justify-between mt-6">
-                  <Button variant="primary" to="/" text="Tambah" />
+                  <button
+                    type="submit"
+                    id="tambah-dokumen"
+                    name="tambah-dokumen"
+                    className="px-6 py-[1.125rem] bg-darkblue-04 text-neutral-01 rounded-lg justify-center"
+                  >
+                    Tambah
+                  </button>
                 </div>
               </form>
             </div>
