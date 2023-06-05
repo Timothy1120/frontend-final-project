@@ -1,5 +1,5 @@
 import Navbar from "./Navbar";
-import Sidebar from "./user/koordinator/Sidebar";
+import Sidebar from "./user/Sidebar";
 import Footer from "./Footer";
 
 const MainLayout = ({ children }) => {

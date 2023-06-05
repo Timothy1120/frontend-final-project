@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Button({
@@ -48,20 +47,10 @@ export default function Button({
           id={id}
           name={name}
           {...props}
-          className={`flex ${buttonSize} ${buttonColor} text-neutral-01 rounded-lg justify-center ${className}`}
+          className={`inline-flex ${buttonSize} ${buttonColor} text-neutral-01 rounded-lg items-center ${className}`}
         >
-          <div>
-            {icon && (
-              <Image
-                src={icon}
-                height={22}
-                width={22}
-                alt="icon-button"
-                className="mr-2 text-white"
-              ></Image>
-            )}
-          </div>
-          <div className={`font-bold ${textSize}`}>{text}</div>
+          <div>{icon}</div>
+          <di className={` font-bold ${textSize}`}>{text}</di>
         </div>
       </Link>
     </div>

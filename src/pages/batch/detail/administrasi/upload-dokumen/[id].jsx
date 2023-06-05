@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/user/koordinator/Sidebar";
+import Sidebar from "@/components/user/Sidebar";
 import Footer from "@/components/Footer";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";

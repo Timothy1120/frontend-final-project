@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/user/koordinator/Sidebar";
+import Sidebar from "@/components/user/Sidebar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import Spinner from "@/components/Spinner";
@@ -99,7 +99,7 @@ export default function Proposal() {
 
       // Mendapatkan ekstensi berdasarkan tipe konten
       let extension = "";
-      switch (response.headers['content-type']) {
+      switch (response.headers["content-type"]) {
         case "application/pdf":
           extension = ".pdf";
           break;
@@ -135,13 +135,14 @@ export default function Proposal() {
           extension = ".txt";
       }
 
-      const blob = new Blob([response.data], { type: response.headers['content-type'] });
+      const blob = new Blob([response.data], {
+        type: response.headers["content-type"],
+      });
       saveAs(blob, `document_${name}${extension}`);
     } catch (error) {
       console.error(error);
     }
   };
-
 
   const handleApprove = async (proposalId) => {
     try {
@@ -232,26 +233,30 @@ export default function Proposal() {
 
                 {isLoading ? (
                   <Spinner size={6} />
-                ) :
-                  document.length === 0 ? (
-                    <div className="text-sm font-light text-neutral-03 mt-4 text-center">
-                      Belum ada dokumen administrasi
-                    </div>
-                  )
-                    : (
-                      <div className="grid grid-cols-10">
-                        {document.map((data, index) => (
-                          <div className="text-center cursor-pointer" key={index} onClick={() => handleDocumentDownload(data.id, data.document_title)}>
-                            <div className="flex justify-center ">
-                              <GrDocumentText className="w-5 h-auto" />
-                            </div>
-                            <div className="mt-4 text-darkblue-04">{data.document_title}</div>
-                          </div>
-                        ))}
+                ) : document.length === 0 ? (
+                  <div className="text-sm font-light text-neutral-03 mt-4 text-center">
+                    Belum ada dokumen administrasi
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-10">
+                    {document.map((data, index) => (
+                      <div
+                        className="text-center cursor-pointer"
+                        key={index}
+                        onClick={() =>
+                          handleDocumentDownload(data.id, data.document_title)
+                        }
+                      >
+                        <div className="flex justify-center ">
+                          <GrDocumentText className="w-5 h-auto" />
+                        </div>
+                        <div className="mt-4 text-darkblue-04">
+                          {data.document_title}
+                        </div>
                       </div>
-                    )
-                }
-
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="text-base text-darkblue-04 font-bold mt-9 mb-6">
                 Daftar Pengajuan Proposal
@@ -374,7 +379,6 @@ export default function Proposal() {
                   </tbody>
                 </table>
               )}
-
             </div>
           </main>
           <Footer />
