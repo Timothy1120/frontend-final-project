@@ -3,21 +3,19 @@ import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
-import dynamic from 'next/dynamic';
-import { useState } from 'react';
+import dynamic from "next/dynamic";
+import { useState } from "react";
 import { useRouter } from "next/router";
-const TextEditor = dynamic(
-  () => import('@/components/TextEditor'),
-  { ssr: false }
-);
+const TextEditor = dynamic(() => import("@/components/TextEditor"), {
+  ssr: false,
+});
 
 export default function UploadDokumen() {
   const router = useRouter();
   const { id } = router.query;
 
-  const [judul, setJudul] = useState('');
-  const [deskripsi, setDeskripsi] = useState('');
-
+  const [judul, setJudul] = useState("");
+  const [deskripsi, setDeskripsi] = useState("");
 
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState(null);
@@ -33,14 +31,14 @@ export default function UploadDokumen() {
     e.preventDefault();
     const formData = new FormData();
 
-    formData.append('document_title', judul);
-    formData.append('document_description', deskripsi);
-    formData.append('dokumen_administrasi', file);
-    formData.append('batchId', id);
+    formData.append("document_title", judul);
+    formData.append("document_description", deskripsi);
+    formData.append("dokumen_administrasi", file);
+    formData.append("batchId", id);
     axios
-      .post('http://localhost:8000/document', formData, {
+      .post("http://localhost:8000/document", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((res) => {
@@ -61,18 +59,33 @@ export default function UploadDokumen() {
   };
 
   const handleFileChange = (event) => {
-    const file = event.type === 'drop' ? event.dataTransfer.files[0] : event.target.files[0];
+    const file =
+      event.type === "drop"
+        ? event.dataTransfer.files[0]
+        : event.target.files[0];
     console.log(file);
-    let error = '';
+    let error = "";
 
-    const allowedFileTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image/jpeg', 'image/jpg', 'image/png', 'application/x-rar-compressed', 'application/zip'];
+    const allowedFileTypes = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/vnd.ms-powerpoint",
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "application/x-rar-compressed",
+      "application/zip",
+    ];
 
     if (!file) {
-      error = 'File harus diupload.';
+      error = "File harus diupload.";
     } else if (!allowedFileTypes.includes(file.type)) {
-      error = 'File harus bertipe PDF, DOC, DOCX, PPT, PPTX, JPEG, JPG, PNG, RAR, atau ZIP.';
+      error =
+        "File harus bertipe PDF, DOC, DOCX, PPT, PPTX, JPEG, JPG, PNG, RAR, atau ZIP.";
     } else if (file.size > 10 * 1024 * 1024) {
-      error = 'File tidak boleh lebih dari 10MB.';
+      error = "File tidak boleh lebih dari 10MB.";
     }
 
     setFile(file);
@@ -90,9 +103,9 @@ export default function UploadDokumen() {
     setErrors((prevErrors) => ({ ...prevErrors, file: null }));
   };
 
-  console.log('Judul :', judul);
-  console.log('Deskripsi :', deskripsi);
-  console.log('File :', file);
+  console.log("Judul :", judul);
+  console.log("Deskripsi :", deskripsi);
+  console.log("File :", file);
 
   return (
     <div className="font-poppins">
@@ -104,8 +117,9 @@ export default function UploadDokumen() {
             <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
               <div className="p-6">
                 <h2
-                  className={`text-2xl mb-4 ${success ? "text-green-600" : "text-red-600"
-                    }`}
+                  className={`text-2xl mb-4 ${
+                    success ? "text-green-600" : "text-red-600"
+                  }`}
                 >
                   {success ? "Success" : "Error"}
                 </h2>
@@ -138,38 +152,88 @@ export default function UploadDokumen() {
                   <TextEditor value={deskripsi} setValue={setDeskripsi} />
                 </div>
                 <div className="mb-3">
-                  <label
-                    className="block font-medium mb-2"
-                  >
-                    Attachment
-                  </label>
+                  <label className="block font-medium mb-2">Attachment</label>
                   <div className="flex items-center justify-center w-full">
-                    <label forhtml="dropzone-file" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 ">
-                      <div className="flex flex-col items-center justify-center pt-5 pb-6" onDrop={handleFileChange}
-                        onDragOver={handleDragOver}>
-                        {fileName ?
+                    <label
+                      forhtml="dropzone-file"
+                      className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 "
+                    >
+                      <div
+                        className="flex flex-col items-center justify-center pt-5 pb-6"
+                        onDrop={handleFileChange}
+                        onDragOver={handleDragOver}
+                      >
+                        {fileName ? (
                           <>
-                            <svg fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                            <svg
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth={1.5}
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                              aria-hidden="true"
+                              className="w-10 h-10 mb-3 text-gray-400"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                              />
                             </svg>
-                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">{fileName}</p>
-                            <button onClick={handleRemoveFile} class="text-xs text-white p-1 rounded-sm bg-red-600">Remove File</button>
-                          </> :
-                          <>
-                            <svg fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-10 h-10 mb-3 text-gray-400">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18" />
-                            </svg>
-                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">PDF, DOC, DOCX, PPT, PPTX, JPEG, JPG, PNG, RAR, or ZIP (MAX. 10MB - single file)</p>
+                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                              {fileName}
+                            </p>
+                            <button
+                              onClick={handleRemoveFile}
+                              className="text-xs text-white p-1 rounded-sm bg-red-600"
+                            >
+                              Remove File
+                            </button>
                           </>
-                        }
+                        ) : (
+                          <>
+                            <svg
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth={1.5}
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                              aria-hidden="true"
+                              className="w-10 h-10 mb-3 text-gray-400"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"
+                              />
+                            </svg>
+                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                              <span className="font-semibold">
+                                Click to upload
+                              </span>{" "}
+                              or drag and drop
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                              PDF, DOC, DOCX, PPT, PPTX, JPEG, JPG, PNG, RAR, or
+                              ZIP (MAX. 10MB - single file)
+                            </p>
+                          </>
+                        )}
                       </div>
-                      <input id="dropzone-file" name="dokumen_administrasi" type="file" className="hidden" onChange={handleFileChange} />
+                      <input
+                        id="dropzone-file"
+                        name="dokumen_administrasi"
+                        type="file"
+                        className="hidden"
+                        onChange={handleFileChange}
+                      />
                     </label>
                   </div>
-                  {errors.file && <p className="text-red-500 text-xs mt-2">{errors.file}</p>}
+                  {errors.file && (
+                    <p className="text-red-500 text-xs mt-2">{errors.file}</p>
+                  )}
                 </div>
-                <div className="flex justify-between mt-6">
+                <div className="flex justify-end mt-6">
                   <button
                     type="submit"
                     id="tambah-dokumen"
