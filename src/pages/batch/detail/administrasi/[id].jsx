@@ -130,9 +130,9 @@ export default function Proposal() {
                 />
                 <Button
                   variant="primary"
-                  id="tambah-dokumen"
-                  name="tambah-dokumen"
-                  text="Tambah Dokumen"
+                  id="upload-dokumen"
+                  name="upload-dokumen"
+                  text="Upload Dokumen"
                   to={`upload-dokumen/${id}`}
                   textSize="text-sm"
                 />
@@ -144,6 +144,31 @@ export default function Proposal() {
                   to="proposal/kelulusan"
                   textSize="text-sm"
                 />
+              </div>
+              <div className="rounded-sm border border-neutral-02 shadow-md mt-6 px-5 py-5">
+                <div className="text-base text-darkblue-04 font-bold mb-6">
+                  Dokumen
+                </div>
+                <div className="grid grid-cols-5">
+                  <div className="text-center">
+                    <div className="flex justify-center">
+                      <GrDocumentText className="w-5 h-auto" />
+                    </div>
+                    <div className="mt-4">Dokumen.pdf</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex justify-center">
+                      <GrDocumentText className="w-5 h-auto" />
+                    </div>
+                    <div className="mt-4">Dokumen.pdf</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="flex justify-center">
+                      <GrDocumentText className="w-5 h-auto" />
+                    </div>
+                    <div className="mt-4">Dokumen.pdf</div>
+                  </div>
+                </div>
               </div>
               <div className="text-base text-darkblue-04 font-bold mt-9 mb-6">
                 Daftar Pengajuan Proposal
@@ -266,31 +291,7 @@ export default function Proposal() {
                   </tbody>
                 </table>
               )}
-              <div className="rounded-sm border border-neutral-02 shadow-md mt-6 px-5 py-5">
-                <div className="text-base text-darkblue-04 font-bold mb-6">
-                  Dokumen
-                </div>
-                <div className="grid grid-cols-5 gap-4">
-                  <div className="text-center">
-                    <div className="flex justify-center">
-                      <GrDocumentText className="w-10 h-auto" />
-                    </div>
-                    <div className="mt-4">Dokumen.pdf</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="flex justify-center">
-                      <GrDocumentText className="w-10 h-auto" />
-                    </div>
-                    <div className="mt-4">Dokumen.pdf</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="flex justify-center">
-                      <GrDocumentText className="w-10 h-auto" />
-                    </div>
-                    <div className="mt-4">Dokumen.pdf</div>
-                  </div>
-                </div>
-              </div>
+
             </div>
           </main>
           <Footer />

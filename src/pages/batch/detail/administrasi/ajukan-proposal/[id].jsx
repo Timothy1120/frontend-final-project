@@ -71,10 +71,11 @@ export default function AjukanProposal() {
         setFileName(file ? file.name : null);
         setErrors((prevErrors) => ({ ...prevErrors, file: error }));
     };
+
     const handleJenisProgramChange = (event) => {
         setJenisProgram(event.target.value);
-
     };
+
     const handleDragOver = (event) => {
         event.preventDefault();
     };

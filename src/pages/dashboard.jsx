@@ -7,7 +7,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { IoSchoolOutline } from "react-icons/io5";
-import Spinner from "@/components/Spinner";
 
 export default function Dashboard({ userData }) {
   const [dataPengumuman, setDataPengumuman] = useState([]);
