@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/user/koordinator/Sidebar";
+import Sidebar from "@/components/user/Sidebar";
 import Footer from "@/components/Footer";
 import InputWithOption from "@/components/InputWithOption";
 import Modal from "@/components/Modal";
@@ -65,7 +65,7 @@ export default function TambahBatch() {
         nama_program: namaProgram,
         tahun_ajaran: Number(tahunAjaran),
         semester: selectedSemester.value,
-        ipk_minimum: ipkMinimum
+        ipk_minimum: ipkMinimum,
       })
       .then((res) => {
         setSuccess(true);
@@ -90,8 +90,9 @@ export default function TambahBatch() {
             <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
               <div className="p-6">
                 <h2
-                  className={`text-2xl mb-4 ${success ? "text-green-600" : "text-red-600"
-                    }`}
+                  className={`text-2xl mb-4 ${
+                    success ? "text-green-600" : "text-red-600"
+                  }`}
                 >
                   {success ? "Success" : "Error"}
                 </h2>
@@ -187,7 +188,12 @@ export default function TambahBatch() {
                   </div>
                 </div>
                 <div className="flex justify-end mt-10">
-                  <button type="submit" className="bg-darkblue-04 px-6 py-[1.125rem] text-neutral-01 rounded-lg">Tambah</button>
+                  <button
+                    type="submit"
+                    className="bg-darkblue-04 px-6 py-[1.125rem] text-neutral-01 rounded-lg"
+                  >
+                    Tambah
+                  </button>
                 </div>
               </form>
             </div>

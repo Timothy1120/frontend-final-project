@@ -5,7 +5,6 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import React, { useContext, useState, useEffect } from "react";
-import jwt from "jsonwebtoken";
 import { UserContext } from '../context/UserContext';
 
 

@@ -98,7 +98,7 @@ export default function Proposal() {
 
       // Mendapatkan ekstensi berdasarkan tipe konten
       let extension = "";
-      switch (response.headers['content-type']) {
+      switch (response.headers["content-type"]) {
         case "application/pdf":
           extension = ".pdf";
           break;
@@ -134,13 +134,14 @@ export default function Proposal() {
           extension = ".txt";
       }
 
-      const blob = new Blob([response.data], { type: response.headers['content-type'] });
+      const blob = new Blob([response.data], {
+        type: response.headers["content-type"],
+      });
       saveAs(blob, `document_${name}${extension}`);
     } catch (error) {
       console.error(error);
     }
   };
-
 
   const handleApprove = async (proposalId) => {
     try {
@@ -368,8 +369,9 @@ export default function Proposal() {
             </tbody>
           </table>
         )}
+
       </div>
-    </MainLayout>
+    </MainLayout >
 
   );
 }

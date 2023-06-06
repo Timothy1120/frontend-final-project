@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Sidebar from "@/components/user/koordinator/Sidebar";
+import Sidebar from "@/components/user/Sidebar";
 import Link from "next/link";
 import React, { useState } from "react";
 import InputWithOption from "@/components/InputWithOption";

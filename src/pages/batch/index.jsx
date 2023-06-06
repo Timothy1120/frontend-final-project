@@ -17,7 +17,9 @@ export default function DaftarBatch() {
     const fetchDataBatch = async () => {
       try {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        const response = await axios.get("http://localhost:7000/api/batch/allbatches");
+        const response = await axios.get(
+          "http://localhost:7000/api/batch/allbatches"
+        );
         setDataBatch(response.data.data);
       } catch (error) {
         console.error(error);

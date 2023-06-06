@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/user/koordinator/Sidebar";
+import Sidebar from "@/components/user/Sidebar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import Tooltip from "@/components/Tooltip";
@@ -9,18 +9,18 @@ import Cookies from "js-cookie";
 import jwt from "jsonwebtoken";
 
 export default function SuratPTJM() {
-  const [role, setRole] = useState("");
-  useEffect(() => {
-    const token = Cookies.get("token");
-    try {
-      const decodedToken = jwt.verify(token, "lulusta2023");
-      setRole(decodedToken.data.user.role);
-      console.log(role);
-    } catch (error) {
-      console.error(error);
-    }
-    console.log(role);
-  }, []);
+  // const [role, setRole] = useState("");
+  // useEffect(() => {
+  //   const token = Cookies.get("token");
+  //   try {
+  //     const decodedToken = jwt.verify(token, "lulusta2023");
+  //     setRole(decodedToken.data.user.role);
+  //     console.log(role);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  //   console.log(role);
+  // }, []);
 
   return (
     <div className="font-poppins">
@@ -30,17 +30,16 @@ export default function SuratPTJM() {
         <div className="w-full flex flex-col justify-between">
           <main id="sptjm-contents">
             <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
-              {role == "student" && (
-                <div className="flex justify-end">
-                  <Button
-                    variant="primary"
-                    id="ajukan-sptjm"
-                    name="ajukan-sptjm"
-                    text="Ajukan SPTJM"
-                    to="sptjm/create"
-                  />
-                </div>
-              )}
+              <div className="flex justify-end">
+                <Button
+                  variant="primary"
+                  id="ajukan-sptjm"
+                  name="ajukan-sptjm"
+                  text="Ajukan SPTJM"
+                  to="sptjm/create"
+                />
+              </div>
+
               <div className="text-lg font-bold text-darkblue-04 mt-9 mb-14">
                 Daftar Pengajuan SPTJM
               </div>
