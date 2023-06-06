@@ -26,7 +26,7 @@ export default function Dashboard({ userData }) {
         setDataPengumuman(responsePengumuman.data.data.slice(0, 5));
         setDataBatch(responseBatch.data.data);
         setDataBatchIsLoading(false);
-      }, 1000);
+      }, 600);
     };
 
     fetchData().catch((error) => console.error("Error:", error));

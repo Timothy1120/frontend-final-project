@@ -3,12 +3,18 @@ import delLogo from "../../public/images/itdel.png";
 import mbkmLogo from "../../public/images/Kampus-Merdeka-01.png";
 import { useState } from "react";
 import * as AiIcons from "react-icons/ai";
+import { useRouter } from "next/router";
 
-export default function Navbar() {
+
+export default function Navbar({ onLogout, userName }) {
   const [dropdown, setDropdown] = useState(false);
-
   const showDropdown = () => setDropdown(!dropdown);
+  const router = useRouter();
 
+  const logout = () => {
+    onLogout();
+    router.push('/login');  // redirect user to login page
+  };
   return (
     <nav className=" bg-neutral-01 font-poppins border-b border-neutral-02">
       <div className="flex flex-wrap items-center justify-between">
@@ -30,7 +36,7 @@ export default function Navbar() {
               onClick={showDropdown}
               className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-neutral-05 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-darkblue-04 md:p-0 md:w-auto"
             >
-              Hi, User
+              Hi, {userName} 😀
               <AiIcons.AiOutlineCaretDown className="ml-2" />
             </button>
             <div
@@ -51,12 +57,12 @@ export default function Navbar() {
                 </li>
               </ul>
               <div className="py-1">
-                <a
-                  href="/login"
+                <button
+                  onClick={logout}
                   className="block px-4 py-2 text-sm text-neutral-05 hover:bg-gray-100"
                 >
                   Sign out
-                </a>
+                </button>
               </div>
             </div>
           </div>

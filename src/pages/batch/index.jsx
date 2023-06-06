@@ -1,14 +1,16 @@
-import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/user/Sidebar";
-import Footer from "@/components/Footer";
 import Button from "@/components/Button";
+import MainLayout from "@/components/MainLayout";
 import { IoSchoolSharp } from "react-icons/io5";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { UserContext } from '../../context/UserContext';
 
 export default function DaftarBatch() {
+  const { user } = useContext(UserContext);
+  console.log("user-role: : ", user?.user?.role);
+
   const [dataBatch, setDataBatch] = useState([]);
   const token = Cookies.get("token");
   useEffect(() => {
@@ -26,62 +28,59 @@ export default function DaftarBatch() {
     fetchDataBatch();
   }, []);
   return (
-    <div className="font-poppins">
-      <Navbar />
-      <div className="flex flex-row">
-        <Sidebar />
-        <div className="w-full flex flex-col justify-between">
-          <main id="buka-batch-contents">
-            <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
-              <div className="flex justify-end">
-                <Button
-                  variant="primary"
-                  id="button-buka-batch"
-                  name="button-buka-batch"
-                  text="Buka Batch"
-                  to="batch/create"
-                />
-              </div>
-              <div className="w-full my-6 grid grid-cols-1 gap-8">
-                {dataBatch.length === 0 ? (
-                  <div className="text-3xl font-light text-neutral-03 mt-4 text-center">
-                    Belum ada program
-                  </div>
-                ) : (
-                  dataBatch.map((data, index) => (
-                    <Link href={`/batch/detail/${data.id}`} key={index}>
-                      <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8">
-                        <div className="flex justify-between">
-                          <div className="flex space-x-4">
-                            <IoSchoolSharp className="w-16 h-auto" />
-                            <div>
-                              <div className="text-2xl text-darkblue-04 font-bold">
-                                {data.nama_program}
-                              </div>
-                              <div className="font-medium text-xs">
-                                <div>Tanggal Mulai: {data.startDate}</div>
-                                <div>Jumlah Mahasiswa MBKM: 0 Mahasiswa</div>
-                                <div>Minimum IPK: {data.ipk_minimum}</div>
-                                <div>
-                                  Status:{" "}
-                                  {data.isFinished ? (
-                                    <span className="text-success">
-                                      Selesai
-                                    </span>
-                                  ) : (
-                                    <span className="text-darkblue-04">
-                                      Sedang Berjalan
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
+    <MainLayout>
+      <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
+        <div className="flex justify-end">
+          {user?.user?.role === 'dosen' && user?.detailInfo?.isKoordinator && (
+            <Button
+              variant="primary"
+              id="button-buka-batch"
+              name="button-buka-batch"
+              text="Buka Batch"
+              to="batch/create"
+            />
+          )}
+        </div>
+        <div className="w-full my-6 grid grid-cols-1 gap-8">
+          {dataBatch.length === 0 ? (
+            <div className="text-3xl font-light text-neutral-03 mt-4 text-center">
+              Belum ada program
+            </div>
+          ) : (
+            dataBatch.map((data, index) => (
+              <Link href={`/batch/detail/${data.id}`} key={index}>
+                <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8">
+                  <div className="flex justify-between">
+                    <div className="flex space-x-4">
+                      <IoSchoolSharp className="w-16 h-auto" />
+                      <div>
+                        <div className="text-2xl text-darkblue-04 font-bold">
+                          {data.nama_program}
+                        </div>
+                        <div className="font-medium text-xs">
+                          <div>Tanggal Mulai: {data.startDate}</div>
+                          <div>Jumlah Mahasiswa MBKM: 0 Mahasiswa</div>
+                          <div>Minimum IPK: {data.ipk_minimum}</div>
+                          <div>
+                            Status:{" "}
+                            {data.isFinished ? (
+                              <span className="text-success">
+                                Selesai
+                              </span>
+                            ) : (
+                              <span className="text-darkblue-04">
+                                Sedang Berjalan
+                              </span>
+                            )}
                           </div>
-                          <div className="flex flex-col justify-between text-center">
-                            <span className="text-base text-darkblue-04">
-                              S1 Informatika
-                            </span>
-                            {/* <button
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-between text-center">
+                      <span className="text-base text-darkblue-04">
+                        S1 Informatika
+                      </span>
+                      {/* <button
                               type="submit"
                               id="tambah-pengumuman"
                               name="tambah-pengumuman"
@@ -89,13 +88,13 @@ export default function DaftarBatch() {
                             >
                               Akhiri Batch
                             </button> */}
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  ))
-                )}
-                {/* <Link href={"/batch/detail"}>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))
+          )}
+          {/* <Link href={"/batch/detail"}>
                   <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8">
                     <div className="flex justify-between">
                       <div className="flex space-x-4">
@@ -166,12 +165,8 @@ export default function DaftarBatch() {
                     </div>
                   </div>
                 </Link> */}
-              </div>
-            </div>
-          </main>
-          <Footer />
         </div>
       </div>
-    </div>
+    </MainLayout>
   );
 }

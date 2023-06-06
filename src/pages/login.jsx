@@ -4,31 +4,38 @@ import mbkmLogo from "../../public/images/Kampus-Merdeka-01.png";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
-import React, { useState, useEffect } from "react";
-import jwt from "jsonwebtoken";
+import React, { useContext, useState, useEffect } from "react";
+import { UserContext } from '../context/UserContext';
+
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  const { setUser } = useContext(UserContext);
+
 
   useEffect(() => {
-    const token = Cookies.get("token");
-    console.log(token);
-    try {
+    const fetchUser = async () => {
+      const token = Cookies.get("token");
       if (token) {
-        const decodedToken = jwt.verify(token, "lulusta2023");
-        const data = decodedToken;
-        console.log(data);
-        if (roles.includes("admin")) {
-          router.push("/admin");
-        } else {
-          router.push("/dashboard");
+        try {
+          const res = await axios.get('http://localhost:7000/api/current-user', {
+            headers: { 'Authorization': `Bearer ${token}` },
+          });
+          console.log(res.data.data);
+          setUser(res.data.data);
+          if (res.data.data.user.role === "admin") {
+            router.push("/admin");
+          } else {
+            router.push("/dashboard");
+          }
+        } catch (err) {
+          console.error(err);
         }
       }
-    } catch (err) {
-      console.error(err);
-    }
+    };
+    fetchUser();
   }, []);
 
   const handleSubmit = async (event) => {
@@ -41,22 +48,21 @@ export default function Login() {
       );
       const token = response.data.data.token;
       const refreshToken = response.data.data.refreshToken;
-      const userRoles = response.data.data.data.roles;
-      const lowerRoles = userRoles.map((item) => item.toLowerCase());
 
-      console.log(lowerRoles);
-      // Menyimpan token dan refresh token di sisi klien
       Cookies.set("token", token);
       Cookies.set("refreshToken", refreshToken);
 
-      //Mengarahkan ke dashboard berdasarkan role
-      if (lowerRoles.includes("admin")) {
-        router.push("admin");
+      const res = await axios.get('http://localhost:7000/api/current-user', {
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      setUser(res.data.data);
+      if (res.data.data.user.role === "admin") {
+        router.push("/admin");
       } else {
         router.push("/dashboard");
       }
     } catch (error) {
-      alert("gagal login");
+      console.log(error.message);
     }
   };
 

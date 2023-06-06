@@ -2,6 +2,7 @@ import Router from 'next/router'
 import { ToastContainer } from 'react-toastify'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { UserProvider } from '../context/UserContext.jsx';
 
 import '@/styles/globals.css'
 import 'react-toastify/dist/ReactToastify.css'
@@ -15,8 +16,10 @@ Router.events.on("routeChangeError", () => NProgress.done());
 export default function App({ Component, pageProps }) {
   return (
     <>
-      <Component {...pageProps} />
-      <ToastContainer position='top-center'></ToastContainer>
+      <UserProvider>
+        <Component {...pageProps} />
+        <ToastContainer position='top-center'></ToastContainer>
+      </UserProvider>
     </>
   );
 

@@ -1,11 +1,15 @@
 import Navbar from "./Navbar";
 import Sidebar from "./user/Sidebar";
 import Footer from "./Footer";
+import { useContext } from "react";
+import { UserContext } from '../context/UserContext';
 
 const MainLayout = ({ children }) => {
+  const { handleLogout, user } = useContext(UserContext);
+  const userName = user?.user?.username
   return (
     <div>
-      <Navbar />
+      <Navbar onLogout={handleLogout} userName={userName} />
       <div className="flex flex-row">
         <Sidebar />
         <div className="font-poppins w-full flex flex-col justify-between">
