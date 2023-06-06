@@ -1,11 +1,13 @@
 import MainLayout from "@/components/MainLayout";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import jwt from 'jsonwebtoken';
 import axios from "axios";
 import Cookies from "js-cookie";
+import { UserContext } from "@/context/UserContext";
 
 export default function DetailProposal() {
+  const { user } = useContext(UserContext);
   const router = useRouter();
   const { id } = router.query;
   const proposalId = id;
@@ -13,6 +15,8 @@ export default function DetailProposal() {
   const [selectedDosenId, setSelectedDosenId] = useState(null);
   const [dataDetailProposal, setDataDetailProposal] = useState([]);
   const [penilai, setPenilai] = useState([]);
+  const [nilai, setNilai] = useState({});
+
 
   function getUserId(token, secretKey) {
     try {
@@ -79,9 +83,7 @@ export default function DetailProposal() {
       fetchListPenilai();
     }
   }, [router.isReady]);
-  console.log('proposal id: ', proposalId);
-  console.log('selected dosen id:', selectedDosenId)
-  console.log(penilai)
+
 
   function handleDosenPenilaiSubmit(event) {
     event.preventDefault();
@@ -101,10 +103,30 @@ export default function DetailProposal() {
   }
 
 
+  const handleNilaiChange = (id, event) => {
+    setNilai({ ...nilai, [id]: event.target.value });
+  };
+
+  const handleSubmit = async (id) => {
+    try {
+      // You need to replace this with your actual server endpoint
+      const url = `http://localhost:7000/api/penilai/${id}/nilai`;
+
+      const response = await axios.put(url, { nilai: nilai[id] });
+
+      if (response.status === 200) {
+        console.log('Nilai updated successfully');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <MainLayout>
       <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
         <h4 className="text-2xl font-bold mt-8">Detail Proposal</h4>
+        <hr className="mt-2"></hr>
         <div className="grid grid-cols-2 mt-4">
           <div>
             <div className="text-lg mb-4">
@@ -138,7 +160,7 @@ export default function DetailProposal() {
               )}
             </div>
             <div className="text-lg mb-4">
-              <p className="font-semibold">Rata-rata penilaian</p>
+              <p className="font-semibold">Hasil Penilaian <span className="text-[0.8rem]">(Total nilai/jumlah penilai)</span></p>
               <p className="font-normal">{dataDetailProposal.averageSkor === null ? 0 : dataDetailProposal.averageSkor}</p>
             </div>
           </div>
@@ -146,39 +168,49 @@ export default function DetailProposal() {
         <div className="grid grid-cols-2 mt-8 mb-4">
           <div>
             <h4 className="text-2xl font-bold">Dosen Penilai</h4>
-            <ul className="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
-              {penilai.map((data, index) => (
-                <li key={index} className="flex items-center">
-                  {data.nilai !== null ? (<svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>) : (<svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>)}
-                  {data.nama_dosen} - {data.nilai === null ? 'Belum ada penilaian' : data.nilai}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <form onSubmit={handleDosenPenilaiSubmit}>
-            <div>
-              <label className="block font-medium mb-2">
-                Dosen Penilai
-              </label>
-              <select
-                value={selectedDosenId}
-                onChange={(e) => setSelectedDosenId(e.target.value)}
-                id="dosen"
-                name="dosen"
-                className="focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded"
-                required
-              >
-                {dosen.map((d) => (
-                  <option key={d.id} value={d.id}>
-                    {d.nama}
-                  </option>
+            <hr className="mt-2 max-w-md"></hr>
+
+            {penilai.length === 0 ? (
+              <span className="text-gray-500">Tidak ada dosen penilai</span>
+            ) : (
+              <ul className="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400 mt-4">
+                {penilai.map((data, index) => (
+                  <li key={index} className="flex items-center">
+                    {data.nilai !== null ? (<svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>) : (<svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>)}
+                    {data.nama_dosen} - {data.nilai === null ? 'Belum ada penilaian' : data.nilai}
+                  </li>
                 ))}
-              </select>
-              <button type="submit" className="mt-2 px-2 py-[1rem] bg-darkblue-04 text-neutral-01 rounded-lg justify-end">Assign</button>
-            </div>
-          </form>
+              </ul>
+            )}
+
+
+          </div>
+          {user?.detailInfo?.isKoordinator === true && penilai.length !== 2 && dataDetailProposal.status_approval === "Menunggu" && (
+            <form onSubmit={handleDosenPenilaiSubmit}>
+              <div>
+                <label className="block font-medium mb-2">
+                  Dosen Penilai
+                </label>
+                <select
+                  value={selectedDosenId}
+                  onChange={(e) => setSelectedDosenId(e.target.value)}
+                  id="dosen"
+                  name="dosen"
+                  className="focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded"
+                  required
+                >
+                  {dosen.map((d) => (
+                    <option key={d.id} value={d.id}>
+                      {d.nama}
+                    </option>
+                  ))}
+                </select>
+                <button type="submit" className="mt-2 px-2 py-[1rem] bg-darkblue-04 text-neutral-01 rounded-lg justify-end">Assign</button>
+              </div>
+            </form>
+          )}
         </div>
       </div>
-    </MainLayout>
+    </MainLayout >
   );
 }

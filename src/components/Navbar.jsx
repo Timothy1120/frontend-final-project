@@ -15,7 +15,6 @@ export default function Navbar({ onLogout, userName }) {
     onLogout();
     router.push('/login');  // redirect user to login page
   };
-
   return (
     <nav className=" bg-neutral-01 font-poppins border-b border-neutral-02">
       <div className="flex flex-wrap items-center justify-between">

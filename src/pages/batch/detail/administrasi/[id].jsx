@@ -10,11 +10,13 @@ import Cookies from "js-cookie";
 import { saveAs } from "file-saver";
 import { GrDocumentText } from "react-icons/gr";
 import { Main } from "next/document";
+import { useContext } from "react";
+import { UserContext } from '../../../../context/UserContext';
 
 export default function Proposal() {
+  const { user } = useContext(UserContext);
   const router = useRouter();
   const { id } = router.query;
-
   const [dataProposal, setDataProposal] = useState([]);
   const [document, setDocument] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // State for loading
@@ -195,22 +197,26 @@ export default function Proposal() {
     <MainLayout>
       <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
         <div className="flex space-x-8">
-          <Button
-            variant="primary"
-            id="ajukan-proposal"
-            name="ajukan-proposal"
-            text="Ajukan Proposal"
-            to={`ajukan-proposal/${id}`}
-            textSize="text-sm"
-          />
-          <Button
-            variant="primary"
-            id="upload-dokumen"
-            name="upload-dokumen"
-            text="Upload Dokumen"
-            to={`upload-dokumen/${id}`}
-            textSize="text-sm"
-          />
+          {user && user?.user?.role === 'mahasiswa' && (
+            <Button
+              variant="primary"
+              id="ajukan-proposal"
+              name="ajukan-proposal"
+              text="Ajukan Proposal"
+              to={`ajukan-proposal/${id}`}
+              textSize="text-sm"
+            />
+          )}
+          {(user?.detailInfo?.isKoordinator === true || user?.user?.role === 'admin') && (
+            <Button
+              variant="primary"
+              id="upload-dokumen"
+              name="upload-dokumen"
+              text="Upload Dokumen"
+              to={`upload-dokumen/${id}`}
+              textSize="text-sm"
+            />
+          )}
           <Button
             variant="primary"
             id="penerimaan-mitra"
@@ -234,13 +240,13 @@ export default function Proposal() {
               </div>
             )
               : (
-                <div className="grid grid-cols-10">
+                <div className="grid grid-cols-9">
                   {document.map((data, index) => (
                     <div className="text-center cursor-pointer" key={index} onClick={() => handleDocumentDownload(data.id, data.document_title)}>
                       <div className="flex justify-center ">
                         <GrDocumentText className="w-5 h-auto" />
                       </div>
-                      <div className="mt-4 text-darkblue-04">{data.document_title}</div>
+                      <div className="mt-4 text-darkblue-04 text-xs">{data.document_title}</div>
                     </div>
                   ))}
                 </div>
@@ -333,7 +339,7 @@ export default function Proposal() {
                     Belum Diterbitkan
                   </td>
                   <td className="px-4 py-2">
-                    <Tooltip text={"Tools"} className={"top-[6.5rem]"}>
+                    <Tooltip text={"Tools"} className={user?.detailInfo?.isKoordinator === true && data.status_approval === "Menunggu" ? 'top-[6.5rem]' : 'top-[3rem]'}>
                       <div className="flex flex-col divide-y divide-neutral-500 text-center">
                         <button
                           className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
@@ -349,18 +355,23 @@ export default function Proposal() {
                         >
                           Lihat Detail
                         </Link>
-                        <button
-                          className="px-4 py-2 text-success hover:bg-gray-200 transition-colors duration-200"
-                          onClick={() => handleApprove(data.id)}
-                        >
-                          Approve Proposal
-                        </button>
-                        <button
-                          className="px-4 py-2 text-danger hover:bg-gray-200 transition-colors duration-200"
-                          onClick={() => handleReject(data.id)}
-                        >
-                          Reject Proposal
-                        </button>
+                        {user?.detailInfo?.isKoordinator === true && data.status_approval === "Menunggu" && (
+                          <>
+                            <button
+                              className="px-4 py-2 text-success hover:bg-gray-200 transition-colors duration-200"
+                              onClick={() => handleApprove(data.id)}
+                            >
+                              Approve Proposal
+                            </button>
+                            <button
+                              className="px-4 py-2 text-danger hover:bg-gray-200 transition-colors duration-200"
+                              onClick={() => handleReject(data.id)}
+                            >
+                              Reject Proposal
+                            </button>
+                          </>
+                        )}
+
                       </div>
                     </Tooltip>
                   </td>

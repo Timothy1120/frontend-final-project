@@ -39,14 +39,16 @@ export default function Sidebar() {
             text="Kampus Merdeka"
             items={kampusMerdekaLinks}
           />
-          <SidebarMenu
-            href="/pengumuman?page=1"
-            text="Pengumuman"
-            icon={<BsMegaphone className="w-6 h-auto" />}
-          />
-          {user?.user?.role === 'dosen' && (
+          {user?.user?.role !== 'mahasiswa' && (
             <SidebarMenu
-              href="/koordinator/assign-koordinator"
+              href="/pengumuman?page=1"
+              text="Pengumuman"
+              icon={<BsMegaphone className="w-6 h-auto" />}
+            />
+          )}
+          {(user?.detailInfo?.isKaprodi === true) && (
+            <SidebarMenu
+              href="/assign-koordinator"
               text="Assign Koordinator"
               icon={<IoPersonOutline className="w-6 h-auto" />}
             />
