@@ -3,10 +3,12 @@ import Sidebar from "@/components/user/koordinator/Sidebar";
 import Footer from "@/components/Footer";
 import InputWithOption from "@/components/InputWithOption";
 import Modal from "@/components/Modal";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useRouter } from "next/router";
+
+
 const semesterOptions = [
   { label: "Genap", value: "genap" },
   { label: "Ganjil", value: "ganjil" },

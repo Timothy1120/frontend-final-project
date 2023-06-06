@@ -6,8 +6,11 @@ import { MdOutlineSchool } from "react-icons/md";
 import { BsMegaphone } from "react-icons/bs";
 import { IoPersonOutline } from "react-icons/io5";
 import { ImOffice } from "react-icons/im";
+import { useContext } from "react";
+import { UserContext } from '../../../context/UserContext';
 
 export default function Sidebar() {
+  const { user } = useContext(UserContext);
   const kampusMerdekaLinks = [{ link: "/batch", text: "Batch MBKM" }];
 
   const baaLinks = [
@@ -16,7 +19,7 @@ export default function Sidebar() {
     { link: "/baa/transkrip", text: "Transkrip Nilai" },
   ];
 
-  const [isKoordinator, setIsKoordinator] = useState(false);
+
   return (
     <div className="font-poppins">
       <div className="bg-darkblue-04 h-screen w-[260px]">
@@ -41,11 +44,13 @@ export default function Sidebar() {
             text="Pengumuman"
             icon={<BsMegaphone className="w-6 h-auto" />}
           />
-          <SidebarMenu
-            href="/koordinator/assign-koordinator"
-            text="Assign Koordinator"
-            icon={<IoPersonOutline className="w-6 h-auto" />}
-          />
+          {user?.user?.role === 'dosen' && (
+            <SidebarMenu
+              href="/koordinator/assign-koordinator"
+              text="Assign Koordinator"
+              icon={<IoPersonOutline className="w-6 h-auto" />}
+            />
+          )}
           <SidebarDropdownMenu
             icon={<ImOffice className="w-6 h-auto" />}
             text={"BAA"}
