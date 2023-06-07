@@ -63,8 +63,6 @@ export default function Proposal() {
     }
   }, [router.isReady]);
 
-  console.log(dataProposal);
-  console.log(document);
 
   const handleDownload = async (proposalId, name) => {
     try {
@@ -188,6 +186,26 @@ export default function Proposal() {
       } else {
         console.error("Error rejecting proposal");
       }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUnduhSuratRekomendasi = async (proposalId, name) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:7000/api/proposal/${proposalId}/unduh-surat-rekomendasi`,
+        {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+
+      saveAs(pdfBlob, `SuratRekomendasi_${name}.pdf`);
     } catch (error) {
       console.error(error);
     }
@@ -335,8 +353,12 @@ export default function Proposal() {
                       <span className="text-danger">Ditolak</span>
                     )}
                   </td>
-                  <td className="px-4 py-2 font-normal text-warning">
-                    Belum Diterbitkan
+                  <td className="px-4 py-2 font-normal">
+                    {data.is_suratrekomendasi_generated === false ? (
+                      <span className="text-warning">Belum Diterbitkan</span>
+                    ) : (
+                      <span className="text-success">Sudah Diterbitkan</span>
+                    )}
                   </td>
                   <td className="px-4 py-2">
                     <Tooltip text={"Tools"} className={user?.detailInfo?.isKoordinator === true && data.status_approval === "Menunggu" ? 'top-[6.5rem]' : 'top-[3rem]'}>
@@ -348,7 +370,18 @@ export default function Proposal() {
                           }
                         >
                           Unduh Proposal
+
                         </button>
+                        {user?.user?.role === "mahasiswa" && (
+                          <button
+                            className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                            onClick={() =>
+                              handleUnduhSuratRekomendasi(data.id, data.nama_mahasiswa)
+                            }
+                          >
+                            Unduh Surat Rekomendasi
+                          </button>
+                        )}
                         <Link
                           href={`detail-proposal/${data.id}`}
                           className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
