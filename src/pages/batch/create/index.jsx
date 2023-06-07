@@ -78,11 +78,6 @@ export default function TambahBatch() {
         setModalOpen(true);
       });
   }
-  console.log(namaProgram);
-  console.log(tahunAjaran);
-  console.log(selectedSemester.value);
-  console.log(ipkMinimum)
-
   return (
     <MainLayout>
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
