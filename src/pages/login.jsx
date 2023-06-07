@@ -14,7 +14,6 @@ export default function Login() {
   const router = useRouter();
   const { setUser } = useContext(UserContext);
 
-
   useEffect(() => {
     const fetchUser = async () => {
       const token = Cookies.get("token");
@@ -23,7 +22,6 @@ export default function Login() {
           const res = await axios.get('http://localhost:7000/api/current-user', {
             headers: { 'Authorization': `Bearer ${token}` },
           });
-          console.log(res.data.data);
           setUser(res.data.data);
           if (res.data.data.user.role === "admin") {
             router.push("/admin");

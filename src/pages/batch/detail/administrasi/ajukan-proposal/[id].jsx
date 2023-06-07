@@ -12,12 +12,22 @@ export default function AjukanProposal() {
   const programOptions = ["Studi Independen", "Magang"];
   const [file, setFile] = useState(null);
   const [jenisProgram, setJenisProgram] = useState(programOptions[0]);
+  const [nik, setNik] = useState('');
+  const [currentSemester, setCurrentSemester] = useState(1);
+  const [ipk, setIpk] = useState('');
+  const [sks, setSks] = useState(0);
   const [fileName, setFileName] = useState(null);
   const [errors, setErrors] = useState({});
 
+  // Error Field
+  const [nikError, setNikError] = useState('');
+  const [semesterError, setSemesterError] = useState('');
+  const [ipkError, setIPKError] = useState('');
+  const [sksError, setSKSError] = useState('');
+
   //Set Modal
   const [isModalOpen, setModalOpen] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState([]);
   const [success, setSuccess] = useState(false);
 
   const onSubmit = async (e) => {
@@ -27,6 +37,10 @@ export default function AjukanProposal() {
     const formData = new FormData();
     formData.append("jenis_program", jenisProgram);
     formData.append("dokumen_proposal", file);
+    formData.append("nik", nik);
+    formData.append("semester", currentSemester);
+    formData.append("ipk", ipk);
+    formData.append("jlh_sks", sks);
     formData.append("batchId", id);
     console.log(formData);
     axios
@@ -44,7 +58,15 @@ export default function AjukanProposal() {
         }, 1000);
       })
       .catch((error) => {
-        setError(error.response.data);
+        let errorMessages = [];
+
+        if (typeof error.response.data === 'string') {
+          errorMessages = [error.response.data];
+        } else if (typeof error.response.data === 'object' && Array.isArray(error.response.data.errors)) {
+          errorMessages = error.response.data.errors.map((errorObj) => errorObj.message);
+        }
+
+        setError(errorMessages);
         setModalOpen(true);
       });
   };
@@ -74,6 +96,67 @@ export default function AjukanProposal() {
     setJenisProgram(event.target.value);
   };
 
+  const handleNikChange = (event) => {
+    const value = event.target.value;
+    if (value.trim() === '') {
+      setNikError('NIK tidak boleh kosong');
+    }
+    else if (value.length < 5 || value.length > 20) {
+      setNikError('NIK harus di antara 5 sampai 20 karakter');
+    } else {
+      setNikError('');
+    }
+    setNik(value);
+  };
+
+  const handleCurrentSemesterChange = (event) => {
+    const value = event.target.value;
+    if (value.trim() === '') {
+      setSemesterError('Semester tidak boleh kosong');
+    }
+    else if (value < 1 || value > 8) {
+      setSemesterError('Semester harus di antara 1 sampai 8');
+    } else {
+      setSemesterError('');
+    }
+    setCurrentSemester(value);
+  };
+
+  const handleIPKChange = (event) => {
+    const input = event.target.value;
+    let formattedInput = '';
+
+    // Ubah input ke string, lalu hapus semua karakter non-numerik
+    const onlyNumbers = input.toString().replace(/\D/g, '');
+    if (onlyNumbers === '') {
+      formattedInput = '';
+    } else {
+      formattedInput = (parseInt(onlyNumbers, 10) / 100).toFixed(2);
+    }
+
+    // Validasi rentang nilai IPK
+    if (formattedInput < 1.00 || formattedInput > 4.00) {
+      setIPKError('IPK harus di antara 1.00 dan 4.00');
+    } else if (formattedInput.trim() === '') {
+      setIPKError('IPK tidak boleh kosong');
+    } else {
+      setIPKError('');
+    }
+
+
+    setIpk(formattedInput);
+  };
+
+  const handleJlhSKSChange = (event) => {
+    const input = event.target.value;
+    if (input.trim() === '') {
+      setSKSError('IPK tidak boleh kosong');
+    } else {
+      setSKSError('');
+    }
+    setSks(input);
+  };
+
   const handleDragOver = (event) => {
     event.preventDefault();
   };
@@ -83,6 +166,12 @@ export default function AjukanProposal() {
     setFileName(null);
     setErrors((prevErrors) => ({ ...prevErrors, file: null }));
   };
+
+  console.log('NIK', nik);
+  console.log('CurrentSemester', currentSemester);
+  console.log('IPK', ipk);
+  console.log('SKS', sks);
+
 
   return (
     <MainLayout>
@@ -95,7 +184,10 @@ export default function AjukanProposal() {
             {success ? "Success" : "Error"}
           </h2>
           <p className="text-base">
-            {success ? "Proposal berhasil diajukan!" : error}
+            {success
+              ? "Proposal berhasil diajukan!"
+              : error.map((err, index) => <span key={index}>{err}<br /></span>)
+            }
           </p>
           <div className="flex justify-end">
             {!success && (
@@ -107,7 +199,72 @@ export default function AjukanProposal() {
       <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
         <p className="text-2xl font-bold">Form Pengajuan Proposal</p>
         <form className="mt-4" onSubmit={onSubmit}>
-          <div className="mb-3">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label
+                htmlFor="nik"
+                className="block font-medium mb-2"
+              >
+                NIK
+              </label>
+              <input
+                value={nik}
+                onChange={handleNikChange}
+                type="text"
+                id="nik"
+                name="nik"
+                className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
+              />
+              {nikError && <p className="text-red-500 text-xs mt-2">{nikError}</p>}
+            </div>
+            <div>
+              <label
+                htmlFor="tahun-ajaran"
+                className="block font-medium mb-2"
+              >
+                Semester Saat Ini (1-8)
+              </label>
+              <input
+                value={currentSemester}
+                onChange={handleCurrentSemesterChange}
+                type="number"
+                id="semester"
+                name="semester"
+                className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
+              />
+              {semesterError && <p className="text-red-500 text-xs mt-2">{semesterError}</p>}
+            </div>
+            <div>
+              <label className="block font-medium mb-2">IPK</label>
+              <input
+                value={ipk}
+                onChange={handleIPKChange}
+                type="text"
+                id="ipk"
+                name="ipk"
+                className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
+              />
+              {ipkError && <p className="text-red-500 text-xs mt-2">{ipkError}</p>}
+            </div>
+            <div>
+              <label
+                htmlFor="ipk-minimum"
+                className="block font-medium mb-2"
+              >
+                Jumlah SKS yang sudah ditempuh/lulus
+              </label>
+              <input
+                value={sks}
+                onChange={handleJlhSKSChange}
+                type="number"
+                id="jlh_sks"
+                name="jlh_sks"
+                className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
+              />
+              {sksError && <p className="text-red-500 text-xs mt-2">{sksError}</p>}
+            </div>
+          </div>
+          <div className="mb-3 mt-2">
             <label className="text-base">Jenis Program</label>
             <select
               id="jenis_program"

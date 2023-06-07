@@ -104,18 +104,37 @@ export default function DetailProposal() {
 
 
   const handleNilaiChange = (id, event) => {
-    setNilai({ ...nilai, [id]: event.target.value });
+    const nilaiInput = parseInt(event.target.value);
+
+    if (nilaiInput >= 1 && nilaiInput <= 100) {
+      setNilai({ ...nilai, [id]: nilaiInput });
+    } else {
+      alert("Nilai harus antara 0 dan 100.");
+      if (nilaiInput > 100) {
+        event.target.value = 100
+      } else {
+        event.target.value = 1
+        setNilai({ ...nilai, [id]: parseInt(event.target.value) });
+      }
+
+    }
   };
+  console.log(nilai);
 
-  const handleSubmit = async (id) => {
+  const handleSubmitNilai = async (id) => {
     try {
-      // You need to replace this with your actual server endpoint
-      const url = `http://localhost:7000/api/penilai/${id}/nilai`;
 
+      if (nilai[id] === '' || nilai[id] === null || nilai[id] === undefined) {
+        alert('Nilai tidak boleh kosong!');
+        return;
+      }
+
+      const url = `http://localhost:7000/api/penilai/${id}/nilai`;
       const response = await axios.put(url, { nilai: nilai[id] });
 
       if (response.status === 200) {
-        console.log('Nilai updated successfully');
+        alert('Nilai updated successfully');
+        router.reload();
       }
     } catch (error) {
       console.error(error);
@@ -175,9 +194,30 @@ export default function DetailProposal() {
             ) : (
               <ul className="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400 mt-4">
                 {penilai.map((data, index) => (
-                  <li key={index} className="flex items-center">
-                    {data.nilai !== null ? (<svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>) : (<svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>)}
-                    {data.nama_dosen} - {data.nilai === null ? 'Belum ada penilaian' : data.nilai}
+                  <li key={index} className="items-center">
+                    <div>
+                      {data.nilai !== null ? (<svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>) : (<svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>)}
+                      {data.nama_dosen} - {data.nilai === null ? 'Belum ada penilaian' : data.nilai}
+                    </div>
+
+                    {(user?.detailInfo?.id === data.dosenId && data.is_input_score === false) && (
+                      <>
+                        <input
+                          type="number"
+                          placeholder="Input nilai"
+                          onChange={event => handleNilaiChange(data.id, event)}
+                          className="border-2 border-gray-300 p-2 rounded mb-2 mr-2"
+                          min="0"
+                          max="100"
+                        />
+                        <button
+                          onClick={() => handleSubmitNilai(data.id)}
+                          className="bg-blue-500 text-white p-2 rounded text-sm"
+                        >
+                          Submit Nilai
+                        </button>
+                      </>
+                    )}
                   </li>
                 ))}
               </ul>
