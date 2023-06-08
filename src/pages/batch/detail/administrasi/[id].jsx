@@ -240,7 +240,7 @@ export default function Proposal() {
             id="penerimaan-mitra"
             name="penerimaan-mitra"
             text="Lulus Penerimaan Mitra"
-            to="proposal/kelulusan"
+            to={`kelulusan/${id}`}
             textSize="text-sm"
           />
         </div>
