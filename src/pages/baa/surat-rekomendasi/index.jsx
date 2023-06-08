@@ -33,6 +33,18 @@ export default function SuratRekomendasi() {
     fetchProposals();
   }, [token]);
 
+  const handleGenerate = async (proposalId) => {
+    try {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      await axios.put(
+        `http://localhost:7000/api/proposal/${proposalId}/generate-surat-rekomendasi`
+      );
+      router.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <MainLayout>
       <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
@@ -121,9 +133,12 @@ export default function SuratRekomendasi() {
                   <td className="px-4 py-2">
                     <Tooltip text={"Tools"} className={"top-16"}>
                       <div className="flex flex-col divide-y divide-neutral-500 text-center">
-                        <Link href={"/"} className="px-4 py-2">
+                        <button
+                          className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                          onClick={() => handleGenerate(data.id)}
+                        >
                           Generate Surat Rekomendasi
-                        </Link>
+                        </button>
                         <Link href={"proposal/detail"} className="px-4 py-2">
                           Lihat Detail
                         </Link>
