@@ -9,13 +9,13 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { saveAs } from "file-saver";
 import { GrDocumentText } from "react-icons/gr";
-import { Main } from "next/document";
 import { useContext } from "react";
-import { UserContext } from '../../../../context/UserContext';
+import { UserContext } from "../../../../context/UserContext";
 
 export default function Proposal() {
   const { user } = useContext(UserContext);
   const router = useRouter();
+
   const { id } = router.query;
   const [dataProposal, setDataProposal] = useState([]);
   const [document, setDocument] = useState([]);
@@ -62,7 +62,6 @@ export default function Proposal() {
       fetchDocument();
     }
   }, [router.isReady]);
-
 
   const handleDownload = async (proposalId, name) => {
     try {
@@ -215,7 +214,7 @@ export default function Proposal() {
     <MainLayout>
       <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
         <div className="flex space-x-8">
-          {user && user?.user?.role === 'mahasiswa' && (
+          {user && user?.user?.role === "mahasiswa" && (
             <Button
               variant="primary"
               id="ajukan-proposal"
@@ -225,7 +224,8 @@ export default function Proposal() {
               textSize="text-sm"
             />
           )}
-          {(user?.detailInfo?.isKoordinator === true || user?.user?.role === 'admin') && (
+          {(user?.detailInfo?.isKoordinator === true ||
+            user?.user?.role === "admin") && (
             <Button
               variant="primary"
               id="upload-dokumen"
@@ -251,26 +251,30 @@ export default function Proposal() {
 
           {isLoading ? (
             <Spinner size={6} />
-          ) :
-            document.length === 0 ? (
-              <div className="text-sm font-light text-neutral-03 mt-4 text-center">
-                Belum ada dokumen administrasi
-              </div>
-            )
-              : (
-                <div className="grid grid-cols-9">
-                  {document.map((data, index) => (
-                    <div className="text-center cursor-pointer" key={index} onClick={() => handleDocumentDownload(data.id, data.document_title)}>
-                      <div className="flex justify-center ">
-                        <GrDocumentText className="w-5 h-auto" />
-                      </div>
-                      <div className="mt-4 text-darkblue-04 text-xs">{data.document_title}</div>
-                    </div>
-                  ))}
+          ) : document.length === 0 ? (
+            <div className="text-sm font-light text-neutral-03 mt-4 text-center">
+              Belum ada dokumen administrasi
+            </div>
+          ) : (
+            <div className="grid grid-cols-9">
+              {document.map((data, index) => (
+                <div
+                  className="text-center cursor-pointer"
+                  key={index}
+                  onClick={() =>
+                    handleDocumentDownload(data.id, data.document_title)
+                  }
+                >
+                  <div className="flex justify-center ">
+                    <GrDocumentText className="w-5 h-auto" />
+                  </div>
+                  <div className="mt-4 text-darkblue-04 text-xs">
+                    {data.document_title}
+                  </div>
                 </div>
-              )
-          }
-
+              ))}
+            </div>
+          )}
         </div>
         <div className="text-base text-darkblue-04 font-bold mt-9 mb-6">
           Daftar Pengajuan Proposal
@@ -361,7 +365,18 @@ export default function Proposal() {
                     )}
                   </td>
                   <td className="px-4 py-2">
-                    <Tooltip text={"Tools"} className={user?.detailInfo?.isKoordinator === true && data.status_approval === "Menunggu" ? 'top-[6.5rem]' : 'top-[3rem]'}>
+                    <Tooltip
+                      text={"Tools"}
+                      className={
+                        user?.detailInfo?.isKoordinator === true &&
+                        data.status_approval === "Menunggu"
+                          ? "top-[6.5rem]"
+                          : user?.detailInfo?.isKoordinator === false &&
+                            data.is_suratrekomendasi_generated === true
+                          ? "top-[5rem]"
+                          : "top-[3rem]"
+                      }
+                    >
                       <div className="flex flex-col divide-y divide-neutral-500 text-center">
                         <button
                           className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
@@ -370,41 +385,44 @@ export default function Proposal() {
                           }
                         >
                           Unduh Proposal
-
                         </button>
-                        {user?.user?.role === "mahasiswa" && (
-                          <button
-                            className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
-                            onClick={() =>
-                              handleUnduhSuratRekomendasi(data.id, data.nama_mahasiswa)
-                            }
-                          >
-                            Unduh Surat Rekomendasi
-                          </button>
-                        )}
+                        {user?.user?.role === "mahasiswa" &&
+                          data.is_suratrekomendasi_generated === true && (
+                            <button
+                              className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                              onClick={() =>
+                                handleUnduhSuratRekomendasi(
+                                  data.id,
+                                  data.nama_mahasiswa
+                                )
+                              }
+                            >
+                              Unduh Surat Rekomendasi
+                            </button>
+                          )}
                         <Link
                           href={`detail-proposal/${data.id}`}
                           className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
                         >
                           Lihat Detail
                         </Link>
-                        {user?.detailInfo?.isKoordinator === true && data.status_approval === "Menunggu" && (
-                          <>
-                            <button
-                              className="px-4 py-2 text-success hover:bg-gray-200 transition-colors duration-200"
-                              onClick={() => handleApprove(data.id)}
-                            >
-                              Approve Proposal
-                            </button>
-                            <button
-                              className="px-4 py-2 text-danger hover:bg-gray-200 transition-colors duration-200"
-                              onClick={() => handleReject(data.id)}
-                            >
-                              Reject Proposal
-                            </button>
-                          </>
-                        )}
-
+                        {user?.detailInfo?.isKoordinator === true &&
+                          data.status_approval === "Menunggu" && (
+                            <>
+                              <button
+                                className="px-4 py-2 text-success hover:bg-gray-200 transition-colors duration-200"
+                                onClick={() => handleApprove(data.id)}
+                              >
+                                Approve Proposal
+                              </button>
+                              <button
+                                className="px-4 py-2 text-danger hover:bg-gray-200 transition-colors duration-200"
+                                onClick={() => handleReject(data.id)}
+                              >
+                                Reject Proposal
+                              </button>
+                            </>
+                          )}
                       </div>
                     </Tooltip>
                   </td>
@@ -413,9 +431,7 @@ export default function Proposal() {
             </tbody>
           </table>
         )}
-
       </div>
-    </MainLayout >
-
+    </MainLayout>
   );
 }

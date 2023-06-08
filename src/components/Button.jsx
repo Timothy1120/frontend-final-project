@@ -50,7 +50,7 @@ export default function Button({
           className={`inline-flex ${buttonSize} ${buttonColor} text-neutral-01 rounded-lg items-center ${className}`}
         >
           <div>{icon}</div>
-          <di className={` font-bold ${textSize}`}>{text}</di>
+          <div className={` font-bold ${textSize}`}>{text}</div>
         </div>
       </Link>
     </div>
