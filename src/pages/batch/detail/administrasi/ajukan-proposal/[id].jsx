@@ -178,8 +178,9 @@ export default function AjukanProposal() {
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <div className="p-6">
           <h2
-            className={`text-2xl mb-4 ${success ? "text-green-600" : "text-red-600"
-              }`}
+            className={`text-2xl mb-4 ${
+              success ? "text-green-600" : "text-red-600"
+            }`}
           >
             {success ? "Success" : "Error"}
           </h2>
@@ -281,21 +282,18 @@ export default function AjukanProposal() {
             </select>
           </div>
           <div className="mb-3">
-            <label
-              htmlFor="attachment"
-              className="block font-medium mb-2"
-            >
+            <label htmlFor="attachment" className="block font-medium mb-2">
               Attachment
             </label>
             {/* <input type="file" id="dokumen_proposal" name="dokumen_proposal" className="block w-full py-2 px-3 rounded-md border border-gray-300 bg-white text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" onChange={handleFileChange} />
                                     {errors.file && <p className="text-red-500 text-xs mt-2">{errors.file}</p>} */}
-            <div class="flex items-center justify-center w-full">
+            <div className="flex items-center justify-center w-full">
               <label
-                for="dropzone-file"
-                class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 "
+                htmlFor="dropzone-file"
+                className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 "
               >
                 <div
-                  class="flex flex-col items-center justify-center pt-5 pb-6"
+                  className="flex flex-col items-center justify-center pt-5 pb-6"
                   onDrop={handleFileChange}
                   onDragOver={handleDragOver}
                 >
@@ -308,7 +306,7 @@ export default function AjukanProposal() {
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                         aria-hidden="true"
-                        class="w-10 h-10 mb-3 text-gray-400"
+                        className="w-10 h-10 mb-3 text-gray-400"
                       >
                         <path
                           strokeLinecap="round"
@@ -316,12 +314,12 @@ export default function AjukanProposal() {
                           d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
                         />
                       </svg>
-                      <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
                         {fileName}
                       </p>
                       <button
                         onClick={handleRemoveFile}
-                        class="text-xs text-white p-1 rounded-sm bg-red-600"
+                        className="text-xs text-white p-1 rounded-sm bg-red-600"
                       >
                         Remove File
                       </button>
@@ -335,7 +333,7 @@ export default function AjukanProposal() {
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                         aria-hidden="true"
-                        class="w-10 h-10 mb-3 text-gray-400"
+                        className="w-10 h-10 mb-3 text-gray-400"
                       >
                         <path
                           strokeLinecap="round"
@@ -343,11 +341,11 @@ export default function AjukanProposal() {
                           d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"
                         />
                       </svg>
-                      <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                        <span class="font-semibold">Click to upload</span>{" "}
+                      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                        <span className="font-semibold">Click to upload</span>{" "}
                         or drag and drop
                       </p>
-                      <p class="text-xs text-gray-500 dark:text-gray-400">
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
                         PDF (MAX. 2MB)
                       </p>
                     </>
@@ -357,7 +355,7 @@ export default function AjukanProposal() {
                   id="dropzone-file"
                   name="dokumen_proposal"
                   type="file"
-                  class="hidden"
+                  className="hidden"
                   onChange={handleFileChange}
                 />
               </label>

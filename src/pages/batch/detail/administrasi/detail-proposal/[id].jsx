@@ -1,7 +1,7 @@
 import MainLayout from "@/components/MainLayout";
 import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { UserContext } from "@/context/UserContext";
@@ -17,7 +17,6 @@ export default function DetailProposal() {
   const [penilai, setPenilai] = useState([]);
   const [nilai, setNilai] = useState({});
 
-
   function getUserId(token, secretKey) {
     try {
       const decodedToken = jwt.verify(token, secretKey);
@@ -25,19 +24,17 @@ export default function DetailProposal() {
 
       return userId;
     } catch (error) {
-      console.error('Error decoding token:', error);
+      console.error("Error decoding token:", error);
       return null;
     }
   }
   const token = Cookies.get("token");
-  const secretKey = 'lulusta2023'
-  const userId = getUserId(token, secretKey)
+  const secretKey = "lulusta2023";
+  const userId = getUserId(token, secretKey);
   console.log(userId);
-
 
   useEffect(() => {
     if (router.isReady) {
-
       const fetchDataDetailProposal = async () => {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         axios
@@ -84,24 +81,24 @@ export default function DetailProposal() {
     }
   }, [router.isReady]);
 
-
   function handleDosenPenilaiSubmit(event) {
     event.preventDefault();
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     axios
-      .post(`http://localhost:7000/api/proposal/${proposalId}/assigndosenpenilai`, {
-        dosenId: selectedDosenId
-      })
+      .post(
+        `http://localhost:7000/api/proposal/${proposalId}/assigndosenpenilai`,
+        {
+          dosenId: selectedDosenId,
+        }
+      )
       .then((res) => {
         router.reload();
         router.push(`${proposalId}`);
-
       })
       .catch((error) => {
-        console.log(error.response.data.message)
+        console.log(error.response.data.message);
       });
   }
-
 
   const handleNilaiChange = (id, event) => {
     const nilaiInput = parseInt(event.target.value);
@@ -111,21 +108,19 @@ export default function DetailProposal() {
     } else {
       alert("Nilai harus antara 0 dan 100.");
       if (nilaiInput > 100) {
-        event.target.value = 100
+        event.target.value = 100;
       } else {
-        event.target.value = 1
+        event.target.value = 1;
         setNilai({ ...nilai, [id]: parseInt(event.target.value) });
       }
-
     }
   };
   console.log(nilai);
 
   const handleSubmitNilai = async (id) => {
     try {
-
-      if (nilai[id] === '' || nilai[id] === null || nilai[id] === undefined) {
-        alert('Nilai tidak boleh kosong!');
+      if (nilai[id] === "" || nilai[id] === null || nilai[id] === undefined) {
+        alert("Nilai tidak boleh kosong!");
         return;
       }
 
@@ -133,7 +128,7 @@ export default function DetailProposal() {
       const response = await axios.put(url, { nilai: nilai[id] });
 
       if (response.status === 200) {
-        alert('Nilai updated successfully');
+        alert("Nilai updated successfully");
         router.reload();
       }
     } catch (error) {
@@ -179,8 +174,17 @@ export default function DetailProposal() {
               )}
             </div>
             <div className="text-lg mb-4">
-              <p className="font-semibold">Hasil Penilaian <span className="text-[0.8rem]">(Total nilai/jumlah penilai)</span></p>
-              <p className="font-normal">{dataDetailProposal.averageSkor === null ? 0 : dataDetailProposal.averageSkor}</p>
+              <p className="font-semibold">
+                Hasil Penilaian{" "}
+                <span className="text-[0.8rem]">
+                  (Total nilai/jumlah penilai)
+                </span>
+              </p>
+              <p className="font-normal">
+                {dataDetailProposal.averageSkor === null
+                  ? 0
+                  : dataDetailProposal.averageSkor}
+              </p>
             </div>
           </div>
         </div>
@@ -196,61 +200,96 @@ export default function DetailProposal() {
                 {penilai.map((data, index) => (
                   <li key={index} className="items-center">
                     <div>
-                      {data.nilai !== null ? (<svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>) : (<svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>)}
-                      {data.nama_dosen} - {data.nilai === null ? 'Belum ada penilaian' : data.nilai}
+                      {data.nilai !== null ? (
+                        <svg
+                          class="w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      ) : (
+                        <svg
+                          class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      )}
+                      {data.nama_dosen} -{" "}
+                      {data.nilai === null ? "Belum ada penilaian" : data.nilai}
                     </div>
 
-                    {(user?.detailInfo?.id === data.dosenId && data.is_input_score === false) && (
-                      <>
-                        <input
-                          type="number"
-                          placeholder="Input nilai"
-                          onChange={event => handleNilaiChange(data.id, event)}
-                          className="border-2 border-gray-300 p-2 rounded mb-2 mr-2"
-                          min="0"
-                          max="100"
-                        />
-                        <button
-                          onClick={() => handleSubmitNilai(data.id)}
-                          className="bg-blue-500 text-white p-2 rounded text-sm"
-                        >
-                          Submit Nilai
-                        </button>
-                      </>
-                    )}
+                    {user?.detailInfo?.id === data.dosenId &&
+                      data.is_input_score === false && (
+                        <>
+                          <input
+                            type="number"
+                            placeholder="Input nilai"
+                            onChange={(event) =>
+                              handleNilaiChange(data.id, event)
+                            }
+                            className="border-2 border-gray-300 p-2 rounded mb-2 mr-2"
+                            min="0"
+                            max="100"
+                          />
+                          <button
+                            onClick={() => handleSubmitNilai(data.id)}
+                            className="bg-blue-500 text-white p-2 rounded text-sm"
+                          >
+                            Submit Nilai
+                          </button>
+                        </>
+                      )}
                   </li>
                 ))}
               </ul>
             )}
-
-
           </div>
-          {user?.detailInfo?.isKoordinator === true && penilai.length !== 2 && dataDetailProposal.status_approval === "Menunggu" && (
-            <form onSubmit={handleDosenPenilaiSubmit}>
-              <div>
-                <label className="block font-medium mb-2">
-                  Dosen Penilai
-                </label>
-                <select
-                  value={selectedDosenId}
-                  onChange={(e) => setSelectedDosenId(e.target.value)}
-                  id="dosen"
-                  name="dosen"
-                  className="focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded"
-                  required
-                >
-                  {dosen.map((d) => (
-                    <option key={d.id} value={d.id}>
-                      {d.nama}
-                    </option>
-                  ))}
-                </select>
-                <button type="submit" className="mt-2 px-2 py-[1rem] bg-darkblue-04 text-neutral-01 rounded-lg justify-end">Assign</button>
-              </div>
-            </form>
-          )}
+          {user?.detailInfo?.isKoordinator === true &&
+            penilai.length !== 2 &&
+            dataDetailProposal.status_approval === "Menunggu" && (
+              <form onSubmit={handleDosenPenilaiSubmit}>
+                <div>
+                  <label className="block font-medium mb-2">
+                    Dosen Penilai
+                  </label>
+                  <select
+                    value={selectedDosenId}
+                    onChange={(e) => setSelectedDosenId(e.target.value)}
+                    id="dosen"
+                    name="dosen"
+                    className="focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50 w-full p-2 border border-gray-400 rounded"
+                    required
+                  >
+                    {dosen.map((d) => (
+                      <option key={d.id} value={d.id}>
+                        {d.nama}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    type="submit"
+                    className="mt-2 px-2 py-[1rem] bg-darkblue-04 text-neutral-01 rounded-lg justify-end"
+                  >
+                    Assign
+                  </button>
+                </div>
+              </form>
+            )}
         </div>
       </div>
-    </MainLayout >
+    </MainLayout>
   );
 }

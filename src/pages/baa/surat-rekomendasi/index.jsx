@@ -9,37 +9,41 @@ import Link from "next/link";
 import Spinner from "@/components/Spinner";
 
 export default function SuratRekomendasi() {
-  // const [role, setRole] = useState("");
-  // useEffect(() => {
-  //   const token = Cookies.get("token");
-  //   try {
-  //     const decodedToken = jwt.verify(token, "lulusta2023");
-  //     setRole(decodedToken.data.user.role);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }, []);
-
   const token = Cookies.get("token");
   const [approvedProposals, setApprovedProposals] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // State for loading
   useEffect(() => {
+    const fetchProposals = async () => {
+      try {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        const response = await axios.get(
+          `http://localhost:7000/api/proposal/approved-proposals`
+        );
+        // Introduce a delay of 2 seconds before setting the data
+        setTimeout(() => {
+          setApprovedProposals(response.data.data);
+          setIsLoading(false);
+        }, 1000);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false); // Set loading state to false in case of error
+      }
+    };
+
+    fetchProposals();
+  }, [token]);
+
+  const handleGenerate = async (proposalId) => {
     try {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      axios
-        .get(`http://localhost:7000/api/proposal/approved-proposals`)
-        // Introduce a delay of 2 seconds before setting the data
-        .then((response) => {
-          setTimeout(() => {
-            setApprovedProposals(response.data.data);
-            setIsLoading(false);
-          }, 1000);
-        });
+      await axios.put(
+        `http://localhost:7000/api/proposal/${proposalId}/generate-surat-rekomendasi`
+      );
+      router.reload();
     } catch (error) {
       console.error(error);
-      setIsLoading(false); // Set loading state to false in case of error
     }
-  });
+  };
 
   return (
     <MainLayout>
@@ -129,9 +133,12 @@ export default function SuratRekomendasi() {
                   <td className="px-4 py-2">
                     <Tooltip text={"Tools"} className={"top-16"}>
                       <div className="flex flex-col divide-y divide-neutral-500 text-center">
-                        <Link href={"/"} className="px-4 py-2">
+                        <button
+                          className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                          onClick={() => handleGenerate(data.id)}
+                        >
                           Generate Surat Rekomendasi
-                        </Link>
+                        </button>
                         <Link href={"proposal/detail"} className="px-4 py-2">
                           Lihat Detail
                         </Link>
