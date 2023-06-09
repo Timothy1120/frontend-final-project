@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from "../../context/UserContext";
+import Spinner from "@/components/Spinner";
 
 export default function DaftarBatch() {
   const { user } = useContext(UserContext);
@@ -31,7 +32,7 @@ export default function DaftarBatch() {
     <MainLayout>
       <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
         <div className="flex justify-end">
-          {user?.user?.role === 'dosen' && user?.detailInfo?.isKoordinator && (
+          {user?.user?.role === "dosen" && user?.detailInfo?.isKoordinator && (
             <Button
               variant="primary"
               id="button-buka-batch"
@@ -64,9 +65,7 @@ export default function DaftarBatch() {
                           <div>
                             Status:{" "}
                             {data.isFinished ? (
-                              <span className="text-success">
-                                Selesai
-                              </span>
+                              <span className="text-success">Selesai</span>
                             ) : (
                               <span className="text-darkblue-04">
                                 Sedang Berjalan
