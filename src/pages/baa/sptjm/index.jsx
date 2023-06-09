@@ -7,12 +7,13 @@ import axios from "axios";
 import { UserContext } from "../../../../src/context/UserContext";
 import MainLayout from "@/components/MainLayout";
 import Spinner from "@/components/Spinner";
+import { useRouter } from "next/router";
 
 export default function SuratPTJM() {
   const { user } = useContext(UserContext);
+  const router = useRouter();
   const token = Cookies.get("token");
   const [dataRequest, setDataRequest] = useState([]);
-
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export default function SuratPTJM() {
             setDataRequest(response.data.data);
             setIsLoading(false);
           });
-        } else if (user?.user?.role == "staff") {
+        } else if (user?.user?.role == "staf") {
           const response = await axios.get("http://localhost:7000/api/sptjm");
           setTimeout(() => {
             setDataRequest(response.data.data);
@@ -43,6 +44,34 @@ export default function SuratPTJM() {
     fetchRequest();
     // console.log(dataRequest);
   }, [token]);
+
+  const handleGenerate = async (id) => {
+    try {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await axios.put(
+        `http://localhost:7000/api/sptjm/${id}/generate-sptjm`
+      );
+      if (response.status === 200) {
+        router.push('sptjm');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const downloadSPTJM = async (id) => {
+    try {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await axios.put(
+        `http://localhost:7000/api/sptjm/${id}/download-sptjm`
+      );
+      if (response.status === 200) {
+        router.push('sptjm');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <MainLayout>
@@ -68,7 +97,7 @@ export default function SuratPTJM() {
             Belum ada pengajuan SPTJM
           </div>
         ) : (
-          <table className="w-full border-collapse bg-white text-left text-sm font-normal text-gray-500 max-w-4xl">
+          <table className="w-full border-collapse bg-white text-left text-sm font-normal text-gray-500">
             <thead className="bg-gray-50">
               <tr>
                 <th
@@ -128,9 +157,12 @@ export default function SuratPTJM() {
                   <td className="px-4 py-2">
                     <Tooltip text={"Tools"} className={"top-10"}>
                       <div className="flex flex-col divide-y divide-neutral-500 text-center">
-                        <Link href={"/"} className="px-4 py-2">
-                          Unduh
-                        </Link>
+                        <button className="px-4 py-2" onClick={() => handleGenerate(data.id)}>
+                          Generate SPTJM
+                        </button>
+                        <button className="px-4 py-2" onClick={() => downloadSPTJM(data.id)}>
+                          Download SPTJM
+                        </button>
                         <Link href={"sptjm/detail"} className="px-4 py-2">
                           Detail
                         </Link>

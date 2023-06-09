@@ -26,6 +26,7 @@ export default function RequestSPTJM() {
   console.log(email);
   console.log(nik);
   console.log(namaOrangTua);
+  
   function handleSubmit(event) {
     event.preventDefault();
     axios

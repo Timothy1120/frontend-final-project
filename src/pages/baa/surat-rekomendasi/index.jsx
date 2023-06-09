@@ -1,14 +1,14 @@
 import MainLayout from "@/components/MainLayout";
-import Button from "@/components/Button";
 import Cookies from "js-cookie";
-import jwt from "jsonwebtoken";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Tooltip from "@/components/Tooltip";
 import Link from "next/link";
 import Spinner from "@/components/Spinner";
+import { useRouter } from 'next/router';
 
 export default function SuratRekomendasi() {
+  const router = useRouter();
   const token = Cookies.get("token");
   const [approvedProposals, setApprovedProposals] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // State for loading
@@ -36,10 +36,12 @@ export default function SuratRekomendasi() {
   const handleGenerate = async (proposalId) => {
     try {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      await axios.put(
+      const response = await axios.put(
         `http://localhost:7000/api/proposal/${proposalId}/generate-surat-rekomendasi`
       );
-      router.reload();
+      if (response.status === 200) {
+        router.reload();
+      }
     } catch (error) {
       console.error(error);
     }
