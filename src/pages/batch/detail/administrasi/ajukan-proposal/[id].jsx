@@ -60,8 +60,8 @@ export default function AjukanProposal() {
       .catch((error) => {
         let errorMessages = [];
 
-        if (typeof error.response.data === 'string') {
-          errorMessages = [error.response.data];
+        if (error.response.data.message) {
+          errorMessages = [error.response.data.message];
         } else if (typeof error.response.data === 'object' && Array.isArray(error.response.data.errors)) {
           errorMessages = error.response.data.errors.map((errorObj) => errorObj.message);
         }
@@ -178,9 +178,8 @@ export default function AjukanProposal() {
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <div className="p-6">
           <h2
-            className={`text-2xl mb-4 ${
-              success ? "text-green-600" : "text-red-600"
-            }`}
+            className={`text-2xl mb-4 ${success ? "text-green-600" : "text-red-600"
+              }`}
           >
             {success ? "Success" : "Error"}
           </h2>

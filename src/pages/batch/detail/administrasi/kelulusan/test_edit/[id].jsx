@@ -1,6 +1,6 @@
 import Modal from "@/components/Modal";
 import MainLayout from "@/components/MainLayout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -20,6 +20,8 @@ export default function InputKelulusan() {
     const [tempatPelaksanaan, setTempatPelaksanaan] = useState('');
     const [fileName, setFileName] = useState(null);
     const [errors, setErrors] = useState({});
+    const [detail, setDetail] = useState([]);
+    const [filePath, setFilePath] = useState('');
 
     // Error Field
     const [namaKegiatanError, setNamaKegiatanError] = useState('');
@@ -31,6 +33,36 @@ export default function InputKelulusan() {
     const [isModalOpen, setModalOpen] = useState(false);
     const [error, setError] = useState([]);
     const [success, setSuccess] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+                const response = await axios.get(
+                    `http://localhost:7000/api/mahasiswambkm/${id}`
+                );
+                setDetail(response.data.data);
+                setNamaKegiatan(detail.nama_kegiatan);
+                setMitra(detail.mitra);
+                setTanggalMulai(detail.tanggal_mulai);
+                setTanggalBerakhir(detail.tanggal_berakhir);
+                setTempatPelaksanaan(detail.tempat_pelaksanaan);
+                if (detail.jenis_mbkm === "Studi Independen") {
+                    setJenisProgram(programOptions[0]);
+                } else {
+                    setJenisProgram(programOptions[1]);
+                }
+            } catch (error) {
+            }
+        };
+        fetchData();
+    }, [id]);
+
+    console.log('Nama Kegiatan: ', namaKegiatan);
+    console.log('Nama Mitra: ', mitra);
+    console.log('Tanggal Mulai: ', tanggalMulai);
+    console.log('Tanggal Berakhir: ', tanggalBerakhir);
+    console.log('Tanggal Pelaksanaan: ', tempatPelaksanaan);
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -45,7 +77,7 @@ export default function InputKelulusan() {
         formData.append("dokumen_proposal", file);
         formData.append("tempat_pelaksanaan", tempatPelaksanaan);
         axios
-            .post("http://localhost:8000/mahasiswambkm", formData, {
+            .put(`http://localhost:8000/mahasiswambkm/${id}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${token}`,
@@ -152,10 +184,8 @@ export default function InputKelulusan() {
             setTanggalBerakhirError('Tanggal berakhir tidak boleh kosong');
         } else if (value <= tanggalMulai) {
             setTanggalBerakhirError('Tanggal berakhir harus setelah tanggal mulai');
-
         } else {
             setTanggalBerakhirError('');
-            setTanggalMulaiError('');
         }
         setTanggalBerakhir(value);
     };
@@ -268,8 +298,7 @@ export default function InputKelulusan() {
                                 onChange={handleTanggalBerakhirChange}
                                 min={tanggalMulai} // Memastikan tanggal minimal adalah start date yang telah dipilih
                                 required
-                                disabled={!tanggalMulai}
-                                className={`w-full px-3 py-2 border border-gray-400 rounded-md focus:ring focus:ring-darkblue-04 focus:ring-opacity-50 ${!tanggalMulai ? 'opacity-50' : ''}`}
+                                className="w-full px-3 py-2 border border-gray-400 rounded-md focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
                             />
                             {tanggalBerakhirError && <p className="text-red-500 text-xs mt-2">{tanggalBerakhirError}</p>}
                         </div>
