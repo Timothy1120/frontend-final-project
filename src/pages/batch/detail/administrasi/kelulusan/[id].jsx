@@ -2,13 +2,45 @@ import Button from "@/components/Button";
 import MainLayout from "@/components/MainLayout";
 import { useRouter } from "next/router";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useContext } from "react";
-import { UserContext } from '../../../../../context/UserContext';
+import { useEffect, useState, useContext } from "react";
+import { UserContext } from "../../../../../context/UserContext";
+import Tooltip from "@/components/Tooltip";
+import Spinner from "@/components/Spinner";
+import axios from "axios";
+import Cookies from "js-cookie";
+import Link from "next/link";
 
 export default function Kelulusan() {
   const { user } = useContext(UserContext);
   const router = useRouter();
   const { id } = router.query;
+  const token = Cookies.get("token");
+
+  const [dataMahasiswa, setDataMahasiswa] = useState([]); // State for data Mahasiswa
+
+  const [isLoading, setIsLoading] = useState(true); // State for loading
+
+  useEffect(() => {
+    if (router.isReady) {
+      const fetchDataMahasiswa = async () => {
+        try {
+          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          const response = await axios.get(
+            `http://localhost:7000/api/mahasiswambkm/${id}/allmahasiswa`
+          );
+          setTimeout(() => {
+            setDataMahasiswa(response.data.data);
+            setIsLoading(false);
+          }, 1000);
+        } catch (error) {
+          console.error(error);
+          setIsLoading(false); // Set loading state to false in case of error
+        }
+      };
+      fetchDataMahasiswa();
+    }
+    console.log(dataMahasiswa);
+  }, [router.isReady]);
 
   return (
     <MainLayout>
@@ -17,7 +49,7 @@ export default function Kelulusan() {
           Daftar Lulus Penerimaan Mitra
           <hr></hr>
         </div>
-        {user?.user?.role === "mahasiswa" && (
+        {user?.user?.role === "mahasiswa" && dataMahasiswa.length === 0 && (
           <div className="flex justify-end py-2">
             <Button
               variant="primary"
@@ -30,77 +62,90 @@ export default function Kelulusan() {
             />
           </div>
         )}
-        <table className="w-full border-collapse bg-white text-left text-xs font-normal text-gray-500">
-          <thead className="bg-gray-50">
-            <tr>
-              <th
-                scope="col"
-                className="px-4 py-2 text-sm font-semibold text-neutral-05"
-              >
-                No
-              </th>
-              <th
-                scope="col"
-                className="px-4 py-2 text-sm font-semibold text-neutral-05"
-              >
-                NIM
-              </th>
-              <th
-                scope="col"
-                className="px-4 py-2 text-sm font-semibold text-neutral-05"
-              >
-                Nama Mahasiswa
-              </th>
-              <th
-                scope="col"
-                className="px-4 py-2 text-sm font-semibold text-neutral-05"
-              >
-                Program
-              </th>
-              <th
-                scope="col"
-                className="px-4 py-2 text-sm font-semibold text-neutral-05"
-              >
-                Mitra
-              </th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-neutral-02 border-t border-neutral-02">
-            <tr className="hover:bg-gray-50 font-normal text-neutral-05 text-sm">
-              <td className="px-4 py-2">1.</td>
-              <td className="px-4 py-2">11S19016</td>
-              <td className="px-4 py-2">Timothy Sipahutar</td>
-              <td className="px-4 py-2">Magang</td>
-              <td className="px-4 py-2 ">PT. Ruang Belajar</td>
-              <td className="px-4 py-2">
-                <Button
-                  variant="primary"
-                  text="Tools"
-                  to="kelulusan/detail"
-                  textSize={"text-sm"}
-                />
-              </td>
-            </tr>
-            <tr className="hover:bg-gray-50 font-normal text-neutral-05 text-sm">
-              <td className="px-4 py-2">2.</td>
-              <td className="px-4 py-2">11S19016</td>
-              <td className="px-4 py-2">Timothy Sipahutar</td>
-              <td className="px-4 py-2">Studi Independen</td>
-              <td className="px-4 py-2 ">PT. LENTERA BANGSA BENDERANG</td>
-              <td className="px-4 py-2">
-                <Button
-                  variant="primary"
-                  text="Tools"
-                  to="kelulusan/detail"
-                  textSize={"text-sm"}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        {isLoading ? (
+          <Spinner />
+        ) : dataMahasiswa.length === 0 ? (
+          <div className="text-3xl font-light text-neutral-03 mt-4 text-center">
+            Belum ada mahasiswa yang lulus
+          </div>
+        ) : (
+          <table className="w-full border-collapse bg-white text-left text-xs font-normal text-gray-500 ">
+            <thead className="bg-gray-50">
+              <tr>
+                <th
+                  scope="col"
+                  className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                >
+                  No
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                >
+                  Jenis MBKM
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                >
+                  Nama Kegiatan
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                >
+                  Mitra
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                >
+                  Tempat Pelaksanaan
+                </th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-neutral-02 border-t border-neutral-02">
+              {dataMahasiswa.map((data, index) => (
+                <tr
+                  className="hover:bg-gray-50 font-normal text-neutral-05 text-sm"
+                  key={index}
+                >
+                  <td className="px-4 py-2">{index + 1}</td>
+                  <td className="px-4 py-2">{data.jenis_mbkm}</td>
+                  <td className="px-4 py-2">{data.nama_kegiatan}</td>
+                  <td className="px-4 py-2">{data.mitra}</td>
+                  <td className="px-4 py-2 ">{data.tempat_pelaksanaan}</td>
+                  <td className="px-4 py-2">
+                    <Tooltip className={"top-[3rem] "} text="Tools">
+                      <div className="flex flex-col divide-y divide-neutral-500 text-center">
+                        <Link
+                          href={`detail/${id}`}
+                          className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                        >
+                          Lihat Detail
+                        </Link>
+                        <Link
+                          href={`detail/${id}`}
+                          className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                        >
+                          Edit
+                        </Link>
+                        <Link
+                          href={`edit/${id}`}
+                          className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                        >
+                          Unduh
+                        </Link>
+                      </div>
+                    </Tooltip>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
-
     </MainLayout>
   );
 }
