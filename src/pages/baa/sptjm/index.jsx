@@ -34,7 +34,7 @@ export default function SuratPTJM() {
           setTimeout(() => {
             setDataRequest(response.data.data);
             setIsLoading(false);
-          });
+          }, 1000);
         }
       } catch (error) {
         console.error(error);
@@ -52,7 +52,7 @@ export default function SuratPTJM() {
         `http://localhost:7000/api/sptjm/${id}/generate-sptjm`
       );
       if (response.status === 200) {
-        router.push('sptjm');
+        router.push("sptjm");
       }
     } catch (error) {
       console.error(error);
@@ -66,7 +66,7 @@ export default function SuratPTJM() {
         `http://localhost:7000/api/sptjm/${id}/download-sptjm`
       );
       if (response.status === 200) {
-        router.push('sptjm');
+        router.push("sptjm");
       }
     } catch (error) {
       console.error(error);
@@ -157,10 +157,16 @@ export default function SuratPTJM() {
                   <td className="px-4 py-2">
                     <Tooltip text={"Tools"} className={"top-10"}>
                       <div className="flex flex-col divide-y divide-neutral-500 text-center">
-                        <button className="px-4 py-2" onClick={() => handleGenerate(data.id)}>
+                        <button
+                          className="px-4 py-2"
+                          onClick={() => handleGenerate(data.id)}
+                        >
                           Generate SPTJM
                         </button>
-                        <button className="px-4 py-2" onClick={() => downloadSPTJM(data.id)}>
+                        <button
+                          className="px-4 py-2"
+                          onClick={() => downloadSPTJM(data.id)}
+                        >
                           Download SPTJM
                         </button>
                         <Link href={"sptjm/detail"} className="px-4 py-2">

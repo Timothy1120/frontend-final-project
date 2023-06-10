@@ -13,6 +13,7 @@ export default function DaftarBatch() {
   console.log("user-role: : ", user?.user?.role);
 
   const [dataBatch, setDataBatch] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // State for loading
   const token = Cookies.get("token");
   useEffect(() => {
     const fetchDataBatch = async () => {
@@ -21,7 +22,10 @@ export default function DaftarBatch() {
         const response = await axios.get(
           "http://localhost:7000/api/batch/allbatches"
         );
-        setDataBatch(response.data.data);
+        setTimeout(() => {
+          setDataBatch(response.data.data);
+          setIsLoading(false);
+        });
       } catch (error) {
         console.error(error);
       }
@@ -43,7 +47,9 @@ export default function DaftarBatch() {
           )}
         </div>
         <div className="w-full my-6 grid grid-cols-1 gap-8">
-          {dataBatch.length === 0 ? (
+          {isLoading ? (
+            <Spinner />
+          ) : dataBatch.length === 0 ? (
             <div className="text-3xl font-light text-neutral-03 mt-4 text-center">
               Belum ada program
             </div>
