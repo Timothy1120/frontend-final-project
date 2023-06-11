@@ -19,7 +19,7 @@ export default function AssignKoordinator() {
     function getUserId(token, secretKey) {
         try {
             const decodedToken = jwt.verify(token, secretKey);
-            const userId = decodedToken.sub; 
+            const userId = decodedToken.sub;
 
             return userId;
         } catch (error) {
@@ -61,7 +61,7 @@ export default function AssignKoordinator() {
                 setSuccess(true);
                 setModalOpen(true);
                 setTimeout(() => {
-                    router.push("/koordinator/assign-koordinator");
+                    router.push("/assign-koordinator");
                 }, 1000);
             })
             .catch((error) => {

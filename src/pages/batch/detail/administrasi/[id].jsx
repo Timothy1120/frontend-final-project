@@ -226,15 +226,15 @@ export default function Proposal() {
           )}
           {(user?.detailInfo?.isKoordinator === true ||
             user?.user?.role === "admin") && (
-            <Button
-              variant="primary"
-              id="upload-dokumen"
-              name="upload-dokumen"
-              text="Upload Dokumen"
-              to={`upload-dokumen/${id}`}
-              textSize="text-sm"
-            />
-          )}
+              <Button
+                variant="primary"
+                id="upload-dokumen"
+                name="upload-dokumen"
+                text="Upload Dokumen Administrasi"
+                to={`upload-dokumen/${id}`}
+                textSize="text-sm"
+              />
+            )}
           <Button
             variant="primary"
             id="penerimaan-mitra"
@@ -282,7 +282,7 @@ export default function Proposal() {
         {isLoading ? (
           <Spinner />
         ) : dataProposal.length === 0 ? (
-          <div className="text-3xl font-light text-neutral-03 mt-4 text-center">
+          <div className="text-sm font-light text-neutral-03 mt-4 text-center">
             Belum ada pengajuan proposal
           </div>
         ) : (
@@ -369,12 +369,12 @@ export default function Proposal() {
                       text={"Tools"}
                       className={
                         user?.detailInfo?.isKoordinator === true &&
-                        data.status_approval === "Menunggu"
+                          data.status_approval === "Menunggu"
                           ? "top-[6.5rem]"
                           : user?.detailInfo?.isKoordinator === false &&
                             data.is_suratrekomendasi_generated === true
-                          ? "top-[5rem]"
-                          : "top-[3rem]"
+                            ? "top-[5rem]"
+                            : "top-[3rem]"
                       }
                     >
                       <div className="flex flex-col divide-y divide-neutral-500 text-center">

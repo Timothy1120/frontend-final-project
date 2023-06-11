@@ -39,8 +39,8 @@ export default function InputKelulusan() {
         formData.append("nama_kegiatan", namaKegiatan);
         formData.append("jenis_mbkm", jenisProgram);
         formData.append("mitra", mitra);
-        formData.append("tanggal_mulai", moment(tanggalMulai).toISOString());
-        formData.append("tanggal_berakhir", moment(tanggalBerakhir).toISOString());
+        formData.append("tanggal_mulai", moment(tanggalMulai).add(1, 'days').toISOString());
+        formData.append("tanggal_berakhir", moment(tanggalBerakhir).add(1, 'days').toISOString());
         formData.append("batchId", id);
         formData.append("dokumen_proposal", file);
         formData.append("tempat_pelaksanaan", tempatPelaksanaan);
@@ -172,8 +172,8 @@ export default function InputKelulusan() {
 
     console.log('Nama Kegiatan: ', namaKegiatan);
     console.log('Mitra: ', mitra);
-    console.log('Tanggal Mulai: ', tanggalMulai);
-    console.log('Tanggal Berakhir: ', tanggalBerakhir);
+    console.log('Tanggal Mulai: ', moment(tanggalMulai).add(1, 'days').toISOString());
+    console.log('Tanggal Berakhir: ', moment(tanggalBerakhir).add(1, 'days').toISOString());
     console.log('Jenis Program: ', jenisProgram);
     console.log('Tempat Pelaksanaan: ', tempatPelaksanaan);
     console.log('File: ', file);

@@ -9,7 +9,7 @@ import moment from "moment";
 export default function InputKelulusan() {
     const router = useRouter();
     const { id } = router.query;
-
+    const token = Cookies.get("token");
     const programOptions = ["Studi Independen", "Magang"];
     const [file, setFile] = useState(null);
     const [jenisProgram, setJenisProgram] = useState(programOptions[0]);
@@ -19,8 +19,8 @@ export default function InputKelulusan() {
     const [tanggalBerakhir, setTanggalBerakhir] = useState('');
     const [tempatPelaksanaan, setTempatPelaksanaan] = useState('');
     const [fileName, setFileName] = useState(null);
+    const [batchId, setBatchId] = useState(null);
     const [errors, setErrors] = useState({});
-    const [detail, setDetail] = useState([]);
     const [filePath, setFilePath] = useState('');
 
     // Error Field
@@ -41,28 +41,29 @@ export default function InputKelulusan() {
                 const response = await axios.get(
                     `http://localhost:7000/api/mahasiswambkm/${id}`
                 );
-                setDetail(response.data.data);
-                setNamaKegiatan(detail.nama_kegiatan);
-                setMitra(detail.mitra);
-                setTanggalMulai(detail.tanggal_mulai);
-                setTanggalBerakhir(detail.tanggal_berakhir);
-                setTempatPelaksanaan(detail.tempat_pelaksanaan);
-                if (detail.jenis_mbkm === "Studi Independen") {
+                console.log(response.data.data)
+                setNamaKegiatan(response.data.data.nama_kegiatan);
+                setMitra(response.data.data.mitra);
+                setTanggalMulai(new Date(response.data.data.tanggal_mulai).toISOString().slice(0, 10));
+                setTanggalBerakhir(new Date(response.data.data.tanggal_berakhir).toISOString().slice(0, 10));
+                setTempatPelaksanaan(response.data.data.tempat_pelaksanaan);
+                if (response.data.data.jenis_mbkm === "Studi Independen") {
                     setJenisProgram(programOptions[0]);
                 } else {
                     setJenisProgram(programOptions[1]);
                 }
+                setBatchId(response.data.data.batchId);
+                setFilePath(response.data.data.bukti_kelulusan_path);
             } catch (error) {
+                console.log(error);
             }
         };
         fetchData();
+
     }, [id]);
 
-    console.log('Nama Kegiatan: ', namaKegiatan);
-    console.log('Nama Mitra: ', mitra);
-    console.log('Tanggal Mulai: ', tanggalMulai);
-    console.log('Tanggal Berakhir: ', tanggalBerakhir);
-    console.log('Tanggal Pelaksanaan: ', tempatPelaksanaan);
+
+
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -73,9 +74,9 @@ export default function InputKelulusan() {
         formData.append("mitra", mitra);
         formData.append("tanggal_mulai", moment(tanggalMulai).toISOString());
         formData.append("tanggal_berakhir", moment(tanggalBerakhir).toISOString());
-        formData.append("batchId", id);
         formData.append("dokumen_proposal", file);
         formData.append("tempat_pelaksanaan", tempatPelaksanaan);
+        formData.append("oldfilepath", filePath);
         axios
             .put(`http://localhost:8000/mahasiswambkm/${id}`, formData, {
                 headers: {
@@ -87,7 +88,7 @@ export default function InputKelulusan() {
                 setSuccess(true);
                 setModalOpen(true);
                 setTimeout(() => {
-                    router.push(`/batch/detail/administrasi/kelulusan/${id}`);
+                    router.push(`/batch/detail/administrasi/kelulusan/${batchId}`);
                 }, 1000);
             })
             .catch((error) => {
@@ -172,6 +173,7 @@ export default function InputKelulusan() {
             setTanggalMulaiError('Tanggal mulai tidak boleh kosong');
         } else if (value >= tanggalBerakhir) {
             setTanggalMulaiError('Tanggal mulai harus sebelum tanggal berakhir');
+            setTanggalBerakhir('')
         } else {
             setTanggalMulaiError('');
         }
@@ -186,6 +188,7 @@ export default function InputKelulusan() {
             setTanggalBerakhirError('Tanggal berakhir harus setelah tanggal mulai');
         } else {
             setTanggalBerakhirError('');
+            setTanggalMulaiError('')
         }
         setTanggalBerakhir(value);
     };
@@ -194,10 +197,14 @@ export default function InputKelulusan() {
         event.preventDefault();
     };
 
-    const handleRemoveFile = () => {
-        setFile(null);
-        setFileName(null);
+    const handleRemoveFilePath = (event) => {
+        event.stopPropagation();
+        setFilePath(null);
         setErrors((prevErrors) => ({ ...prevErrors, file: null }));
+    };
+    const handleRemoveFileName = () => {
+        setFile(null);
+        // setFilePath(filePath);
     };
 
     console.log('Nama Kegiatan: ', namaKegiatan);
@@ -206,6 +213,7 @@ export default function InputKelulusan() {
     console.log('Tanggal Berakhir: ', tanggalBerakhir);
     console.log('Jenis Program: ', jenisProgram);
     console.log('Tempat Pelaksanaan: ', tempatPelaksanaan);
+    console.log('BatchId: ', batchId);
     console.log('File: ', file);
 
     return (
@@ -220,7 +228,7 @@ export default function InputKelulusan() {
                     </h2>
                     <p className="text-base">
                         {success
-                            ? "Informasi kelulusan di mitra berhasil diinput!"
+                            ? "Informasi kelulusan berhasil diupdate!"
                             : error.map((err, index) => <span key={index}>{err}<br /></span>)
                         }
                     </p>
@@ -232,7 +240,7 @@ export default function InputKelulusan() {
                 </div>
             </Modal>
             <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
-                <p className="text-2xl font-bold">Form Input Kelulusan Di Mitra</p>
+                <p className="text-2xl font-bold">Update Input Kelulusan Di Mitra</p>
                 <form className="mt-4" onSubmit={onSubmit}>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
@@ -341,21 +349,21 @@ export default function InputKelulusan() {
                             htmlFor="attachment"
                             className="block font-medium mb-2"
                         >
-                            Attachment
+                            Bukti Kelulusan
                         </label>
                         {/* <input type="file" id="dokumen_proposal" name="dokumen_proposal" className="block w-full py-2 px-3 rounded-md border border-gray-300 bg-white text-gray-700 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" onChange={handleFileChange} />
                                     {errors.file && <p className="text-red-500 text-xs mt-2">{errors.file}</p>} */}
-                        <div class="flex items-center justify-center w-full">
+                        <div className="flex items-center justify-center w-full">
                             <label
                                 for="dropzone-file"
-                                class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 "
+                                className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 "
                             >
                                 <div
-                                    class="flex flex-col items-center justify-center pt-5 pb-6"
+                                    className="flex flex-col items-center justify-center pt-5 pb-6"
                                     onDrop={handleFileChange}
                                     onDragOver={handleDragOver}
                                 >
-                                    {fileName ? (
+                                    {filePath ? (
                                         <>
                                             <svg
                                                 fill="none"
@@ -364,7 +372,7 @@ export default function InputKelulusan() {
                                                 viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 aria-hidden="true"
-                                                class="w-10 h-10 mb-3 text-gray-400"
+                                                className="w-10 h-10 mb-3 text-gray-400"
                                             >
                                                 <path
                                                     strokeLinecap="round"
@@ -372,15 +380,42 @@ export default function InputKelulusan() {
                                                     d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
                                                 />
                                             </svg>
-                                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                                {fileName}
+                                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                {filePath}
                                             </p>
                                             <button
-                                                onClick={handleRemoveFile}
-                                                class="text-xs text-white p-1 rounded-sm bg-red-600"
+                                                onClick={handleRemoveFilePath}
+                                                className="text-xs text-white p-1 rounded-sm bg-red-600"
                                             >
                                                 Remove File
                                             </button>
+                                        </>
+                                    ) : fileName ? (
+                                        <>
+                                            <svg
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth={1.5}
+                                                viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                aria-hidden="true"
+                                                className="w-10 h-10 mb-3 text-gray-400"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"
+                                                />
+                                            </svg>
+                                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                {fileName}
+                                            </p>
+                                            <a
+                                                onClick={handleRemoveFileName}
+                                                className="text-xs text-white p-1 rounded-sm bg-red-600"
+                                            >
+                                                Remove File
+                                            </a>
                                         </>
                                     ) : (
                                         <>
@@ -391,7 +426,7 @@ export default function InputKelulusan() {
                                                 viewBox="0 0 24 24"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 aria-hidden="true"
-                                                class="w-10 h-10 mb-3 text-gray-400"
+                                                className="w-10 h-10 mb-3 text-gray-400"
                                             >
                                                 <path
                                                     strokeLinecap="round"
@@ -399,11 +434,11 @@ export default function InputKelulusan() {
                                                     d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"
                                                 />
                                             </svg>
-                                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                                <span class="font-semibold">Click to upload</span>{" "}
+                                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                <span className="font-semibold">Click to upload</span>{" "}
                                                 or drag and drop
                                             </p>
-                                            <p class="text-xs text-gray-500 dark:text-gray-400">
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">
                                                 PDF (MAX. 2MB)
                                             </p>
                                         </>
@@ -413,7 +448,7 @@ export default function InputKelulusan() {
                                     id="dropzone-file"
                                     name="dokumen_proposal"
                                     type="file"
-                                    class="hidden"
+                                    className="hidden"
                                     onChange={handleFileChange}
                                 />
                             </label>
