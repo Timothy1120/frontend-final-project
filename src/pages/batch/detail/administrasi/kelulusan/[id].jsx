@@ -31,7 +31,7 @@ export default function Kelulusan() {
           setTimeout(() => {
             setDataMahasiswa(response.data.data);
             setIsLoading(false);
-          }, 1000);
+          }, 300);
         } catch (error) {
           console.error(error);
           setIsLoading(false); // Set loading state to false in case of error
@@ -44,28 +44,30 @@ export default function Kelulusan() {
 
   return (
     <MainLayout>
-      <div className="rounded-sm border border-neutral-02 shadow-md m-5 py-2 px-5">
+      <div className="rounded-sm border border-neutral-02 shadow-md m-5 py-2 px-5 min-h-[20rem]">
         <div className="text-lg font-bold text-darkblue-04 mt-9 mb-2">
           Daftar Lulus Penerimaan Mitra
           <hr></hr>
         </div>
-        {user?.user?.role === "mahasiswa" && dataMahasiswa.length === 0 && (
-          <div className="flex justify-end py-2">
-            <Button
-              variant="primary"
-              id="button-input-kelulusan"
-              name="button-input-kelulusan"
-              text="Input Kelulusan Mitra"
-              to={`create/${id}`}
-              textSize="text-sm"
-              icon={<AiOutlinePlus className="mr-2 w-6 h-auto" />}
-            />
-          </div>
+        {!isLoading && (
+          user?.user?.role === "mahasiswa" && (
+            <div className="flex justify-end py-2">
+              <Button
+                variant="primary"
+                id="button-input-kelulusan"
+                name="button-input-kelulusan"
+                text="Input Kelulusan Mitra"
+                to={`create/${id}`}
+                textSize="text-sm"
+                icon={<AiOutlinePlus className="mr-2 w-6 h-auto" />}
+              />
+            </div>
+          )
         )}
         {isLoading ? (
           <Spinner />
         ) : dataMahasiswa.length === 0 ? (
-          <div className="text-3xl font-light text-neutral-03 mt-4 text-center">
+          <div className="text-2xl font-light text-neutral-03 mt-4 text-center">
             Belum ada mahasiswa yang lulus
           </div>
         ) : (
@@ -82,13 +84,13 @@ export default function Kelulusan() {
                   scope="col"
                   className="px-4 py-2 text-sm font-semibold text-neutral-05"
                 >
-                  Jenis MBKM
+                  Nama Mahasiswa
                 </th>
                 <th
                   scope="col"
                   className="px-4 py-2 text-sm font-semibold text-neutral-05"
                 >
-                  Nama Kegiatan
+                  Jenis MBKM
                 </th>
                 <th
                   scope="col"
@@ -109,34 +111,33 @@ export default function Kelulusan() {
               {dataMahasiswa.map((data, index) => (
                 <tr
                   className="hover:bg-gray-50 font-normal text-neutral-05 text-sm"
-                  key={index}
+                  key={data.id}
                 >
                   <td className="px-4 py-2">{index + 1}</td>
+                  <td className="px-4 py-2">{data.nama_mahasiswa}</td>
                   <td className="px-4 py-2">{data.jenis_mbkm}</td>
-                  <td className="px-4 py-2">{data.nama_kegiatan}</td>
                   <td className="px-4 py-2">{data.mitra}</td>
                   <td className="px-4 py-2 ">{data.tempat_pelaksanaan}</td>
                   <td className="px-4 py-2">
                     <Tooltip className={"top-[3rem] "} text="Tools">
                       <div className="flex flex-col divide-y divide-neutral-500 text-center">
                         <Link
-                          href={`detail/${id}`}
+                          href={`detail/${data.id}`}
                           className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
                         >
-                          Lihat Detail
+                          Detail
                         </Link>
-                        <Link
-                          href={`detail/${id}`}
-                          className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
-                        >
-                          Edit
-                        </Link>
-                        <Link
-                          href={`edit/${id}`}
-                          className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
-                        >
-                          Unduh
-                        </Link>
+                        {user?.user?.role === "mahasisswa" && (
+                          <Link
+                            href={`edit/${data.id}`}
+                            className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                          >
+                            Edit
+                          </Link>
+                        )}
+                        <button type="submit" className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200">
+                          Unduh Loa
+                        </button>
                       </div>
                     </Tooltip>
                   </td>

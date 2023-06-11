@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { IoSchoolOutline } from "react-icons/io5";
 
+
 export default function Dashboard({ userData }) {
   const [dataPengumuman, setDataPengumuman] = useState([]);
   const [dataBatch, setDataBatch] = useState([]);
@@ -35,6 +36,7 @@ export default function Dashboard({ userData }) {
   return (
     <MainLayout>
       <div className="flex mx-6 my-8 space-x-4">
+
         <div className="w-3/5">
           {isDataBatchLoading ? (
             <Spinner />
