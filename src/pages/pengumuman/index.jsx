@@ -84,7 +84,7 @@ export default function Pengumuman() {
             {dataPengumuman.map((data, index) => (
               <tr className="hover:bg-gray-50 text-sm" key={index}>
                 <td className="px-4 py-2 font-normal text-neutral-05">
-                  {data.id}
+                  {index + 1}
                 </td>
                 <td className="px-4 py-2">
                   <div className="font-medium text-gray-700">{data.judul}</div>
