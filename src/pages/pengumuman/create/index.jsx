@@ -44,7 +44,7 @@ export default function CreatePengumuman() {
         kategori: kategori,
       })
       .then((res) => {
-        router.push("/koordinator/pengumuman");
+        router.push("/pengumuman");
       })
       .catch((error) => {
         alert(error.message);

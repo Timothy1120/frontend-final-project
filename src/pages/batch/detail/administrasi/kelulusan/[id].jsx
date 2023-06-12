@@ -127,7 +127,7 @@ export default function Kelulusan() {
                         >
                           Detail
                         </Link>
-                        {user?.user?.role === "mahasisswa" && (
+                        {user?.user?.role === "mahasiswa" && (
                           <Link
                             href={`edit/${data.id}`}
                             className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
@@ -135,9 +135,6 @@ export default function Kelulusan() {
                             Edit
                           </Link>
                         )}
-                        <button type="submit" className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200">
-                          Unduh Loa
-                        </button>
                       </div>
                     </Tooltip>
                   </td>

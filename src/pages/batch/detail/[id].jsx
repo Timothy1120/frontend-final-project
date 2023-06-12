@@ -28,7 +28,7 @@ export default function DetailBatch() {
             </div>
           </div>
         </Link>
-        <Link href={`/laporan/${id}`}>
+        <Link href={`laporan/${id}`}>
           <div className="rounded-sm border border-neutral-02 shadow-md px-6 py-8">
             <div className="flex space-x-4">
               <FiMonitor className="w-16 h-auto" />
