@@ -14,17 +14,19 @@ export default function Login() {
   const router = useRouter();
   const { setUser } = useContext(UserContext);
 
+  const axiosInstance = axios.create({
+    baseURL: "http://localhost:7000/api",
+    timeout: 60000,
+  });
+
   useEffect(() => {
     const fetchUser = async () => {
       const token = Cookies.get("token");
       if (token) {
         try {
-          const res = await axios.get(
-            "http://localhost:7000/api/current-user",
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
+          const res = await axiosInstance.get("/current-user", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
           setUser(res.data.data);
           if (res.data.data.user.role === "admin") {
             router.push("/admin");
@@ -43,10 +45,7 @@ export default function Login() {
     event.preventDefault();
     try {
       const data = { username, password };
-      const response = await axios.post(
-        "http://localhost:7000/api/auth/login",
-        data
-      );
+      const response = await axiosInstance.post("/auth/login", data);
       const token = response.data.data.token;
       const refreshToken = response.data.data.refreshToken;
 

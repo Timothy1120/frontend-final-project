@@ -1,6 +1,6 @@
 import Button from "@/components/Button";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Tooltip from "@/components/Tooltip";
 import Link from "next/link";
@@ -8,8 +8,10 @@ import Cookies from "js-cookie";
 import Pagination from "@/components/Pagination";
 import { useRouter } from "next/router";
 import MainLayout from "@/components/MainLayout";
+import { UserContext } from '../../context/UserContext';
 
 export default function Pengumuman() {
+  const { user } = useContext(UserContext);
   const [dataPengumuman, setDataPengumuman] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -45,15 +47,18 @@ export default function Pengumuman() {
     <MainLayout>
       <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
         <div className="flex justify-end">
-          <Button
-            variant="primary"
-            id="button-pengajuan"
-            name="button-pengajuan"
-            text="Tambah Pengumuman"
-            to="pengumuman/create"
-            textSize="text-sm"
-            icon={<AiOutlinePlus className="mr-2 w-6 h-auto" />}
-          />
+          {user?.user?.role !== "mahasiswa" && (
+            <Button
+              variant="primary"
+              id="button-pengajuan"
+              name="button-pengajuan"
+              text="Tambah Pengumuman"
+              to="pengumuman/create"
+              textSize="text-sm"
+              icon={<AiOutlinePlus className="mr-2 w-6 h-auto" />}
+            />
+          )}
+
         </div>
         <table className="w-full border-collapse bg-white text-left text-base font-normal text-gray-500 mt-8">
           <thead className="bg-gray-50">
