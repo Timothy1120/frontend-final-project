@@ -102,6 +102,14 @@ export default function Dashboard({ userData }) {
                 </div>
               ))
             )}
+            <div className="flex justify-end text-italic">
+              <Link
+                href={'/pengumuman?page=1'}
+                className={`flex items-center mb-4 space-x-2 p-2 rounded-lg text-neutral-05 text-xs italic`}
+              >
+                Pengumuman lainnya
+              </Link>
+            </div>
           </div>
         </div>
       </div>
