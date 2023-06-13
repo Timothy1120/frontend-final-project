@@ -11,6 +11,7 @@ import Input from "@/components/Input";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();
   const { setUser } = useContext(UserContext);
 
@@ -63,6 +64,7 @@ export default function Login() {
       }
     } catch (error) {
       console.log(error.message);
+      setErrorMessage("Invalid username or password");
     }
   };
 
@@ -87,25 +89,8 @@ export default function Login() {
                 name="username"
                 onChange={(e) => setUsername(e.target.value)}
                 value={username}
+                className={"mb-2"}
               />
-              {/* <label
-                htmlFor="username"
-                className="text-neutral-05 text-base font-bold"
-              >
-                Username
-              </label>
-
-              <input
-                id="username"
-                name="username"
-                type="text"
-                required
-                className="block rounded-md border border-neutral-02 focus:outline-none focus:border-darkblue-02 py-2 px-4 my-2 shadow-sm w-full"
-                onChange={(e) => setUsername(e.target.value)}
-                value={username}
-              /> */}
-            </div>
-            <div className="mb-6">
               <Input
                 label="Password"
                 inputFor="password"
@@ -115,22 +100,12 @@ export default function Login() {
                 value={password}
                 inputType={"password"}
               />
-              {/* <label
-                htmlFor="password"
-                className="text-neutral-05 text-base font-bold"
-              >
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="block rounded-md border border-neutral-02 focus:outline-none focus:border-darkblue-02 py-2 px-4 my-2 shadow-sm w-full"
-                onChange={(e) => setPassword(e.target.value)}
-                value={password}
-              /> */}
             </div>
+            {errorMessage && (
+              <div className="text-red-500 text-center mb-4">
+                {errorMessage}
+              </div>
+            )}
             <button
               className="bg-darkblue-04 text-white font-bold py-2 px-4 rounded border block mx-auto w-full"
               type="submit"
