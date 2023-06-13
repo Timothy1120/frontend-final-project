@@ -49,8 +49,9 @@ export default function Kelulusan() {
           Daftar Lulus Penerimaan Mitra
           <hr></hr>
         </div>
-        {!isLoading && (
-          user?.user?.role === "mahasiswa" && (
+        {!isLoading &&
+          user?.user?.role === "mahasiswa" &&
+          dataMahasiswa.length === 0 && (
             <div className="flex justify-end py-2">
               <Button
                 variant="primary"
@@ -62,13 +63,12 @@ export default function Kelulusan() {
                 icon={<AiOutlinePlus className="mr-2 w-6 h-auto" />}
               />
             </div>
-          )
-        )}
+          )}
         {isLoading ? (
           <Spinner />
         ) : dataMahasiswa.length === 0 ? (
-          <div className="text-2xl font-light text-neutral-03 mt-4 text-center">
-            Belum ada mahasiswa yang lulus
+          <div className="text-2xl font-light text-neutral-03 mt-4 py-8 text-center">
+            Belum ada informasi kelulusan
           </div>
         ) : (
           <table className="w-full border-collapse bg-white text-left text-xs font-normal text-gray-500 ">
