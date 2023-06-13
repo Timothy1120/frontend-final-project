@@ -24,7 +24,8 @@ export default function Laporan() {
         baseURL: 'http://localhost:7000/api',
         headers: {
             "Authorization": `Bearer ${token}`
-        }
+        },
+        timeout: 60000
     });
 
     useEffect(() => {
@@ -109,8 +110,10 @@ export default function Laporan() {
                         {progressMingguan.map((data, index) => (
                             <>
                                 <div>
-                                    {data.is_submitted === false && (
+                                    {data.is_submitted === false ? (
                                         <span className="text-xs text-gray-500">Belum ada laporan dikumpulkan</span>
+                                    ) : (
+                                        <span className="text-xs text-gray-500">Laporan dikumpulkan</span>
                                     )}
                                 </div>
 

@@ -12,6 +12,11 @@ import { GrDocumentText } from "react-icons/gr";
 import { useContext } from "react";
 import { UserContext } from "../../../../context/UserContext";
 
+const api = axios.create({
+  baseURL: "http://localhost:7000/api",
+  timeout: 60000, // Timeout diatur menjadi 2 detik
+});
+
 export default function Proposal() {
   const { user } = useContext(UserContext);
   const router = useRouter();
@@ -22,14 +27,13 @@ export default function Proposal() {
   const [isLoading, setIsLoading] = useState(true); // State for loading
 
   const token = Cookies.get("token");
+
   useEffect(() => {
     if (router.isReady) {
       const fetchDataProposal = async () => {
         try {
-          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          const response = await axios.get(
-            `http://localhost:7000/api/proposal/${id}/proposals`
-          );
+          api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          const response = await api.get(`/proposal/${id}/proposals`);
           // Introduce a delay of 2 seconds before setting the data
           setTimeout(() => {
             setDataProposal(response.data.data);
@@ -43,10 +47,8 @@ export default function Proposal() {
 
       const fetchDocument = async () => {
         try {
-          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          const response = await axios.get(
-            `http://localhost:7000/api/document/${id}/documents`
-          );
+          api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          const response = await api.get(`/document/${id}/documents`);
           // Introduce a delay of 2 seconds before setting the data
           setTimeout(() => {
             setDocument(response.data.data);
@@ -65,15 +67,12 @@ export default function Proposal() {
 
   const handleDownload = async (proposalId, name) => {
     try {
-      const response = await axios.get(
-        `http://localhost:7000/api/proposal/${proposalId}/download`,
-        {
-          responseType: "blob",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await api.get(`/proposal/${proposalId}/download`, {
+        responseType: "blob",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const pdfBlob = new Blob([response.data], { type: "application/pdf" });
 
@@ -85,15 +84,12 @@ export default function Proposal() {
 
   const handleDocumentDownload = async (documentId, name) => {
     try {
-      const response = await axios.get(
-        `http://localhost:7000/api/document/${documentId}/download`,
-        {
-          responseType: "blob",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await api.get(`/document/${documentId}/download`, {
+        responseType: "blob",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       // Mendapatkan ekstensi berdasarkan tipe konten
       let extension = "";
@@ -144,10 +140,8 @@ export default function Proposal() {
 
   const handleApprove = async (proposalId) => {
     try {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      const response = await axios.put(
-        `http://localhost:7000/api/proposal/${proposalId}/approve`
-      );
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await api.put(`/proposal/${proposalId}/approve`);
 
       if (response.status === 200) {
         setDataProposal(
@@ -168,10 +162,8 @@ export default function Proposal() {
 
   const handleReject = async (proposalId) => {
     try {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      const response = await axios.put(
-        `http://localhost:7000/api/proposal/${proposalId}/reject`
-      );
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await api.put(`/proposal/${proposalId}/reject`);
 
       if (response.status === 200) {
         setDataProposal(
@@ -192,8 +184,8 @@ export default function Proposal() {
 
   const handleUnduhSuratRekomendasi = async (proposalId, name) => {
     try {
-      const response = await axios.get(
-        `http://localhost:7000/api/proposal/${proposalId}/unduh-surat-rekomendasi`,
+      const response = await api.get(
+        `/proposal/${proposalId}/unduh-surat-rekomendasi`,
         {
           responseType: "blob",
           headers: {
