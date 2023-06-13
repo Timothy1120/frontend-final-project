@@ -18,10 +18,12 @@ export default function ListLaporan() {
   // Inisialisasi instance axios dengan konfigurasi dasar
   const axiosInstance = axios.create({
     baseURL: "http://localhost:7000/api",
+    timeout: 8000,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+
   useEffect(() => {
     if (!id) {
       return;
@@ -29,24 +31,25 @@ export default function ListLaporan() {
 
     const fetchAllBimbingan = async () => {
       try {
-        // setLoading(true);
-        const response = await axiosInstance.get(`/bimbingan`);
-        setBimbingan(response.data.data);
-        return response.data.data;
+        const response = await axiosInstance.get("/bimbingan");
+        setTimeout(() => {
+          setBimbingan(response.data.data);
+        }, 1000);
       } catch (error) {
         console.log(error);
-      } finally {
-        // setLoading(false);
       }
     };
 
     const fetchDetailBimbingan = async (id) => {
       try {
         const response = await axiosInstance.get(`/mahasiswambkm/${id}`);
-        setDetailBimbingan((prevState) => ({
-          ...prevState,
-          [id]: response.data.data,
-        }));
+        setTimeout(() => {
+          setDetailBimbingan((prevState) => ({
+            ...prevState,
+            [id]: response.data.data,
+          }));
+        }, 1000);
+
         console.log(response.data);
       } catch (error) {
         console.log(error);
@@ -55,7 +58,6 @@ export default function ListLaporan() {
 
     fetchAllBimbingan().then((bimbingan) => {
       if (bimbingan && bimbingan.length > 0) {
-        // check if bimbingan is defined and has items
         bimbingan.forEach((item) => {
           fetchDetailBimbingan(item.mahasiswa_mbkm_id);
         });
@@ -63,7 +65,7 @@ export default function ListLaporan() {
     });
   }, [id, token]);
   console.log("All Bimbingan: ", bimbingan);
-  console.log("All  Detail Bimbingan: ", detailBimbingan);
+  console.log("All Detail Bimbingan: ", detailBimbingan);
   return (
     <MainLayout>
       <div className="grid grid-cols-4 gap-6 mx-6 my-8">
