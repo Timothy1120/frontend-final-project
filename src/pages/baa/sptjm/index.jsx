@@ -1,72 +1,45 @@
-import Button from "@/components/Button";
-import Tooltip from "@/components/Tooltip";
-import Link from "next/link";
-import { useState, useEffect, useContext } from "react";
+import MainLayout from "@/components/MainLayout";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { UserContext } from "../../../../src/context/UserContext";
-import MainLayout from "@/components/MainLayout";
+import { useEffect, useState } from "react";
+import Tooltip from "@/components/Tooltip";
+import Link from "next/link";
 import Spinner from "@/components/Spinner";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
-export default function SuratPTJM() {
-  const { user } = useContext(UserContext);
+export default function SuratRekomendasi() {
   const router = useRouter();
   const token = Cookies.get("token");
-  const [dataRequest, setDataRequest] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
+  const [approvedProposals, setApprovedProposals] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // State for loading
   useEffect(() => {
-    const fetchRequest = async () => {
+    const fetchProposals = async () => {
       try {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        if (user?.user?.role == "mahasiswa") {
-          const mahasiswaId = user?.detailInfo?.id;
-          const response = await axios.get(
-            `http://localhost:7000/api/sptjm/${mahasiswaId}/allrequestedsptjm`
-          );
-          setTimeout(() => {
-            setDataRequest(response.data.data);
-            setIsLoading(false);
-          });
-        } else if (user?.user?.role == "staf") {
-          const response = await axios.get("http://localhost:7000/api/sptjm");
-          setTimeout(() => {
-            setDataRequest(response.data.data);
-            setIsLoading(false);
-          }, 1000);
-        }
+        const response = await axios.get(
+          `http://localhost:7000/api/proposal/approved-proposals?srgenerated=true`
+        );
+        setTimeout(() => {
+          setApprovedProposals(response.data.data);
+          setIsLoading(false);
+        }, 1000);
       } catch (error) {
         console.error(error);
         setIsLoading(false);
       }
     };
-    fetchRequest();
-    // console.log(dataRequest);
+
+    fetchProposals();
   }, [token]);
 
-  const handleGenerate = async (id) => {
+  const handleGenerate = async (proposalId) => {
     try {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const response = await axios.put(
-        `http://localhost:7000/api/sptjm/${id}/generate-sptjm`
+        `http://localhost:7000/api/proposal/${proposalId}/generate-sptjm`
       );
       if (response.status === 200) {
-        router.push("sptjm");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const downloadSPTJM = async (id) => {
-    try {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      const response = await axios.put(
-        `http://localhost:7000/api/sptjm/${id}/download-sptjm`
-      );
-      if (response.status === 200) {
-        router.push("sptjm");
+        router.reload();
       }
     } catch (error) {
       console.error(error);
@@ -76,28 +49,17 @@ export default function SuratPTJM() {
   return (
     <MainLayout>
       <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
-        {user && user?.user?.role === "mahasiswa" && (
-          <div className="flex justify-end">
-            <Button
-              variant="primary"
-              id="ajukan-sptjm"
-              name="ajukan-sptjm"
-              text="Ajukan SPTJM"
-              to="sptjm/create"
-            />
-          </div>
-        )}
-        <div className="text-lg font-bold text-darkblue-04 mt-9 mb-14">
-          Daftar Pengajuan SPTJM
+        <div className="text-base text-darkblue-04 font-bold mt-9 mb-6">
+          Daftar Pengajuan Surat Rekomendasi
         </div>
         {isLoading ? (
           <Spinner />
-        ) : dataRequest.length === 0 ? (
+        ) : approvedProposals.length === 0 ? (
           <div className="text-3xl font-light text-neutral-03 mt-4 text-center">
-            Belum ada pengajuan SPTJM
+            Belum ada pengajuan proposal
           </div>
         ) : (
-          <table className="w-full border-collapse bg-white text-left text-sm font-normal text-gray-500">
+          <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
             <thead className="bg-gray-50">
               <tr>
                 <th
@@ -110,68 +72,88 @@ export default function SuratPTJM() {
                   scope="col"
                   className="px-4 py-2 text-sm font-semibold text-neutral-05"
                 >
-                  Nama Lengkap
-                </th>
-                <th
-                  scope="col"
-                  className="px-4 py-2 text-sm font-semibold text-neutral-05"
-                >
                   NIM
                 </th>
                 <th
                   scope="col"
                   className="px-4 py-2 text-sm font-semibold text-neutral-05"
                 >
-                  Status
+                  Nama Mahasiswa
                 </th>
                 <th
                   scope="col"
                   className="px-4 py-2 text-sm font-semibold text-neutral-05"
                 >
-                  Tanggal Pengajuan
+                  Angkatan
                 </th>
-                <th scope="col"></th>
+                <th
+                  scope="col"
+                  className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                >
+                  Status Proposal
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                >
+                  Status Surat Rekomendasi
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                >
+                  Status SPTJM
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                ></th>
               </tr>
             </thead>
+
             <tbody className="divide-y divide-neutral-02 border-t border-neutral-02">
-              {dataRequest.map((data, index) => (
-                <tr
-                  className="hover:bg-gray-50 font-normal text-neutral-05"
-                  key={index}
-                >
-                  <td className="px-4 py-2 ">{index + 1}</td>
-                  <td className="px-4 py-2">{data.nama_lengkap}</td>
-                  <td className="px-4 py-2">{data.nim}</td>
-                  <td className=" px-4 py-2">
-                    {data.status === "Menunggu" && (
-                      <span className="text-warning">{data.status}</span>
+              {approvedProposals.map((data, index) => (
+                <tr className="hover:bg-gray-50" key={index}>
+                  <td className="px-4 py-2 font-normal text-neutral-05">
+                    {index + 1}
+                  </td>
+                  <td className="px-4 py-2 font-normal text-neutral-05">
+                    {data.nim}
+                  </td>
+                  <td className="px-4 py-2 font-normal text-neutral-05">
+                    {data.nama_mahasiswa}
+                  </td>
+                  <td className="px-4 py-2 font-normal text-neutral-05">
+                    {data.angkatan}
+                  </td>
+                  <td className="px-4 py-2 font-normal text-success">
+                    {data.status_approval}
+                  </td>
+                  <td className="px-4 py-2 font-normal ">
+                    {data.is_suratrekomendasi_generated === true && (
+                      <span className="text-success">Telah Diterbitkan</span>
                     )}
-                    {data.status === "Diterbitkan" && (
-                      <span className="text-success">{data.status}</span>
-                    )}
-                    {data.status === "Ditolak" && (
-                      <span className="text-danger">{data.status}</span>
+                    {data.is_suratrekomendasi_generated === false && (
+                      <span className="text-warning">Belum Diterbitkan</span>
                     )}
                   </td>
-                  <td className="px-4 py-2">{data.createdAt}</td>
+                  <td className="px-4 py-2 font-normal ">
+                    {data.is_sptjm_generated === true && (
+                      <span className="text-success">Telah Diterbitkan</span>
+                    )}
+                    {data.is_sptjm_generated === false && (
+                      <span className="text-warning">Belum Diterbitkan</span>
+                    )}
+                  </td>
                   <td className="px-4 py-2">
-                    <Tooltip text={"Tools"} className={"top-10"}>
+                    <Tooltip text={"Tools"} className={"top-16"}>
                       <div className="flex flex-col divide-y divide-neutral-500 text-center">
                         <button
-                          className="px-4 py-2"
+                          className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
                           onClick={() => handleGenerate(data.id)}
                         >
                           Generate SPTJM
                         </button>
-                        <button
-                          className="px-4 py-2"
-                          onClick={() => downloadSPTJM(data.id)}
-                        >
-                          Download SPTJM
-                        </button>
-                        <Link href={"sptjm/detail"} className="px-4 py-2">
-                          Detail
-                        </Link>
                       </div>
                     </Tooltip>
                   </td>
