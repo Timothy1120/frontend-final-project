@@ -51,7 +51,7 @@ export default function SuratRekomendasi() {
     <MainLayout>
       <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
         <div className="text-base text-darkblue-04 font-bold mt-9 mb-6">
-          Daftar Pengajuan Proposal
+          Daftar Pengajuan Surat Rekomendasi
         </div>
         {isLoading ? (
           <Spinner />
@@ -102,6 +102,12 @@ export default function SuratRekomendasi() {
                 <th
                   scope="col"
                   className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                >
+                  Status SPTJM
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-2 text-sm font-semibold text-neutral-05"
                 ></th>
               </tr>
             </thead>
@@ -129,6 +135,14 @@ export default function SuratRekomendasi() {
                       <span className="text-success">Telah Diterbitkan</span>
                     )}
                     {data.is_suratrekomendasi_generated === false && (
+                      <span className="text-warning">Belum Diterbitkan</span>
+                    )}
+                  </td>
+                  <td className="px-4 py-2 font-normal ">
+                    {data.is_sptjm_generated === true && (
+                      <span className="text-success">Telah Diterbitkan</span>
+                    )}
+                    {data.is_sptjm_generated === false && (
                       <span className="text-warning">Belum Diterbitkan</span>
                     )}
                   </td>
