@@ -5,8 +5,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import React, { useContext, useState, useEffect } from "react";
-import { UserContext } from '../context/UserContext';
-
+import { UserContext } from "../context/UserContext";
+import Input from "@/components/Input";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -18,7 +18,6 @@ export default function Login() {
     baseURL: "http://localhost:7000/api",
     timeout: 60000,
   });
-
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -53,8 +52,8 @@ export default function Login() {
       Cookies.set("token", token);
       Cookies.set("refreshToken", refreshToken);
 
-      const res = await axios.get('http://localhost:7000/api/current-user', {
-        headers: { 'Authorization': `Bearer ${token}` },
+      const res = await axios.get("http://localhost:7000/api/current-user", {
+        headers: { Authorization: `Bearer ${token}` },
       });
       setUser(res.data.data);
       if (res.data.data.user.role === "admin") {
@@ -81,12 +80,21 @@ export default function Login() {
           </div>
           <form className="font-poppins" onSubmit={handleSubmit}>
             <div className="mb-6">
-              <label
+              <Input
+                label="Username"
+                inputFor="username"
+                id="username"
+                name="username"
+                onChange={(e) => setUsername(e.target.value)}
+                value={username}
+              />
+              {/* <label
                 htmlFor="username"
                 className="text-neutral-05 text-base font-bold"
               >
                 Username
               </label>
+
               <input
                 id="username"
                 name="username"
@@ -95,10 +103,19 @@ export default function Login() {
                 className="block rounded-md border border-neutral-02 focus:outline-none focus:border-darkblue-02 py-2 px-4 my-2 shadow-sm w-full"
                 onChange={(e) => setUsername(e.target.value)}
                 value={username}
-              />
+              /> */}
             </div>
             <div className="mb-6">
-              <label
+              <Input
+                label="Password"
+                inputFor="password"
+                id="password"
+                name="password"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                inputType={"password"}
+              />
+              {/* <label
                 htmlFor="password"
                 className="text-neutral-05 text-base font-bold"
               >
@@ -112,7 +129,7 @@ export default function Login() {
                 className="block rounded-md border border-neutral-02 focus:outline-none focus:border-darkblue-02 py-2 px-4 my-2 shadow-sm w-full"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
-              />
+              /> */}
             </div>
             <button
               className="bg-darkblue-04 text-white font-bold py-2 px-4 rounded border block mx-auto w-full"

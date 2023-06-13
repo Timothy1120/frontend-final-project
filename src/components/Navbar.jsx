@@ -5,7 +5,6 @@ import { useState } from "react";
 import * as AiIcons from "react-icons/ai";
 import { useRouter } from "next/router";
 
-
 export default function Navbar({ onLogout, userName }) {
   const [dropdown, setDropdown] = useState(false);
   const showDropdown = () => setDropdown(!dropdown);
@@ -13,20 +12,15 @@ export default function Navbar({ onLogout, userName }) {
 
   const logout = () => {
     onLogout();
-    router.push('/login');  // redirect user to login page
+    router.push("/login"); // redirect user to login page
   };
   return (
     <nav className=" bg-neutral-01 font-poppins border-b border-neutral-02">
       <div className="flex flex-wrap items-center justify-between">
         <div className="h-16 bg-darkblue-02 w-[260px]">
-          <div className="px-5 py-4 flex justify-between">
-            <div>
-              <Image src={delLogo} alt="logo IT Del" width={30} height={30} />
-            </div>
-            <div>
-              <Image src={mbkmLogo} alt="logo MBKM" width={66} height={30} />
-            </div>
-            <p className="text-base font-bold">Dashboard</p>
+          <div className="px-5 py-4 flex justify-around">
+            <Image src={delLogo} alt="logo IT Del" width={35} height={20} />
+            <Image src={mbkmLogo} alt="logo MBKM" width={70} height={20} />
           </div>
         </div>
         <div className="hidden w-full md:block md:w-auto" id="navbar-dropdown">
@@ -45,7 +39,7 @@ export default function Navbar({ onLogout, userName }) {
               hidden={!dropdown}
             >
               <ul className="py-2 text-neutral-05">
-                <li>
+                {/* <li>
                   <a href="#" className="block px-4 py-2 hover:bg-gray-100">
                     Dashboard
                   </a>
@@ -54,16 +48,18 @@ export default function Navbar({ onLogout, userName }) {
                   <a href="#" className="block px-4 py-2 hover:bg-gray-100">
                     Settings
                   </a>
+                </li> */}
+                <li>
+                  <div className="py-1">
+                    <button
+                      onClick={logout}
+                      className="block px-4 py-2 text-sm text-neutral-05 hover:bg-gray-100"
+                    >
+                      Sign out
+                    </button>
+                  </div>
                 </li>
               </ul>
-              <div className="py-1">
-                <button
-                  onClick={logout}
-                  className="block px-4 py-2 text-sm text-neutral-05 hover:bg-gray-100"
-                >
-                  Sign out
-                </button>
-              </div>
             </div>
           </div>
         </div>

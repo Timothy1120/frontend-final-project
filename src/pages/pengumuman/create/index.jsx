@@ -43,8 +43,8 @@ export default function CreatePengumuman() {
         deskripsi: isiPengumuman,
         kategori: kategori,
       })
-      .then((res) => {
-        router.push("/pengumuman");
+      .then(() => {
+        router.push("pengumuman");
       })
       .catch((error) => {
         alert(error.message);
