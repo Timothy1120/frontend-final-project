@@ -17,6 +17,7 @@ export default function Sidebar() {
     { link: "/baa/surat-rekomendasi", text: "Surat Rekomendasi" },
     { link: "/baa/sptjm", text: "SPTJM" },
     { link: "/baa/transkrip", text: "Transkrip Nilai" },
+    { link: "/baa/mahasiswa-mbkm", text: "Mahasiswa MBKM" }
   ];
 
 

@@ -328,6 +328,12 @@ export default function Proposal() {
                 <th
                   scope="col"
                   className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                >
+                  Status SPTJM
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-2 text-sm font-semibold text-neutral-05"
                 ></th>
               </tr>
             </thead>
@@ -359,6 +365,13 @@ export default function Proposal() {
                   </td>
                   <td className="px-4 py-2 font-normal">
                     {data.is_suratrekomendasi_generated === false ? (
+                      <span className="text-warning">Belum Diterbitkan</span>
+                    ) : (
+                      <span className="text-success">Sudah Diterbitkan</span>
+                    )}
+                  </td>
+                  <td className="px-4 py-2 font-normal">
+                    {data.is_sptjm_generated === false ? (
                       <span className="text-warning">Belum Diterbitkan</span>
                     ) : (
                       <span className="text-success">Sudah Diterbitkan</span>
