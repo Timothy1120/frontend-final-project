@@ -12,23 +12,28 @@ export default function AjukanProposal() {
   const programOptions = ["Studi Independen", "Magang"];
   const [file, setFile] = useState(null);
   const [jenisProgram, setJenisProgram] = useState(programOptions[0]);
-  const [nik, setNik] = useState('');
+  const [nik, setNik] = useState("");
   const [currentSemester, setCurrentSemester] = useState(1);
-  const [ipk, setIpk] = useState('');
+  const [ipk, setIpk] = useState("");
   const [sks, setSks] = useState(0);
   const [fileName, setFileName] = useState(null);
   const [errors, setErrors] = useState({});
 
   // Error Field
-  const [nikError, setNikError] = useState('');
-  const [semesterError, setSemesterError] = useState('');
-  const [ipkError, setIPKError] = useState('');
-  const [sksError, setSKSError] = useState('');
+  const [nikError, setNikError] = useState("");
+  const [semesterError, setSemesterError] = useState("");
+  const [ipkError, setIPKError] = useState("");
+  const [sksError, setSKSError] = useState("");
 
   //Set Modal
   const [isModalOpen, setModalOpen] = useState(false);
   const [error, setError] = useState([]);
   const [success, setSuccess] = useState(false);
+
+  const axiosInstance = axios.create({
+    baseURL: "http://localhost:8000",
+    timeout: 5000, // Timeout diatur menjadi 5 detik
+  });
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -43,8 +48,9 @@ export default function AjukanProposal() {
     formData.append("jlh_sks", sks);
     formData.append("batchId", id);
     console.log(formData);
-    axios
-      .post("http://localhost:8000/proposal", formData, {
+
+    axiosInstance
+      .post("/proposal", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -62,34 +68,18 @@ export default function AjukanProposal() {
         console.log(error);
         if (error.response.data.message) {
           errorMessages = [error.response.data.message];
-        } else if (typeof error.response.data === 'object' && Array.isArray(error.response.data.errors)) {
-          errorMessages = error.response.data.errors.map((errorObj) => errorObj.message);
+        } else if (
+          typeof error.response.data === "object" &&
+          Array.isArray(error.response.data.errors)
+        ) {
+          errorMessages = error.response.data.errors.map(
+            (errorObj) => errorObj.message
+          );
         }
 
         setError(errorMessages);
         setModalOpen(true);
       });
-  };
-
-  const handleFileChange = (event) => {
-    const file =
-      event.type === "drop"
-        ? event.dataTransfer.files[0]
-        : event.target.files[0];
-    console.log(file);
-    let error = "";
-
-    if (!file) {
-      error = "File harus diupload.";
-    } else if (file.type !== "application/pdf") {
-      error = "File harus bertipe PDF.";
-    } else if (file.size > 2000000) {
-      error = "File tidak boleh lebih dari 2MB.";
-    }
-
-    setFile(file);
-    setFileName(file ? file.name : null);
-    setErrors((prevErrors) => ({ ...prevErrors, file: error }));
   };
 
   const handleJenisProgramChange = (event) => {
@@ -98,61 +88,58 @@ export default function AjukanProposal() {
 
   const handleNikChange = (event) => {
     const value = event.target.value;
-    if (value.trim() === '') {
-      setNikError('NIK tidak boleh kosong');
-    }
-    else if (value.length < 5 || value.length > 20) {
-      setNikError('NIK harus di antara 5 sampai 20 karakter');
+    if (value.trim() === "") {
+      setNikError("NIK tidak boleh kosong");
+    } else if (value.length < 5 || value.length > 20) {
+      setNikError("NIK harus di antara 5 sampai 20 karakter");
     } else {
-      setNikError('');
+      setNikError("");
     }
     setNik(value);
   };
 
   const handleCurrentSemesterChange = (event) => {
     const value = event.target.value;
-    if (value.trim() === '') {
-      setSemesterError('Semester tidak boleh kosong');
-    }
-    else if (value < 1 || value > 8) {
-      setSemesterError('Semester harus di antara 1 sampai 8');
+    if (value.trim() === "") {
+      setSemesterError("Semester tidak boleh kosong");
+    } else if (value < 1 || value > 8) {
+      setSemesterError("Semester harus di antara 1 sampai 8");
     } else {
-      setSemesterError('');
+      setSemesterError("");
     }
     setCurrentSemester(value);
   };
 
   const handleIPKChange = (event) => {
     const input = event.target.value;
-    let formattedInput = '';
+    let formattedInput = "";
 
     // Ubah input ke string, lalu hapus semua karakter non-numerik
-    const onlyNumbers = input.toString().replace(/\D/g, '');
-    if (onlyNumbers === '') {
-      formattedInput = '';
+    const onlyNumbers = input.toString().replace(/\D/g, "");
+    if (onlyNumbers === "") {
+      formattedInput = "";
     } else {
       formattedInput = (parseInt(onlyNumbers, 10) / 100).toFixed(2);
     }
 
     // Validasi rentang nilai IPK
-    if (formattedInput < 1.00 || formattedInput > 4.00) {
-      setIPKError('IPK harus di antara 1.00 dan 4.00');
-    } else if (formattedInput.trim() === '') {
-      setIPKError('IPK tidak boleh kosong');
+    if (formattedInput < 1.0 || formattedInput > 4.0) {
+      setIPKError("IPK harus di antara 1.00 dan 4.00");
+    } else if (formattedInput.trim() === "") {
+      setIPKError("IPK tidak boleh kosong");
     } else {
-      setIPKError('');
+      setIPKError("");
     }
-
 
     setIpk(formattedInput);
   };
 
   const handleJlhSKSChange = (event) => {
     const input = event.target.value;
-    if (input.trim() === '') {
-      setSKSError('IPK tidak boleh kosong');
+    if (input.trim() === "") {
+      setSKSError("IPK tidak boleh kosong");
     } else {
-      setSKSError('');
+      setSKSError("");
     }
     setSks(input);
   };
@@ -167,27 +154,31 @@ export default function AjukanProposal() {
     setErrors((prevErrors) => ({ ...prevErrors, file: null }));
   };
 
-  console.log('NIK', nik);
-  console.log('CurrentSemester', currentSemester);
-  console.log('IPK', ipk);
-  console.log('SKS', sks);
-
+  console.log("NIK", nik);
+  console.log("CurrentSemester", currentSemester);
+  console.log("IPK", ipk);
+  console.log("SKS", sks);
 
   return (
     <MainLayout>
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <div className="p-6">
           <h2
-            className={`text-2xl mb-4 ${success ? "text-green-600" : "text-red-600"
-              }`}
+            className={`text-2xl mb-4 ${
+              success ? "text-green-600" : "text-red-600"
+            }`}
           >
             {success ? "Success" : "Error"}
           </h2>
           <p className="text-base">
             {success
               ? "Proposal berhasil diajukan!"
-              : error.map((err, index) => <span key={index}>{err}<br /></span>)
-            }
+              : error.map((err, index) => (
+                  <span key={index}>
+                    {err}
+                    <br />
+                  </span>
+                ))}
           </p>
           <div className="flex justify-end">
             {!success && (
@@ -201,10 +192,7 @@ export default function AjukanProposal() {
         <form className="mt-4" onSubmit={onSubmit}>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label
-                htmlFor="nik"
-                className="block font-medium mb-2"
-              >
+              <label htmlFor="nik" className="block font-medium mb-2">
                 NIK
               </label>
               <input
@@ -215,13 +203,12 @@ export default function AjukanProposal() {
                 name="nik"
                 className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
               />
-              {nikError && <p className="text-red-500 text-xs mt-2">{nikError}</p>}
+              {nikError && (
+                <p className="text-red-500 text-xs mt-2">{nikError}</p>
+              )}
             </div>
             <div>
-              <label
-                htmlFor="tahun-ajaran"
-                className="block font-medium mb-2"
-              >
+              <label htmlFor="tahun-ajaran" className="block font-medium mb-2">
                 Semester Saat Ini (1-8)
               </label>
               <input
@@ -232,7 +219,9 @@ export default function AjukanProposal() {
                 name="semester"
                 className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
               />
-              {semesterError && <p className="text-red-500 text-xs mt-2">{semesterError}</p>}
+              {semesterError && (
+                <p className="text-red-500 text-xs mt-2">{semesterError}</p>
+              )}
             </div>
             <div>
               <label className="block font-medium mb-2">IPK</label>
@@ -244,13 +233,12 @@ export default function AjukanProposal() {
                 name="ipk"
                 className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
               />
-              {ipkError && <p className="text-red-500 text-xs mt-2">{ipkError}</p>}
+              {ipkError && (
+                <p className="text-red-500 text-xs mt-2">{ipkError}</p>
+              )}
             </div>
             <div>
-              <label
-                htmlFor="ipk-minimum"
-                className="block font-medium mb-2"
-              >
+              <label htmlFor="ipk-minimum" className="block font-medium mb-2">
                 Jumlah SKS yang sudah ditempuh/lulus
               </label>
               <input
@@ -261,7 +249,9 @@ export default function AjukanProposal() {
                 name="jlh_sks"
                 className="w-full p-2 border border-gray-400 rounded focus:border-darkblue-04 focus:outline-none focus:ring focus:ring-darkblue-04 focus:ring-opacity-50"
               />
-              {sksError && <p className="text-red-500 text-xs mt-2">{sksError}</p>}
+              {sksError && (
+                <p className="text-red-500 text-xs mt-2">{sksError}</p>
+              )}
             </div>
           </div>
           <div className="mb-3 mt-2">

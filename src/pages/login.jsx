@@ -5,12 +5,13 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import React, { useContext, useState, useEffect } from "react";
-import { UserContext } from '../context/UserContext';
-
+import { UserContext } from "../context/UserContext";
+import Input from "@/components/Input";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();
   const { setUser } = useContext(UserContext);
 
@@ -18,7 +19,6 @@ export default function Login() {
     baseURL: "http://localhost:7000/api",
     timeout: 60000,
   });
-
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -53,8 +53,8 @@ export default function Login() {
       Cookies.set("token", token);
       Cookies.set("refreshToken", refreshToken);
 
-      const res = await axios.get('http://localhost:7000/api/current-user', {
-        headers: { 'Authorization': `Bearer ${token}` },
+      const res = await axios.get("http://localhost:7000/api/current-user", {
+        headers: { Authorization: `Bearer ${token}` },
       });
       setUser(res.data.data);
       if (res.data.data.user.role === "admin") {
@@ -64,6 +64,7 @@ export default function Login() {
       }
     } catch (error) {
       console.log(error.message);
+      setErrorMessage("Invalid username or password");
     }
   };
 
@@ -81,39 +82,30 @@ export default function Login() {
           </div>
           <form className="font-poppins" onSubmit={handleSubmit}>
             <div className="mb-6">
-              <label
-                htmlFor="username"
-                className="text-neutral-05 text-base font-bold"
-              >
-                Username
-              </label>
-              <input
+              <Input
+                label="Username"
+                inputFor="username"
                 id="username"
                 name="username"
-                type="text"
-                required
-                className="block rounded-md border border-neutral-02 focus:outline-none focus:border-darkblue-02 py-2 px-4 my-2 shadow-sm w-full"
                 onChange={(e) => setUsername(e.target.value)}
                 value={username}
+                className={"mb-2"}
               />
-            </div>
-            <div className="mb-6">
-              <label
-                htmlFor="password"
-                className="text-neutral-05 text-base font-bold"
-              >
-                Password
-              </label>
-              <input
+              <Input
+                label="Password"
+                inputFor="password"
                 id="password"
                 name="password"
-                type="password"
-                required
-                className="block rounded-md border border-neutral-02 focus:outline-none focus:border-darkblue-02 py-2 px-4 my-2 shadow-sm w-full"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
+                inputType={"password"}
               />
             </div>
+            {errorMessage && (
+              <div className="text-red-500 text-center mb-4">
+                {errorMessage}
+              </div>
+            )}
             <button
               className="bg-darkblue-04 text-white font-bold py-2 px-4 rounded border block mx-auto w-full"
               type="submit"
