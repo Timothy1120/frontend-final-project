@@ -36,7 +36,7 @@ export default function SuratRekomendasi() {
     try {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const response = await axios.put(
-        `http://localhost:7000/api/proposal/${proposalId}/generate-sptjm`
+        `http://localhost:7000/api/sptjm/${proposalId}/generate-sptjm`
       );
       if (response.status === 200) {
         router.reload();
@@ -50,7 +50,7 @@ export default function SuratRekomendasi() {
     <MainLayout>
       <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
         <div className="text-base text-darkblue-04 font-bold mt-9 mb-6">
-          Daftar Pengajuan Surat Rekomendasi
+          Daftar Pengajuan Surat SPTJM
         </div>
         {isLoading ? (
           <Spinner />
@@ -146,16 +146,30 @@ export default function SuratRekomendasi() {
                     )}
                   </td>
                   <td className="px-4 py-2">
-                    <Tooltip text={"Tools"} className={"top-16"}>
+                    <Tooltip text={"Tools"} className={"top-[10rem]"}>
                       <div className="flex flex-col divide-y divide-neutral-500 text-center">
-                        <button
-                          className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
-                          onClick={() => handleGenerate(data.id)}
-                        >
-                          Generate SPTJM
-                        </button>
+                        {data.is_suratrekomendasi_generated === false ? (
+                          <button
+                            className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                            onClick={() => handleGenerate(data.id)}
+                          >
+                            Generate SPTJM
+                          </button>
+                        ) : (
+                          data.is_sptjm_generated === true ? (
+                            <button
+                              className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                              onClick={() => handleGenerate(data.id)}
+                            >
+                              Unduh SPTJM
+                            </button>
+                          ) : (
+                            <span className="text-xs -top-16">Surat Rekomendasi belum terbit</span>
+                          )
+                        )}
                       </div>
                     </Tooltip>
+
                   </td>
                 </tr>
               ))}
@@ -163,6 +177,6 @@ export default function SuratRekomendasi() {
           </table>
         )}
       </div>
-    </MainLayout>
+    </MainLayout >
   );
 }

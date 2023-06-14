@@ -196,17 +196,18 @@ export default function DetailProposal() {
             {penilai.length === 0 ? (
               <span className="text-gray-500">Tidak ada dosen penilai</span>
             ) : (
-              <ul className="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400 mt-4">
+              <ul className="max-w-md space-y-1 mt-4">
                 {penilai.map((data, index) => (
                   <li key={index} className="items-center">
-                    <div>
-                      {data.nilai !== null ? (<svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>) : (<svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>)}
-                      {data.nama_dosen} {user?.user?.role !== 'mahasiswa' && (
+
+                    <div >
+                      {data.nilai !== null ? (<svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"></path></svg>) : (<svg className="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"></path></svg>)}
+                      <span className={`${user?.detailInfo?.id === data.dosenId ? 'text-black text-lg font-bold' : 'text-gray-500'}`}>{data.nama_dosen}</span>   {user?.user?.role !== 'mahasiswa' && (
                         - data.nilai === null ? 'Belum ada penilaian' : data.nilai
                       )}
                     </div>
 
-                    {user?.detailInfo?.id === data.dosenId &&
+                    {user?.detailInfo?.id === data.dosenId && user?.user?.role === 'dosen' &&
                       data.is_input_score === false && (
                         <>
                           <input
@@ -215,7 +216,7 @@ export default function DetailProposal() {
                             onChange={(event) =>
                               handleNilaiChange(data.id, event)
                             }
-                            className="border-2 border-gray-300 p-2 rounded mb-2 mr-2"
+                            className="border-2 border-gray-300 p-2 rounded mb-2 mr-2 w-full"
                             min="0"
                             max="100"
                           />
@@ -233,7 +234,6 @@ export default function DetailProposal() {
             )}
           </div>
           {user?.detailInfo?.isKoordinator === true &&
-            penilai.length !== 2 &&
             dataDetailProposal.status_approval === "Menunggu" && (
               <form onSubmit={handleDosenPenilaiSubmit}>
                 <div>

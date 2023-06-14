@@ -65,7 +65,7 @@ export default function AjukanProposal() {
       })
       .catch((error) => {
         let errorMessages = [];
-
+        console.log(error);
         if (error.response.data.message) {
           errorMessages = [error.response.data.message];
         } else if (
@@ -80,6 +80,27 @@ export default function AjukanProposal() {
         setError(errorMessages);
         setModalOpen(true);
       });
+  };
+
+  const handleFileChange = (event) => {
+    const file =
+      event.type === "drop"
+        ? event.dataTransfer.files[0]
+        : event.target.files[0];
+    console.log(file);
+    let error = "";
+
+    if (!file) {
+      error = "File harus diupload.";
+    } else if (file.type !== "application/pdf") {
+      error = "File harus bertipe PDF.";
+    } else if (file.size > 2000000) {
+      error = "File tidak boleh lebih dari 2MB.";
+    }
+
+    setFile(file);
+    setFileName(file ? file.name : null);
+    setErrors((prevErrors) => ({ ...prevErrors, file: error }));
   };
 
   const handleJenisProgramChange = (event) => {
@@ -164,9 +185,8 @@ export default function AjukanProposal() {
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <div className="p-6">
           <h2
-            className={`text-2xl mb-4 ${
-              success ? "text-green-600" : "text-red-600"
-            }`}
+            className={`text-2xl mb-4 ${success ? "text-green-600" : "text-red-600"
+              }`}
           >
             {success ? "Success" : "Error"}
           </h2>
@@ -174,11 +194,11 @@ export default function AjukanProposal() {
             {success
               ? "Proposal berhasil diajukan!"
               : error.map((err, index) => (
-                  <span key={index}>
-                    {err}
-                    <br />
-                  </span>
-                ))}
+                <span key={index}>
+                  {err}
+                  <br />
+                </span>
+              ))}
           </p>
           <div className="flex justify-end">
             {!success && (

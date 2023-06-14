@@ -6,7 +6,10 @@ import Tooltip from "@/components/Tooltip";
 import Link from "next/link";
 import Spinner from "@/components/Spinner";
 import { useRouter } from 'next/router';
-
+const api = axios.create({
+  baseURL: "http://localhost:7000/api",
+  timeout: 60000, // Timeout diatur menjadi 2 detik
+});
 export default function SuratRekomendasi() {
   const router = useRouter();
   const token = Cookies.get("token");
@@ -15,10 +18,8 @@ export default function SuratRekomendasi() {
   useEffect(() => {
     const fetchProposals = async () => {
       try {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        const response = await axios.get(
-          `http://localhost:7000/api/proposal/approved-proposals`
-        );
+        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        const response = await api.get('/proposal/approved-proposals');
         // Introduce a delay of 2 seconds before setting the data
         setTimeout(() => {
           setApprovedProposals(response.data.data);
@@ -42,6 +43,26 @@ export default function SuratRekomendasi() {
       if (response.status === 200) {
         router.reload();
       }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUnduhSuratRekomendasi = async (proposalId, name) => {
+    try {
+      const response = await api.get(
+        `/proposal/${proposalId}/unduh-surat-rekomendasi`,
+        {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+
+      saveAs(pdfBlob, `SuratRekomendasi_${name}.pdf`);
     } catch (error) {
       console.error(error);
     }
@@ -149,12 +170,27 @@ export default function SuratRekomendasi() {
                   <td className="px-4 py-2">
                     <Tooltip text={"Tools"} className={"top-16"}>
                       <div className="flex flex-col divide-y divide-neutral-500 text-center">
-                        <button
-                          className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
-                          onClick={() => handleGenerate(data.id)}
-                        >
-                          Generate Surat Rekomendasi
-                        </button>
+                        {data.is_suratrekomendasi_generated === false && (
+                          <button
+                            className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                            onClick={() => handleGenerate(data.id)}
+                          >
+                            Generate Surat Rekomendasi
+                          </button>
+                        )}
+                        {data.is_suratrekomendasi_generated === true && (
+                          <button
+                            className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                            onClick={() =>
+                              handleUnduhSuratRekomendasi(
+                                data.id,
+                                data.nama_mahasiswa
+                              )
+                            }
+                          >
+                            Unduh Surat Rekomendasi
+                          </button>
+                        )}
                         <Link href={"proposal/detail"} className="px-4 py-2">
                           Lihat Detail
                         </Link>
