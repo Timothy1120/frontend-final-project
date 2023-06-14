@@ -3,10 +3,13 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Tooltip from "@/components/Tooltip";
-import Link from "next/link";
 import Spinner from "@/components/Spinner";
 import { useRouter } from 'next/router';
 
+const api = axios.create({
+  baseURL: "http://localhost:7000/api",
+  timeout: 60000, // Timeout value in milliseconds
+});
 export default function SuratRekomendasi() {
   const router = useRouter();
   const token = Cookies.get("token");
@@ -15,10 +18,8 @@ export default function SuratRekomendasi() {
   useEffect(() => {
     const fetchProposals = async () => {
       try {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        const response = await axios.get(
-          `http://localhost:7000/api/proposal/approved-proposals?srgenerated=true`
-        );
+        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        const response = await api.get("/proposal/approved-proposals");
         setTimeout(() => {
           setApprovedProposals(response.data.data);
           setIsLoading(false);
@@ -34,13 +35,28 @@ export default function SuratRekomendasi() {
 
   const handleGenerate = async (proposalId) => {
     try {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      const response = await axios.put(
-        `http://localhost:7000/api/sptjm/${proposalId}/generate-sptjm`
-      );
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const response = await api.put(`/sptjm/${proposalId}/generate-sptjm`);
       if (response.status === 200) {
         router.reload();
       }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUnduhSPTJM = async (proposalId, name) => {
+    try {
+      const response = await api.get(`/sptjm/${proposalId}/download-sptjm`, {
+        responseType: "blob",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+
+      saveAs(pdfBlob, `SPTJM_${name}.pdf`);
     } catch (error) {
       console.error(error);
     }
@@ -55,8 +71,8 @@ export default function SuratRekomendasi() {
         {isLoading ? (
           <Spinner />
         ) : approvedProposals.length === 0 ? (
-          <div className="text-3xl font-light text-neutral-03 mt-4 text-center">
-            Belum ada pengajuan proposal
+          <div className="text-sm font-light text-neutral-03 mt-4 text-center">
+            Belum ada proposal dengan surat rekomendasi yang diterbitkan
           </div>
         ) : (
           <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
@@ -148,20 +164,22 @@ export default function SuratRekomendasi() {
                   <td className="px-4 py-2">
                     <Tooltip text={"Tools"} className={"top-[10rem]"}>
                       <div className="flex flex-col divide-y divide-neutral-500 text-center">
-                        {data.is_suratrekomendasi_generated === false ? (
+                        {data.is_sptjm_generated === true ? (
                           <button
                             className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
-                            onClick={() => handleGenerate(data.id)}
+                            onClick={() => handleUnduhSPTJM(data.id, data.nama_mahasiswa)}
                           >
-                            Generate SPTJM
+                            Unduh SPTJM
                           </button>
+
+
                         ) : (
-                          data.is_sptjm_generated === true ? (
+                          data.is_suratrekomendasi_generated === true ? (
                             <button
                               className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
                               onClick={() => handleGenerate(data.id)}
                             >
-                              Unduh SPTJM
+                              Generate SPTJM
                             </button>
                           ) : (
                             <span className="text-xs -top-16">Surat Rekomendasi belum terbit</span>

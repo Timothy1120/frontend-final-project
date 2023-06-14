@@ -77,8 +77,8 @@ export default function SuratRekomendasi() {
         {isLoading ? (
           <Spinner />
         ) : approvedProposals.length === 0 ? (
-          <div className="text-3xl font-light text-neutral-03 mt-4 text-center">
-            Belum ada pengajuan proposal
+          <div className="text-sm font-light text-neutral-03 mt-4 text-center">
+            Belum ada proposal yang disetujui
           </div>
         ) : (
           <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
