@@ -59,7 +59,7 @@ export default function AjukanProposal() {
       })
       .catch((error) => {
         let errorMessages = [];
-
+        console.log(error);
         if (error.response.data.message) {
           errorMessages = [error.response.data.message];
         } else if (typeof error.response.data === 'object' && Array.isArray(error.response.data.errors)) {

@@ -201,6 +201,25 @@ export default function Proposal() {
       console.error(error);
     }
   };
+  const handleUnduhSPTJM = async (proposalId, name) => {
+    try {
+      const response = await api.get(
+        `/sptjm/${proposalId}/download-sptjm`,
+        {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+
+      saveAs(pdfBlob, `SPTJM_${name}.pdf`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <MainLayout>
@@ -326,6 +345,12 @@ export default function Proposal() {
                 <th
                   scope="col"
                   className="px-4 py-2 text-sm font-semibold text-neutral-05"
+                >
+                  Status Transkrip Nilai
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-2 text-sm font-semibold text-neutral-05"
                 ></th>
               </tr>
             </thead>
@@ -369,6 +394,13 @@ export default function Proposal() {
                       <span className="text-success">Sudah Diterbitkan</span>
                     )}
                   </td>
+                  <td className="px-4 py-2 font-normal">
+                    {data.is_transkrip_generated === false ? (
+                      <span className="text-warning">Belum Diterbitkan</span>
+                    ) : (
+                      <span className="text-success">Sudah Diterbitkan</span>
+                    )}
+                  </td>
                   <td className="px-4 py-2">
                     <Tooltip
                       text={"Tools"}
@@ -403,6 +435,20 @@ export default function Proposal() {
                               }
                             >
                               Unduh Surat Rekomendasi
+                            </button>
+                          )}
+                        {user?.user?.role === "mahasiswa" &&
+                          data.is_sptjm_generated === true && (
+                            <button
+                              className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                              onClick={() =>
+                                handleUnduhSPTJM(
+                                  data.id,
+                                  data.nama_mahasiswa
+                                )
+                              }
+                            >
+                              Unduh SPTJM
                             </button>
                           )}
                         <Link
