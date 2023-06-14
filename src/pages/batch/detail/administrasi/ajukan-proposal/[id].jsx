@@ -82,6 +82,27 @@ export default function AjukanProposal() {
       });
   };
 
+  const handleFileChange = (event) => {
+    const file =
+      event.type === "drop"
+        ? event.dataTransfer.files[0]
+        : event.target.files[0];
+    console.log(file);
+    let error = "";
+
+    if (!file) {
+      error = "File harus diupload.";
+    } else if (file.type !== "application/pdf") {
+      error = "File harus bertipe PDF.";
+    } else if (file.size > 2000000) {
+      error = "File tidak boleh lebih dari 2MB.";
+    }
+
+    setFile(file);
+    setFileName(file ? file.name : null);
+    setErrors((prevErrors) => ({ ...prevErrors, file: error }));
+  };
+
   const handleJenisProgramChange = (event) => {
     setJenisProgram(event.target.value);
   };
@@ -164,9 +185,8 @@ export default function AjukanProposal() {
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <div className="p-6">
           <h2
-            className={`text-2xl mb-4 ${
-              success ? "text-green-600" : "text-red-600"
-            }`}
+            className={`text-2xl mb-4 ${success ? "text-green-600" : "text-red-600"
+              }`}
           >
             {success ? "Success" : "Error"}
           </h2>
@@ -174,11 +194,11 @@ export default function AjukanProposal() {
             {success
               ? "Proposal berhasil diajukan!"
               : error.map((err, index) => (
-                  <span key={index}>
-                    {err}
-                    <br />
-                  </span>
-                ))}
+                <span key={index}>
+                  {err}
+                  <br />
+                </span>
+              ))}
           </p>
           <div className="flex justify-end">
             {!success && (
