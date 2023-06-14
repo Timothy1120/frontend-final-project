@@ -6,7 +6,10 @@ import Tooltip from "@/components/Tooltip";
 import Link from "next/link";
 import Spinner from "@/components/Spinner";
 import { useRouter } from 'next/router';
-
+const api = axios.create({
+  baseURL: "http://localhost:7000/api",
+  timeout: 60000, // Timeout diatur menjadi 2 detik
+});
 export default function SuratRekomendasi() {
   const router = useRouter();
   const token = Cookies.get("token");
@@ -22,7 +25,7 @@ export default function SuratRekomendasi() {
         setTimeout(() => {
           setApprovedProposals(response.data.data);
           setIsLoading(false);
-        }, 1000);
+        }, 500);
       } catch (error) {
         console.error(error);
         setIsLoading(false);
@@ -32,15 +35,23 @@ export default function SuratRekomendasi() {
     fetchProposals();
   }, [token]);
 
-  const handleGenerate = async (proposalId) => {
+
+
+  const unduhTranskrip = async (proposalId, name) => {
     try {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      const response = await axios.put(
-        `http://localhost:7000/api/proposal/${proposalId}/generate-sptjm`
+      const response = await api.get(
+        `/transkrip_nilai/${proposalId}/unduh-transkrip`,
+        {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      if (response.status === 200) {
-        router.reload();
-      }
+
+      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+
+      saveAs(pdfBlob, `Transkrip_${name}.pdf`);
     } catch (error) {
       console.error(error);
     }
@@ -132,14 +143,19 @@ export default function SuratRekomendasi() {
                     )}
                   </td>
                   <td className="px-4 py-2">
-                    <Tooltip text={"Tools"} className={"top-16"}>
+                    <Tooltip text={"Tools"} className={"top-4"}>
                       <div className="flex flex-col divide-y divide-neutral-500 text-center">
-                        <button
-                          className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
-                          onClick={() => handleGenerate(data.id)}
-                        >
-                          Generate SPTJM
-                        </button>
+                        {data.is_transkrip_generated === false ? (
+                          <Link href={`transkrip/kirim/${data.id}`}>
+                            <button className="p-2">
+                              Kirim Transkrip
+                            </button>
+                          </Link>
+                        ) : (
+                          <button className="p-2" onClick={() => unduhTranskrip(data.id, data.nama_mahasiswa)}>
+                            Unduh Transkrip
+                          </button>
+                        )}
                       </div>
                     </Tooltip>
                   </td>
