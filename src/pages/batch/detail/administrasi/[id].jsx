@@ -221,6 +221,26 @@ export default function Proposal() {
     }
   };
 
+  const unduhTranskrip = async (proposalId, name) => {
+    try {
+      const response = await api.get(
+        `/transkrip_nilai/${proposalId}/unduh-transkrip`,
+        {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+
+      saveAs(pdfBlob, `Transkrip_${name}.pdf`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <MainLayout>
       <div className="rounded-sm border border-neutral-02 shadow-md m-5 px-5 py-5">
@@ -449,6 +469,20 @@ export default function Proposal() {
                               }
                             >
                               Unduh SPTJM
+                            </button>
+                          )}
+                        {user?.user?.role === "mahasiswa" &&
+                          data.is_transkrip_generated === true && (
+                            <button
+                              className="px-4 py-2 hover:bg-gray-200 transition-colors duration-200"
+                              onClick={() =>
+                                unduhTranskrip(
+                                  data.id,
+                                  data.nama_mahasiswa
+                                )
+                              }
+                            >
+                              Unduh Transkrip Nilai
                             </button>
                           )}
                         <Link
