@@ -484,6 +484,7 @@ export default function Proposal() {
                             >
                               Unduh Transkrip Nilai
                             </button>
+                            // update
                           )}
                         <Link
                           href={`detail-proposal/${data.id}`}
