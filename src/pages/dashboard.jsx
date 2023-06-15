@@ -7,7 +7,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { IoSchoolOutline } from "react-icons/io5";
-import { data } from "autoprefixer";
+
 
 export default function Dashboard({ userData }) {
   const [dataPengumuman, setDataPengumuman] = useState([]);
@@ -27,16 +27,16 @@ export default function Dashboard({ userData }) {
         setDataPengumuman(responsePengumuman.data.data.slice(0, 5));
         setDataBatch(responseBatch.data.data);
         setDataBatchIsLoading(false);
-      }, 1000);
+      }, 600);
     };
 
     fetchData().catch((error) => console.error("Error:", error));
   }, []);
 
-  console.log(dataBatch.length);
   return (
     <MainLayout>
       <div className="flex mx-6 my-8 space-x-4">
+
         <div className="w-3/5">
           {isDataBatchLoading ? (
             <Spinner />
@@ -102,18 +102,14 @@ export default function Dashboard({ userData }) {
                 </div>
               ))
             )}
-            {dataPengumuman.length == !0 ? (
-              <div className="flex justify-end text-italic">
-                <Link
-                  href={"/pengumuman?page=1"}
-                  className={`flex items-center mb-4 space-x-2 p-2 rounded-lg text-neutral-05 text-xs italic`}
-                >
-                  Pengumuman lainnya
-                </Link>
-              </div>
-            ) : (
-              ""
-            )}
+            <div className="flex justify-end text-italic">
+              <Link
+                href={'/pengumuman?page=1'}
+                className={`flex items-center mb-4 space-x-2 p-2 rounded-lg text-neutral-05 text-xs italic`}
+              >
+                Pengumuman lainnya
+              </Link>
+            </div>
           </div>
         </div>
       </div>
