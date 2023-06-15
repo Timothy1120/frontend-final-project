@@ -61,7 +61,7 @@ export default function AjukanProposal() {
         setModalOpen(true);
         setTimeout(() => {
           router.push(`/batch/detail/administrasi/${id}`);
-        }, 1000);
+        }, 2000);
       })
       .catch((error) => {
         let errorMessages = [];
@@ -185,8 +185,9 @@ export default function AjukanProposal() {
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
         <div className="p-6">
           <h2
-            className={`text-2xl mb-4 ${success ? "text-green-600" : "text-red-600"
-              }`}
+            className={`text-2xl mb-4 ${
+              success ? "text-green-600" : "text-red-600"
+            }`}
           >
             {success ? "Success" : "Error"}
           </h2>
@@ -194,11 +195,11 @@ export default function AjukanProposal() {
             {success
               ? "Proposal berhasil diajukan!"
               : error.map((err, index) => (
-                <span key={index}>
-                  {err}
-                  <br />
-                </span>
-              ))}
+                  <span key={index}>
+                    {err}
+                    <br />
+                  </span>
+                ))}
           </p>
           <div className="flex justify-end">
             {!success && (
