@@ -104,15 +104,19 @@ export default function Pengumuman() {
                       >
                         Detail
                       </Link>
-                      <Link
-                        href={`pengumuman/edit/${data.id}`}
-                        className="px-4 py-2"
-                      >
-                        Edit
-                      </Link>
-                      <Link href={"/"} className="text-danger px-4 py-2">
-                        Hapus
-                      </Link>
+                      {user?.user?.role !== "mahasiswa" && (
+                        <>
+                          <Link
+                            href={`pengumuman/edit/${data.id}`}
+                            className="px-4 py-2"
+                          >
+                            Edit
+                          </Link>
+                          <Link href={"/"} className="text-danger px-4 py-2">
+                            Hapus
+                          </Link>
+                        </>
+                      )}
                     </div>
                   </Tooltip>
                 </td>

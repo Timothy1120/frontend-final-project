@@ -17,7 +17,7 @@ export default function CreatePengumuman() {
   const router = useRouter();
   const [judulPengumuman, setJudulPengumuman] = useState("");
   const pilihanKategori = [
-    "Umum",
+    "BAA",
     "S1 Informatika",
     "S1 Sistem Informasi",
     "S1 Teknik Elektro",
@@ -44,7 +44,7 @@ export default function CreatePengumuman() {
         kategori: kategori,
       })
       .then(() => {
-        router.push("pengumuman");
+        router.push("/pengumuman");
       })
       .catch((error) => {
         alert(error.message);
