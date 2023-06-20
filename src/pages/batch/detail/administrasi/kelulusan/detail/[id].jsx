@@ -95,12 +95,12 @@ export default function DetailKelulusan() {
         fetchMahasiswaInfo(detail.mahasiswaId);
         fetchDosenBatch(detail.batchId);
         fetchDosenPembimbing(detail.id, detail.batchId).then(
-          (dosenPembimbing) => {
-            // console.log(dosenPembimbing);
-            if (dosenPembimbing.length !== 0) {
-              fetchDosenDetail(dosenPembimbing[0].dosenId);
-            }
-          }
+          // (dosenPembimbing) => {
+          //   // console.log(dosenPembimbing);
+          //   if (dosenPembimbing.length !== 0) {
+          //     fetchDosenDetail(dosenPembimbing[0].dosenId);
+          //   }
+          // }
         );
       }
     });
@@ -136,6 +136,7 @@ export default function DetailKelulusan() {
 
   const assignBimbingan = async (e) => {
     e.preventDefault();
+    console.log(detail.id, selectedOption);
     try {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const response = await axios.post(`http://localhost:7000/api/bimbingan`, {

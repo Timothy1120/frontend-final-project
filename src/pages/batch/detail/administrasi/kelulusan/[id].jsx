@@ -50,8 +50,7 @@ export default function Kelulusan() {
           <hr></hr>
         </div>
         {!isLoading &&
-          user?.user?.role === "mahasiswa" &&
-          dataMahasiswa.length === 0 && (
+          user?.user?.role === "mahasiswa" && (
             <div className="flex justify-end py-2">
               <Button
                 variant="primary"

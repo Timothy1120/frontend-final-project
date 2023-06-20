@@ -83,7 +83,7 @@ export default function Dashboard({ userData }) {
                   <div className="text-sm font-semibold mb-1">
                     <span className="text-darkblue-04">[{data.kategori}]</span>{" "}
                     <Link
-                      href={`koordinator/pengumuman/detail/${data.id}`}
+                      href={`/pengumuman/detail/${data.id}`}
                       className="hover:underline hover:underline-offset-4 hover:decoration-2 hover:decoration-darkblue-04 text-darkblue-04"
                     >
                       {data.judul}

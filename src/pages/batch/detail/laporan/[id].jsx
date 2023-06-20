@@ -25,16 +25,11 @@ export default function ListLaporan() {
   });
 
   useEffect(() => {
-    if (!id) {
-      return;
-    }
-
     const fetchAllBimbingan = async () => {
       try {
         const response = await axiosInstance.get("/bimbingan");
-        setTimeout(() => {
-          setBimbingan(response.data.data);
-        }, 1000);
+        setBimbingan(response.data.data);
+        return response.data.data; // Mengembalikan data untuk penggunaan di luar fungsi
       } catch (error) {
         console.log(error);
       }
@@ -43,26 +38,42 @@ export default function ListLaporan() {
     const fetchDetailBimbingan = async (id) => {
       try {
         const response = await axiosInstance.get(`/mahasiswambkm/${id}`);
-        setTimeout(() => {
-          setDetailBimbingan((prevState) => ({
-            ...prevState,
-            [id]: response.data.data,
-          }));
-        }, 1000);
-
-        console.log(response.data);
+        return response.data.data; // Mengembalikan data untuk penggunaan di luar fungsi
       } catch (error) {
         console.log(error);
       }
     };
 
-    fetchAllBimbingan().then((bimbingan) => {
-      if (bimbingan && bimbingan.length > 0) {
-        bimbingan.forEach((item) => {
-          fetchDetailBimbingan(item.mahasiswa_mbkm_id);
-        });
+    const fetchData = async () => {
+      if (!id) {
+        return;
       }
-    });
+
+      const bimbinganData = await fetchAllBimbingan();
+
+      if (bimbinganData && bimbinganData.length > 0) {
+        const detailPromises = bimbinganData.map((item) =>
+          fetchDetailBimbingan(item.mahasiswa_mbkm_id)
+        );
+
+        const detailBimbinganData = await Promise.all(detailPromises);
+
+        const updatedDetailBimbingan = detailBimbinganData.reduce(
+          (acc, item, index) => {
+            const bimbinganId = bimbinganData[index].mahasiswa_mbkm_id;
+            return {
+              ...acc,
+              [bimbinganId]: item,
+            };
+          },
+          {}
+        );
+
+        setDetailBimbingan(updatedDetailBimbingan);
+      }
+    };
+
+    fetchData();
   }, [id, token]);
   console.log("All Bimbingan: ", bimbingan);
   console.log("All Detail Bimbingan: ", detailBimbingan);
