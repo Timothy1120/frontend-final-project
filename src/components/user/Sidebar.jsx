@@ -13,13 +13,21 @@ export default function Sidebar() {
   const { user } = useContext(UserContext);
   const kampusMerdekaLinks = [{ link: "/batch", text: "Batch MBKM" }];
 
-  const baaLinks = [
-    { link: "/baa/surat-rekomendasi", text: "Surat Rekomendasi" },
-    { link: "/baa/sptjm", text: "SPTJM" },
-    { link: "/baa/transkrip", text: "Transkrip Nilai" },
-    { link: "/baa/mahasiswa-mbkm", text: "Mahasiswa MBKM" }
-  ];
 
+  let baaLinks = [];
+  if (user?.detailInfo?.divisi === 'BAA Institut') {
+    baaLinks = [
+      { link: "/baa/sptjm", text: "SPTJM" },
+      { link: "/baa/mahasiswa-mbkm", text: "Mahasiswa MBKM" }
+    ];
+  } else if (user?.detailInfo?.divisi === 'BAA Fakultas') {
+    baaLinks = [
+      { link: "/baa/surat-rekomendasi", text: "Surat Rekomendasi" },
+      { link: "/baa/transkrip", text: "Transkrip Nilai" },
+      { link: "/baa/mahasiswa-mbkm", text: "Mahasiswa MBKM" }
+    ];
+  }
+  console.log(baaLinks);
 
   return (
     <div className="font-poppins">
@@ -52,11 +60,13 @@ export default function Sidebar() {
               icon={<IoPersonOutline className="w-6 h-auto" />}
             />
           )}
-          <SidebarDropdownMenu
-            icon={<ImOffice className="w-6 h-auto" />}
-            text={"BAA"}
-            items={baaLinks}
-          />
+          {user?.user?.role == 'staf' && (
+            <SidebarDropdownMenu
+              icon={<ImOffice className="w-6 h-auto" />}
+              text={"BAA"}
+              items={baaLinks}
+            />
+          )}
         </div>
       </div>
     </div>
