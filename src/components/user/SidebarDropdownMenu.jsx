@@ -10,9 +10,8 @@ export default function SidebarDropdownMenu({ text, icon, items }) {
     <>
       <button
         onClick={showDropdownMenu}
-        className={`flex items-center justify-between p-2 hover:bg-hover-sidebar-menu rounded-lg text-neutral-05 text-base ${
-          dropdownMenu ? "bg-darkblue-02" : "bg-neutral-01 mb-4"
-        }`}
+        className={`flex items-center justify-between p-2 hover:bg-hover-sidebar-menu rounded-lg text-neutral-05 text-base ${dropdownMenu ? "bg-darkblue-02" : "bg-neutral-01 mb-4"
+          }`}
       >
         <div className="flex space-x-2">
           {icon}

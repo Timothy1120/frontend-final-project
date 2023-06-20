@@ -35,12 +35,32 @@ export default function DetailKelulusan() {
       return;
     }
 
-    const fetchDetailData = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axiosInstance.get(`/mahasiswambkm/${id}`);
-        setDetail(response.data.data);
-        return response.data.data;
+        const detailResponse = await axiosInstance.get(`/mahasiswambkm/${id}`);
+        const detail = detailResponse.data.data;
+        setDetail(detail);
+
+        if (detail && detail.mahasiswaId && detail.batchId) {
+          const mahasiswaInfoResponse = await axiosInstance.get(`/mahasiswa/${detail.mahasiswaId}`);
+          const mahasiswaInfo = mahasiswaInfoResponse.data.data;
+          setMahasiswaInfo(mahasiswaInfo);
+
+          const dosenBatchResponse = await axiosInstance.get(`/batch/${detail.batchId}/alldosen`);
+          const dosenBatch = dosenBatchResponse.data.data;
+          setDosenBatch(dosenBatch);
+
+          const dosenPembimbingResponse = await axiosInstance.get(`/bimbingan/${detail.id}/mybimbingan/${detail.batchId}`);
+          const dosenPembimbing = dosenPembimbingResponse.data.data;
+          setDosenPembimbing(dosenPembimbing);
+
+          if (dosenPembimbing && dosenPembimbing.length > 0) {
+            const dosenPembimbingDetailResponse = await axiosInstance.get(`/dosen/${dosenPembimbing[0].dosenId}`);
+            const dosenPembimbingDetail = dosenPembimbingDetailResponse.data.data;
+            setDosenPembimbingDetail(dosenPembimbingDetail);
+          }
+        }
       } catch (error) {
         console.log(error);
       } finally {
@@ -48,64 +68,12 @@ export default function DetailKelulusan() {
       }
     };
 
-    const fetchMahasiswaInfo = async (mahasiswaId) => {
-      try {
-        const response = await axiosInstance.get(`/mahasiswa/${mahasiswaId}`);
-        setMahasiswaInfo(response.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    fetchData();
+  }, [id, token]);
 
-    const fetchDosenBatch = async (batchId) => {
-      try {
-        const response = await axiosInstance.get(`/batch/${batchId}/alldosen`);
-        setDosenBatch(response.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const fetchDosenPembimbing = async (mahasiswambkmid, batchid) => {
-      try {
-        const response = await axiosInstance.get(
-          `/bimbingan/${mahasiswambkmid}/mybimbingan/${batchid}`
-        );
-        setDosenPembimbing(response.data.data);
-        return response.data.data;
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const fetchDosenDetail = async (id) => {
-      try {
-        const response = await axiosInstance.get(`/dosen/${id}`);
-        setDosenPembimbingDetail(response.data.data);
-        return response.data.data;
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    // Memanggil fungsi fetchDetailData dan menunggu hasilnya
-    fetchDetailData().then((detail) => {
-      // Jika detail, detail.mahasiswaId dan detail.batchId ada, maka jalankan fungsi berikutnya
-      if (detail && detail.mahasiswaId && detail.batchId) {
-        fetchMahasiswaInfo(detail.mahasiswaId);
-        fetchDosenBatch(detail.batchId);
-        fetchDosenPembimbing(detail.id, detail.batchId).then(
-          // (dosenPembimbing) => {
-          //   // console.log(dosenPembimbing);
-          //   if (dosenPembimbing.length !== 0) {
-          //     fetchDosenDetail(dosenPembimbing[0].dosenId);
-          //   }
-          // }
-        );
-      }
-    });
-  }, [id, token]); // useEffect ini akan dijalankan kembali jika `id` atau `token` berubah
-
+  console.log('Detail Mahasiswa MBKM', detail);
+  console.log('Detail Mahasiswa Info', mahasiswaInfo);
+  console.log('Detail Dosen Pembimbing', dosenPembimbing);
   const handleDownload = async (id, name) => {
     try {
       const response = await axios.get(
@@ -125,18 +93,14 @@ export default function DetailKelulusan() {
       console.error(error);
     }
   };
-  console.log(dosenPembimbing);
-  console.log("Detail Mahasiswa MBKM.id: ", detail.id);
-  console.log("Selected Dosen Id: ", selectedOption);
-  console.log("Selected Dosen Pembimbing: ", dosenPembimbing);
-  console.log("Selected Dosen Pembimbing Detail: ", dosenPembimbingDetail);
+
+
   const handleDosenSelectChange = (event) => {
     setSelectedOption(event.target.value);
   };
 
   const assignBimbingan = async (e) => {
     e.preventDefault();
-    console.log(detail.id, selectedOption);
     try {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const response = await axios.post(`http://localhost:7000/api/bimbingan`, {
